@@ -1,413 +1,489 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Media Search & Tracking Hub</title>
-    <style>
-        :root {
-            --bg-color: #121212;
-            --surface-color: #1e1e1e;
-            --primary-green: #2ecc71;
-            --primary-green-hover: #27ae60;
-            --text-main: #ffffff;
-            --text-muted: #b0b0b0;
-            --border-color: #333333;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Media Search</title>
+  <style>
+    :root {
+      --bg-color: #000000;
+      --card-bg: #121212;
+      --card-hover: #181818;
+      --primary-color: #28a745;
+      --primary-hover: #218838;
+      --text-color: #ffffff;
+      --text-muted: #bbbbbb;
+      --border-color: #333333;
+      --error-color: #ff4d4d;
+    }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: Arial, sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
 
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            padding: 20px;
-            box-sizing: border-box;
-        }
+    #loginContainer {
+      display: flex;
+      flex-direction: column;
+      width: 360px;
+      gap: 12px;
+      margin: auto;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
 
-        /* Login Screen Styles */
-        #login-screen {
-            background: var(--surface-color);
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-            width: 100%;
-            max-width: 400px;
-            margin: 0 auto;
-            border: 1px solid var(--border-color);
-        }
+    .media-search-box {
+      width: 100%;
+      padding: 10px 16px;
+      background-color: var(--primary-color);
+      color: #000000;
+      font-weight: bold;
+      font-size: 16px;
+      text-align: center;
+      border: 1px solid var(--primary-hover);
+      border-radius: 4px;
+      box-sizing: border-box;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+    }
 
-        h2 {
-            margin-top: 0;
-            color: var(--text-main);
-            text-align: center;
-        }
+    .login-card {
+      width: 100%;
+      background: var(--card-bg);
+      padding: 24px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      box-sizing: border-box;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    }
 
-        .form-group {
-            margin-bottom: 20px;
-        }
+    .login-card h2 {
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-size: 20px;
+      text-align: center;
+    }
 
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: var(--text-muted);
-            font-size: 14px;
-        }
+    .form-group {
+      margin-bottom: 16px;
+    }
 
-        input[type="text"], input[type="password"] {
-            width: 100%;
-            padding: 12px;
-            box-sizing: border-box;
-            background: #2a2a2a;
-            border: 1px solid var(--border-color);
-            color: var(--text-main);
-            border-radius: 4px;
-            font-size: 16px;
-        }
+    .form-group label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
 
-        input:focus {
-            outline: none;
-            border-color: var(--primary-green);
-        }
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+      background-color: #1e1e1e;
+      color: var(--text-color);
+      border: 1px solid #444444;
+      border-radius: 4px;
+      box-sizing: border-box;
+      outline: none;
+    }
 
-        button {
-            width: 100%;
-            padding: 12px;
-            background-color: var(--primary-green);
-            color: #000;
-            border: none;
-            border-radius: 4px;
-            font-weight: bold;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
+    .form-group input:focus {
+      border-color: var(--primary-color);
+    }
 
-        button:hover {
-            background-color: var(--primary-green-hover);
-        }
+    .btn-action {
+      width: 100%;
+      padding: 10px 16px;
+      background-color: var(--primary-color);
+      color: #000000;
+      font-weight: bold;
+      font-size: 16px;
+      border: 1px solid var(--primary-hover);
+      border-radius: 4px;
+      cursor: pointer;
+      box-sizing: border-box;
+    }
 
-        .error-msg {
-            color: #e74c3c;
-            font-size: 14px;
-            text-align: center;
-            margin-top: 10px;
-            display: none;
-        }
+    .btn-action:hover {
+      background-color: var(--primary-hover);
+    }
 
-        /* Main Dashboard Styles */
-        #dashboard-screen {
-            display: none;
-        }
+    #errorMsg {
+      color: var(--error-color);
+      font-size: 13px;
+      text-align: center;
+      margin-top: 10px;
+      display: none;
+    }
 
-        .header-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 15px;
-        }
+    #landingContainer {
+      display: none;
+      width: 100vw;
+      min-height: 100vh;
+      background-color: var(--bg-color);
+      box-sizing: border-box;
+      padding: 20px;
+      overflow-y: auto;
+    }
 
-        .logout-btn {
-            width: auto;
-            padding: 8px 16px;
-            background: transparent;
-            border: 1px solid var(--border-color);
-            color: var(--text-muted);
-            font-size: 14px;
-        }
+    .landing-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto 20px auto;
+    }
 
-        .logout-btn:hover {
-            background: #333;
-            color: var(--text-main);
-        }
+    .landing-banner {
+      width: 220px;
+    }
 
-        .filters {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 25px;
-            flex-wrap: wrap;
-        }
+    .dashboard-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      padding-bottom: 40px;
+    }
 
-        .filter-btn {
-            width: auto;
-            padding: 8px 14px;
-            background: var(--surface-color);
-            color: var(--text-muted);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: normal;
-            cursor: pointer;
-        }
+    .category-section {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
 
-        .filter-btn.active {
-            background: var(--primary-green);
-            color: #000;
-            border-color: var(--primary-green);
-            font-weight: bold;
-        }
+    .section-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: var(--text-color);
+      padding-left: 4px;
+    }
 
-        /* Media Grid & Branded Service Tiles */
-        .media-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 20px;
-        }
+    .row-container {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      padding: 10px 4px;
+      scrollbar-width: none;
+    }
 
-        .media-card {
-            background: var(--surface-color);
-            border-radius: 8px;
-            overflow: hidden;
-            border: 1px solid var(--border-color);
-            display: flex;
-            flex-direction: column;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
+    .row-container::-webkit-scrollbar {
+      display: none;
+    }
 
-        .media-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.4);
-        }
+    .media-card {
+      flex: 0 0 160px;
+      height: 240px;
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 12px;
+      box-sizing: border-box;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s, border-color 0.2s;
+    }
 
-        /* Service Brand Banner Area */
-        .service-banner {
-            height: 140px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 15px;
-            text-align: center;
-            position: relative;
-        }
+    .media-card:hover {
+      transform: scale(1.03);
+      border-color: var(--primary-color);
+    }
 
-        .service-banner span {
-            font-size: 18px;
-            font-weight: 800;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-        }
+    /* Service Brand Theme Banners */
+    .service-brand-banner {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      border-radius: 4px;
+      padding: 10px;
+      margin-bottom: 8px;
+    }
 
-        .service-banner .sub-label {
-            font-size: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 4px;
-            opacity: 0.8;
-        }
+    .brand-name {
+      font-size: 15px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
 
-        /* Service Specific Color Themes */
-        .theme-netflix { background: linear-gradient(135deg, #b9090b, #e50914); color: #fff; }
-        .theme-prime { background: linear-gradient(135deg, #00a8e1, #146eb4); color: #fff; }
-        .theme-hulu { background: linear-gradient(135deg, #1ce783, #107c41); color: #000; }
-        .theme-disney { background: linear-gradient(135deg, #1136b8, #0063e5); color: #fff; }
-        .theme-hbo { background: linear-gradient(135deg, #4b286d, #833ab4); color: #fff; }
-        .theme-paramount { background: linear-gradient(135deg, #0064ff, #001f5c); color: #fff; }
-        .theme-crunchyroll { background: linear-gradient(135deg, #f47521, #d64000); color: #fff; }
+    .brand-type {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 4px;
+      opacity: 0.85;
+    }
 
-        /* Title Box matching the page style */
-        .media-info {
-            padding: 12px;
-            background: var(--surface-color);
-            border-top: 1px solid var(--border-color);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            flex-grow: 1;
-        }
+    /* Service Brand Gradients / Colors */
+    .theme-netflix { background: linear-gradient(135deg, #b9090b, #e50914); color: #ffffff; }
+    .theme-amazon-prime { background: linear-gradient(135deg, #00a8e1, #146eb4); color: #ffffff; }
+    .theme-hulu { background: linear-gradient(135deg, #1ce783, #107c41); color: #000000; }
+    .theme-disney { background: linear-gradient(135deg, #1136b8, #0063e5); color: #ffffff; }
+    .theme-hbo-max { background: linear-gradient(135deg, #4b286d, #833ab4); color: #ffffff; }
+    .theme-paramount { background: linear-gradient(135deg, #0064ff, #001f5c); color: #ffffff; }
+    .theme-crunchyroll { background: linear-gradient(135deg, #f47521, #d64000); color: #ffffff; }
 
-        .media-title {
-            font-size: 14px;
-            font-weight: bold;
-            color: var(--text-main);
-            margin-bottom: 6px;
-        }
-
-        .media-meta {
-            font-size: 12px;
-            color: var(--text-muted);
-        }
-    </style>
+    /* Green title box at the bottom matching the page style */
+    .media-title-banner {
+      font-size: 12px;
+      color: #000000;
+      font-weight: bold;
+      background-color: var(--primary-color);
+      padding: 8px;
+      border-radius: 4px;
+      text-align: center;
+      width: 100%;
+      box-sizing: border-box;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  </style>
 </head>
 <body>
 
-    <div class="container">
-        <!-- LOGIN SCREEN -->
-        <div id="login-screen">
-            <h2>Media Hub Login</h2>
-            <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" id="username" placeholder="Enter username">
-            </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" placeholder="Enter password">
-            </div>
-            <button onclick="handleLogin()">Sign In</button>
-            <div id="error-msg" class="error-msg">Invalid username or password.</div>
+  <!-- Login View Component -->
+  <div id="loginContainer">
+    <div class="media-search-box">Media Search</div>
+    <div class="login-card">
+      <h2>Enter Credentials</h2>
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="user" autocomplete="username" autofocus required>
         </div>
-
-        <!-- DASHBOARD SCREEN -->
-        <div id="dashboard-screen">
-            <div class="header-bar">
-                <h2>Top New Arrivals</h2>
-                <button class="logout-btn" onclick="handleLogout()">Sign Out</button>
-            </div>
-
-            <!-- Service Filters -->
-            <div id="filters-container" class="filters">
-                <!-- Populated dynamically based on user active services -->
-            </div>
-
-            <!-- Media Grid -->
-            <div id="media-grid" class="media-grid">
-                <!-- Populated dynamically -->
-            </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="pass" autocomplete="current-password" required>
         </div>
+        <button type="submit" class="btn-action">Login</button>
+        <div id="errorMsg">Invalid username or password</div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Landing View Component -->
+  <div id="landingContainer">
+    <div class="landing-header">
+      <div class="media-search-box landing-banner">Media Search</div>
+      <button class="btn-action" id="logoffBtn" style="width: auto; padding: 10px 20px; font-size: 14px;">Logoff</button>
     </div>
 
-    <script>
-        const AUTH_CONFIG = {
-            user: "tsilva",
-            pass: "1234"
-        };
+    <div class="dashboard-content" id="dashboardRows">
+      <!-- Category rows will be dynamically injected here -->
+    </div>
+  </div>
 
-        const userServices = [
-            { username: "tsilva", service: "Netflix", active: "Y" },
-            { username: "tsilva", service: "Hulu", active: "Y" },
-            { username: "tsilva", service: "Disney+", active: "Y" },
-            { username: "tsilva", service: "HBO Max", active: "Y" },
-            { username: "tsilva", service: "Amazon Prime", active: "Y" },
-            { username: "tsilva", service: "Paramount+", active: "Y" },
-            { username: "tsilva", service: "Crunchyroll", active: "Y" }
-        ];
+  <script>
+    const AUTH_CONFIG = {
+      user: "tsilva",
+      pass: "1234"
+    };
 
-        const allMediaCatalog = [
-            { service: "Netflix", title: "Rebel Ridge", releaseDate: "2024-09-06" },
-            { service: "Netflix", title: "The Killer", releaseDate: "2023-11-10" },
-            { service: "Netflix", title: "Glass Onion", releaseDate: "2022-12-23" },
-            { service: "Amazon Prime", title: "Road House", releaseDate: "2024-03-21" },
-            { service: "Amazon Prime", title: "The Idea of You", releaseDate: "2024-05-02" },
-            { service: "Hulu", title: "Quiz Lady", releaseDate: "2023-11-03" },
-            { service: "Hulu", title: "Prey", releaseDate: "2022-08-05" },
-            { service: "Disney+", title: "Inside Out 2", releaseDate: "2024-06-14" },
-            { service: "Disney+", title: "Deadpool & Wolverine", releaseDate: "2024-07-26" },
-            { service: "HBO Max", title: "The Batman", releaseDate: "2022-03-04" },
-            { service: "HBO Max", title: "Dune: Part Two", releaseDate: "2024-03-01" },
-            { service: "Paramount+", title: "Top Gun: Maverick", releaseDate: "2022-05-27" },
-            { service: "Paramount+", title: "A Quiet Place: Day One", releaseDate: "2024-06-28" },
-            { service: "Crunchyroll", title: "Demon Slayer: Hashira Training", releaseDate: "2024-02-23" }
-        ];
+    const userServices = [
+      { username: "tsilva", service: "Netflix", active: "Y" },
+      { username: "tsilva", service: "Hulu", active: "Y" },
+      { username: "tsilva", service: "Disney", active: "Y" },
+      { username: "tsilva", service: "HBO Max", active: "Y" },
+      { username: "tsilva", service: "Amazon Prime", active: "Y" },
+      { username: "tsilva", service: "Paramount+", active: "Y" },
+      { username: "tsilva", service: "Crunchyroll", active: "Y" }
+    ];
 
-        let currentFilter = "All";
+    const allMediaCatalog = [
+      { service: "Netflix", title: "Rebel Ridge", releaseDate: "2024-09-06" },
+      { service: "Netflix", title: "The Killer", releaseDate: "2023-11-10" },
+      { service: "Netflix", title: "Glass Onion", releaseDate: "2022-12-23" },
+      { service: "Netflix", title: "Beverly Hills Cop: Axel F", releaseDate: "2024-07-03" },
+      { service: "Netflix", title: "Spaceman", releaseDate: "2024-03-01" },
+      { service: "Netflix", title: "Lift", releaseDate: "2024-01-12" },
+      
+      { service: "Amazon Prime", title: "Road House", releaseDate: "2024-03-21" },
+      { service: "Amazon Prime", title: "The Idea of You", releaseDate: "2024-05-02" },
+      { service: "Amazon Prime", title: "Red One", releaseDate: "2024-11-15" },
+      { service: "Amazon Prime", title: "Role Play", releaseDate: "2024-01-12" },
+      { service: "Amazon Prime", title: "The Tomorrow War", releaseDate: "2021-07-02" },
 
-        function handleLogin() {
-            const user = document.getElementById("username").value.trim();
-            const pass = document.getElementById("password").value.trim();
-            const errorMsg = document.getElementById("error-msg");
+      { service: "Hulu", title: "Quiz Lady", releaseDate: "2023-11-03" },
+      { service: "Hulu", title: "Prey", releaseDate: "2022-08-05" },
+      { service: "Hulu", title: "Not Okay", releaseDate: "2022-07-29" },
+      { service: "Hulu", title: "Boston Strangler", releaseDate: "2023-03-17" },
+      { service: "Hulu", title: "Flamin' Hot", releaseDate: "2023-06-09" },
 
-            if (user === AUTH_CONFIG.user && pass === AUTH_CONFIG.pass) {
-                document.getElementById("login-screen").style.display = "none";
-                document.getElementById("dashboard-screen").style.display = "block";
-                initDashboard();
-            } else {
-                errorMsg.style.display = "block";
-            }
+      { service: "Disney", title: "Inside Out 2", releaseDate: "2024-06-14" },
+      { service: "Disney", title: "Deadpool & Wolverine", releaseDate: "2024-07-26" },
+      { service: "Disney", title: "Elemental", releaseDate: "2023-06-16" },
+      { service: "Disney", title: "Peter Pan & Wendy", releaseDate: "2023-04-28" },
+      { service: "Disney", title: "Disenchanted", releaseDate: "2022-11-18" },
+
+      { service: "HBO Max", title: "The Batman", releaseDate: "2022-03-04" },
+      { service: "HBO Max", title: "Dune: Part Two", releaseDate: "2024-03-01" },
+      { service: "HBO Max", title: "Furiosa", releaseDate: "2024-05-24" },
+      { service: "HBO Max", title: "The Flash", releaseDate: "2023-06-16" },
+      { service: "HBO Max", title: "Blue Beetle", releaseDate: "2023-08-18" },
+
+      { service: "Paramount+", title: "Top Gun: Maverick", releaseDate: "2022-05-27" },
+      { service: "Paramount+", title: "A Quiet Place: Day One", releaseDate: "2024-06-28" },
+      { service: "Paramount+", title: "IF", releaseDate: "2024-05-17" },
+      { service: "Paramount+", title: "Mission: Impossible - Dead Reckoning", releaseDate: "2023-07-12" },
+      { service: "Paramount+", title: "Babylon", releaseDate: "2022-12-23" },
+
+      { service: "Crunchyroll", title: "Demon Slayer: To the Hashira Training", releaseDate: "2024-02-23" },
+      { service: "Crunchyroll", title: "SPY x FAMILY CODE: White", releaseDate: "2023-12-22" },
+      { service: "Crunchyroll", title: "HAIKYU!! The Dumpster Battle", releaseDate: "2024-02-16" },
+      { service: "Crunchyroll", title: "JUJUTSU KAISEN Hidden Inventory", releaseDate: "2023-07-06" },
+      { service: "Crunchyroll", title: "Chainsaw Man", releaseDate: "2022-10-12" }
+    ];
+
+    function getSearchUrl(item) {
+      const year = item.releaseDate ? item.releaseDate.split('-')[0] : '';
+      const query = `${item.title} ${year}`;
+      return `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+    }
+
+    function getServiceThemeClass(serviceName) {
+      switch(serviceName.toLowerCase()) {
+        case 'netflix': return 'theme-netflix';
+        case 'amazon prime': return 'theme-amazon-prime';
+        case 'hulu': return 'theme-hulu';
+        case 'disney': return 'theme-disney';
+        case 'hbo max': return 'theme-hbo-max';
+        case 'paramount+': return 'theme-paramount';
+        case 'crunchyroll': return 'theme-crunchyroll';
+        default: return 'theme-netflix';
+      }
+    }
+
+    function setViewState(isLoggedIn, username = "") {
+      const loginContainer = document.getElementById('loginContainer');
+      const landingContainer = document.getElementById('landingContainer');
+
+      if (isLoggedIn) {
+        if (loginContainer) loginContainer.style.display = 'none';
+        if (landingContainer) landingContainer.style.display = 'block';
+        renderDashboard(username);
+      } else {
+        if (landingContainer) landingContainer.style.display = 'none';
+        if (loginContainer) loginContainer.style.display = 'flex';
+      }
+    }
+
+    function renderDashboard(username) {
+      const dashboard = document.getElementById('dashboardRows');
+      if (!dashboard) return;
+      dashboard.innerHTML = '';
+
+      const activeServices = userServices
+        .filter(s => s.username.toLowerCase() === username.toLowerCase() && s.active && s.active.toUpperCase() === 'Y')
+        .map(s => s.service);
+
+      const activeServiceItems = allMediaCatalog.filter(item => activeServices.includes(item.service));
+
+      activeServiceItems.sort((a, b) => {
+        const dateA = new Date(a.releaseDate);
+        const dateB = new Date(b.releaseDate);
+        if (dateB - dateA !== 0) {
+          return dateB - dateA;
         }
+        return a.title.localeCompare(b.title);
+      });
 
-        function handleLogout() {
-            document.getElementById("username").value = "";
-            document.getElementById("password").value = "";
-            document.getElementById("error-msg").style.display = "none";
-            document.getElementById("dashboard-screen").style.display = "none";
-            document.getElementById("login-screen").style.display = "block";
-        }
+      if (activeServiceItems.length > 0) {
+        const section = document.createElement('div');
+        section.className = 'category-section';
 
-        function getServiceThemeClass(serviceName) {
-            switch(serviceName.toLowerCase()) {
-                case 'netflix': return 'theme-netflix';
-                case 'amazon prime': return 'theme-prime';
-                case 'hulu': return 'theme-hulu';
-                case 'disney+': return 'theme-disney';
-                case 'hbo max': return 'theme-hbo';
-                case 'paramount+': return 'theme-paramount';
-                case 'crunchyroll': return 'theme-crunchyroll';
-                default: return 'theme-netflix';
-            }
-        }
+        const titleDiv = document.createElement('div');
+        titleDiv.className = 'section-title';
+        titleDiv.textContent = "Top New Arrivals";
+        section.appendChild(titleDiv);
 
-        function initDashboard() {
-            renderFilters();
-            renderMedia();
-        }
+        const row = document.createElement('div');
+        row.className = 'row-container';
 
-        function renderFilters() {
-            const container = document.getElementById("filters-container");
-            const activeServices = userServices.filter(s => s.active === "Y").map(s => s.service);
-            
-            let html = `<button class="filter-btn ${currentFilter === 'All' ? 'active' : ''}" onclick="setFilter('All')">All</button>`;
-            activeServices.forEach(srv => {
-                html += `<button class="filter-btn ${currentFilter === srv ? 'active' : ''}" onclick="setFilter('${srv}')">${srv}</button>`;
-            });
-            container.innerHTML = html;
-        }
+        activeServiceItems.forEach(item => {
+          const card = document.createElement('div');
+          card.className = 'media-card';
+          
+          const themeClass = getServiceThemeClass(item.service);
 
-        function setFilter(serviceName) {
-            currentFilter = serviceName;
-            renderFilters();
-            renderMedia();
-        }
-
-        function renderMedia() {
-            const grid = document.getElementById("media-grid");
-            const activeServices = userServices.filter(s => s.active === "Y").map(s => s.service);
-            
-            let filtered = allMediaCatalog.filter(item => activeServices.includes(item.service));
-            if (currentFilter !== "All") {
-                filtered = filtered.filter(item => item.service === currentFilter);
-            }
-
-            if (filtered.length === 0) {
-                grid.innerHTML = `<p style="color: var(--text-muted);">No media items found for this selection.</p>`;
-                return;
-            }
-
-            let html = "";
-            filtered.forEach(item => {
-                const themeClass = getServiceThemeClass(item.service);
-                html += `
-                    <div class="media-card">
-                        <div class="service-banner ${themeClass}">
-                            <span>${item.service}</span>
-                            <span class="sub-label">New Arrival</span>
-                        </div>
-                        <div class="media-info">
-                            <div class="media-title">${item.title}</div>
-                            <div class="media-meta">Released: ${item.releaseDate}</div>
-                        </div>
-                    </div>
-                `;
-            });
-            grid.innerHTML = html;
-        }
-
-        // Allow pressing Enter to login
-        document.addEventListener("keydown", function(event) {
-            if (event.key === "Enter" && document.getElementById("login-screen").style.display !== "none") {
-                handleLogin();
-            }
+          card.innerHTML = `
+            <div class="service-brand-banner ${themeClass}">
+              <span class="brand-name">${item.service}</span>
+              <span class="brand-type">New Arrival</span>
+            </div>
+            <span class="media-title-banner" title="${item.title}">${item.title}</span>
+          `;
+          card.addEventListener('click', () => {
+            window.open(getSearchUrl(item), '_blank');
+          });
+          row.appendChild(card);
         });
-    </script>
+
+        section.appendChild(row);
+        dashboard.appendChild(section);
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const urlUser = urlParams.get('user');
+      const urlPass = urlParams.get('pass');
+
+      if (urlUser && urlUser.toLowerCase() === AUTH_CONFIG.user && urlPass === AUTH_CONFIG.pass) {
+        sessionStorage.setItem('loggedInUser', AUTH_CONFIG.user);
+      }
+
+      const savedUser = sessionStorage.getItem('loggedInUser');
+      setViewState(!!savedUser, savedUser || AUTH_CONFIG.user);
+    });
+
+    const loginForm = document.getElementById('loginForm');
+    if (loginForm) {
+      loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const u = document.getElementById('username').value.trim().toLowerCase();
+        const p = document.getElementById('password').value.trim();
+        const err = document.getElementById('errorMsg');
+
+        if (u === AUTH_CONFIG.user && p === AUTH_CONFIG.pass) {
+          sessionStorage.setItem('loggedInUser', u);
+          document.getElementById('password').value = '';
+          if (err) err.style.display = 'none';
+          setViewState(true, u);
+        } else {
+          if (err) err.style.display = 'block';
+        }
+      });
+    }
+
+    const logoffBtn = document.getElementById('logoffBtn');
+    if (logoffBtn) {
+      logoffBtn.addEventListener('click', () => {
+        sessionStorage.removeItem('loggedInUser');
+        setViewState(false);
+        const uField = document.getElementById('username');
+        if (uField) {
+          uField.value = '';
+          uField.focus();
+        }
+      });
+    }
+  </script>
 </body>
 </html>
