@@ -154,12 +154,14 @@
       padding-bottom: 40px;
     }
 
-    /* Service Filter Bar */
+    /* Service Filter Bar across the top in alphabetical order */
     .filter-bar {
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
       margin-bottom: 10px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid var(--border-color);
     }
 
     .service-filter-btn {
@@ -242,7 +244,7 @@
     }
 
     .brand-name {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 900;
       text-transform: uppercase;
       letter-spacing: 0.5px;
@@ -257,13 +259,15 @@
     }
 
     /* Service Gradients */
-    .theme-netflix { background: linear-gradient(135deg, #b9090b, #e50914); color: #ffffff; }
     .theme-amazon-prime { background: linear-gradient(135deg, #00a8e1, #146eb4); color: #ffffff; }
-    .theme-hulu { background: linear-gradient(135deg, #1ce783, #107c41); color: #000000; }
+    .theme-crunchyroll { background: linear-gradient(135deg, #f47521, #d64000); color: #ffffff; }
     .theme-disney { background: linear-gradient(135deg, #1136b8, #0063e5); color: #ffffff; }
     .theme-hbo-max { background: linear-gradient(135deg, #4b286d, #833ab4); color: #ffffff; }
+    .theme-hulu { background: linear-gradient(135deg, #1ce783, #107c41); color: #000000; }
+    .theme-netflix { background: linear-gradient(135deg, #b9090b, #e50914); color: #ffffff; }
     .theme-paramount { background: linear-gradient(135deg, #0064ff, #001f5c); color: #ffffff; }
-    .theme-crunchyroll { background: linear-gradient(135deg, #f47521, #d64000); color: #ffffff; }
+    .theme-peacock { background: linear-gradient(135deg, #00a5ff, #002d72); color: #ffffff; }
+    .theme-showtime { background: linear-gradient(135deg, #d32f2f, #333333); color: #ffffff; }
 
     /* Green title box at the bottom */
     .media-title-banner {
@@ -318,12 +322,10 @@
     </div>
 
     <div class="dashboard-content" id="dashboardContent">
-      <!-- Hardcoded Service Filters -->
-      <div class="filter-bar" id="filterBar">
-        <!-- Rendered via JS -->
-      </div>
+      <!-- Hardcoded Service Filters (Sorted Alphabetically) -->
+      <div class="filter-bar" id="filterBar"></div>
 
-      <!-- Dynamic Rows Container -->
+      <!-- Dashboard Sections Container -->
       <div id="dashboardRows"></div>
     </div>
   </div>
@@ -334,32 +336,30 @@
       pass: "1234"
     };
 
-    // Hardcoded Services list with active states (defaulting to all active)
+    // Hardcoded Services list in strict alphabetical order, active by default
     const availableServices = [
-      { name: "Netflix", active: true },
       { name: "Amazon Prime", active: true },
-      { name: "Hulu", active: true },
+      { name: "Crunchyroll", active: true },
       { name: "Disney", active: true },
       { name: "HBO Max", active: true },
+      { name: "Hulu", active: true },
+      { name: "Netflix", active: true },
       { name: "Paramount+", active: true },
-      { name: "Crunchyroll", active: true }
+      { name: "Peacock", active: true },
+      { name: "Showtime", active: true }
     ];
 
     const allMediaCatalog = [
       { service: "Netflix", title: "Rebel Ridge", releaseDate: "2024-09-06" },
       { service: "Netflix", title: "The Killer", releaseDate: "2023-11-10" },
-      { service: "Netflix", title: "Glass Onion", releaseDate: "2022-12-23" },
       { service: "Amazon Prime", title: "Road House", releaseDate: "2024-03-21" },
-      { service: "Amazon Prime", title: "The Idea of You", releaseDate: "2024-05-02" },
       { service: "Hulu", title: "Quiz Lady", releaseDate: "2023-11-03" },
-      { service: "Hulu", title: "Prey", releaseDate: "2022-08-05" },
       { service: "Disney", title: "Inside Out 2", releaseDate: "2024-06-14" },
-      { service: "Disney", title: "Deadpool & Wolverine", releaseDate: "2024-07-26" },
       { service: "HBO Max", title: "The Batman", releaseDate: "2022-03-04" },
-      { service: "HBO Max", title: "Dune: Part Two", releaseDate: "2024-03-01" },
       { service: "Paramount+", title: "Top Gun: Maverick", releaseDate: "2022-05-27" },
-      { service: "Paramount+", title: "A Quiet Place: Day One", releaseDate: "2024-06-28" },
-      { service: "Crunchyroll", title: "Demon Slayer: Hashira Training", releaseDate: "2024-02-23" }
+      { service: "Crunchyroll", title: "Demon Slayer: Hashira Training", releaseDate: "2024-02-23" },
+      { service: "Peacock", title: "The Traitors", releaseDate: "2024-01-12" },
+      { service: "Showtime", title: "The Curse", releaseDate: "2023-11-12" }
     ];
 
     function getSearchUrl(item) {
@@ -370,13 +370,15 @@
 
     function getServiceThemeClass(serviceName) {
       switch(serviceName.toLowerCase()) {
-        case 'netflix': return 'theme-netflix';
         case 'amazon prime': return 'theme-amazon-prime';
-        case 'hulu': return 'theme-hulu';
+        case 'crunchyroll': return 'theme-crunchyroll';
         case 'disney': return 'theme-disney';
         case 'hbo max': return 'theme-hbo-max';
+        case 'hulu': return 'theme-hulu';
+        case 'netflix': return 'theme-netflix';
         case 'paramount+': return 'theme-paramount';
-        case 'crunchyroll': return 'theme-crunchyroll';
+        case 'peacock': return 'theme-peacock';
+        case 'showtime': return 'theme-showtime';
         default: return 'theme-netflix';
       }
     }
@@ -422,7 +424,6 @@
       const dashboard = document.getElementById('dashboardRows');
       dashboard.innerHTML = '';
 
-      // Get list of currently enabled service names
       const activeServiceNames = availableServices.filter(s => s.active).map(s => s.name);
       const filteredItems = allMediaCatalog.filter(item => activeServiceNames.includes(item.service));
 
@@ -433,6 +434,7 @@
         return a.title.localeCompare(b.title);
       });
 
+      // Top New Arrivals Section
       const section = document.createElement('div');
       section.className = 'category-section';
 
@@ -445,7 +447,7 @@
       row.className = 'row-container';
 
       if (filteredItems.length === 0) {
-        row.innerHTML = `<div class="empty-state">No services selected or no media available. Click the filter buttons above to include services.</div>`;
+        row.innerHTML = `<div class="empty-state">All services are currently filtered out. Click the filter buttons above to include services.</div>`;
       } else {
         filteredItems.forEach(item => {
           const card = document.createElement('div');
