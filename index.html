@@ -297,7 +297,6 @@
       { username: "tsilva", service: "Crunchyroll", active: "Y" }
     ];
 
-    // Master Catalog mapping service-native identifiers for direct deep-linking
     const allMediaCatalog = [
       { id: "81157729", service: "Netflix", title: "Rebel Ridge", releaseDate: "2024-09-06" },
       { id: "81476889", service: "Netflix", title: "The Killer", releaseDate: "2023-11-10" },
@@ -343,7 +342,6 @@
       { id: "chainsaw-man", service: "Crunchyroll", title: "Chainsaw Man", releaseDate: "2022-10-12" }
     ];
 
-    // Provider URL router mapped to native platform URL structures
     function getProviderUrl(item) {
       const q = encodeURIComponent(item.title);
       switch(item.service) {
@@ -395,7 +393,7 @@
         const serviceItems = allMediaCatalog
           .filter(item => item.service === service)
           .sort((a, b) => new Date(b.releaseDate) - new Date(a.releaseDate))
-          .slice(0, 5); // Top 5 per service
+          .slice(0, 5);
         
         topNewArrivalsItems.push(...serviceItems);
       });
