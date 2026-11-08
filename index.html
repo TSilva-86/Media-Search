@@ -344,7 +344,6 @@
           <span class="media-service">${item.service}</span>
           <span class="media-title">${item.title}</span>
         `;
-        // Make the tile clickable to open its specific title search URL in a new tab
         card.addEventListener('click', function() {
           window.open(item.url, '_blank');
         });
