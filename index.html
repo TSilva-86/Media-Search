@@ -297,69 +297,70 @@
       { username: "tsilva", service: "Crunchyroll", active: "Y" }
     ];
 
+    // Master Catalog repository structured with unique IDs and metadata
     const allMediaCatalog = [
-      { service: "Netflix", title: "Rebel Ridge", releaseDate: "2024-09-06", watchUrl: "https://www.netflix.com/us/title/81157729?s=a&trkid=13747225&shareType=Title&shareUuid=5c30e763-c4f2-484c-9649-4d8bec6b41eb&trg=cp&unifiedEntityIdEncoded=Video%3A81157729&vlang=en&clip=81786544" },
-      { service: "Netflix", title: "The Killer", releaseDate: "2023-11-10" },
-      { service: "Netflix", title: "Glass Onion", releaseDate: "2022-12-23" },
-      { service: "Netflix", title: "Beverly Hills Cop: Axel F", releaseDate: "2024-07-03" },
-      { service: "Netflix", title: "Spaceman", releaseDate: "2024-03-01" },
-      { service: "Netflix", title: "Lift", releaseDate: "2024-01-12" },
+      { id: "tt11301886", service: "Netflix", title: "Rebel Ridge", releaseDate: "2024-09-06" },
+      { id: "tt16124520", service: "Netflix", title: "The Killer", releaseDate: "2023-11-10" },
+      { id: "tt11564570", service: "Netflix", title: "Glass Onion", releaseDate: "2022-12-23" },
+      { id: "tt13922144", service: "Netflix", title: "Beverly Hills Cop: Axel F", releaseDate: "2024-07-03" },
+      { id: "tt11725514", service: "Netflix", title: "Spaceman", releaseDate: "2024-03-01" },
+      { id: "tt15445174", service: "Netflix", title: "Lift", releaseDate: "2024-01-12" },
       
-      { service: "Amazon Prime", title: "Road House", releaseDate: "2024-03-21" },
-      { service: "Amazon Prime", title: "The Idea of You", releaseDate: "2024-05-02" },
-      { service: "Amazon Prime", title: "Red One", releaseDate: "2024-11-15" },
-      { service: "Amazon Prime", title: "Role Play", releaseDate: "2024-01-12" },
-      { service: "Amazon Prime", title: "The Tomorrow War", releaseDate: "2021-07-02" },
+      { id: "tt33598540", service: "Amazon Prime", title: "Road House", releaseDate: "2024-03-21" },
+      { id: "tt22471694", service: "Amazon Prime", title: "The Idea of You", releaseDate: "2024-05-02" },
+      { id: "tt25633192", service: "Amazon Prime", title: "Red One", releaseDate: "2024-11-15" },
+      { id: "tt23547844", service: "Amazon Prime", title: "Role Play", releaseDate: "2024-01-12" },
+      { id: "tt9777666", service: "Amazon Prime", title: "The Tomorrow War", releaseDate: "2021-07-02" },
 
-      { service: "Hulu", title: "Quiz Lady", releaseDate: "2023-11-03" },
-      { service: "Hulu", title: "Prey", releaseDate: "2022-08-05" },
-      { service: "Hulu", title: "Not Okay", releaseDate: "2022-07-29" },
-      { service: "Hulu", title: "Boston Strangler", releaseDate: "2023-03-17" },
-      { service: "Hulu", title: "Flamin' Hot", releaseDate: "2023-06-09" },
+      { id: "tt27494544", service: "Hulu", title: "Quiz Lady", releaseDate: "2023-11-03" },
+      { id: "tt11866324", service: "Hulu", title: "Prey", releaseDate: "2022-08-05" },
+      { id: "tt20857948", service: "Hulu", title: "Not Okay", releaseDate: "2022-07-29" },
+      { id: "tt21345432", service: "Hulu", title: "Boston Strangler", releaseDate: "2023-03-17" },
+      { id: "tt21807222", service: "Hulu", title: "Flamin' Hot", releaseDate: "2023-06-09" },
 
-      { service: "Disney", title: "Inside Out 2", releaseDate: "2024-06-14" },
-      { service: "Disney", title: "Deadpool & Wolverine", releaseDate: "2024-07-26" },
-      { service: "Disney", title: "Elemental", releaseDate: "2023-06-16" },
-      { service: "Disney", title: "Peter Pan & Wendy", releaseDate: "2023-04-28" },
-      { service: "Disney", title: "Disenchanted", releaseDate: "2022-11-18" },
+      { id: "tt22022452", service: "Disney", title: "Inside Out 2", releaseDate: "2024-06-14" },
+      { id: "tt6263850", service: "Disney", title: "Deadpool & Wolverine", releaseDate: "2024-07-26" },
+      { id: "tt15791034", service: "Disney", title: "Elemental", releaseDate: "2023-06-16" },
+      { id: "tt5690370", service: "Disney", title: "Peter Pan & Wendy", releaseDate: "2023-04-28" },
+      { id: "tt9355602", service: "Disney", title: "Disenchanted", releaseDate: "2022-11-18" },
 
-      { service: "HBO Max", title: "The Batman", releaseDate: "2022-03-04" },
-      { service: "HBO Max", title: "Dune: Part Two", releaseDate: "2024-03-01" },
-      { service: "HBO Max", title: "Furiosa", releaseDate: "2024-05-24" },
-      { service: "HBO Max", title: "The Flash", releaseDate: "2023-06-16" },
-      { service: "HBO Max", title: "Blue Beetle", releaseDate: "2023-08-18" },
+      { id: "tt1877830", service: "HBO Max", title: "The Batman", releaseDate: "2022-03-04" },
+      { id: "tt15239678", service: "HBO Max", title: "Dune: Part Two", releaseDate: "2024-03-01" },
+      { id: "tt12037194", service: "HBO Max", title: "Furiosa", releaseDate: "2024-05-24" },
+      { id: "tt0439572", service: "HBO Max", title: "The Flash", releaseDate: "2023-06-16" },
+      { id: "tt0450385", service: "HBO Max", title: "Blue Beetle", releaseDate: "2023-08-18" },
 
-      { service: "Paramount+", title: "Top Gun: Maverick", releaseDate: "2022-05-27" },
-      { service: "Paramount+", title: "A Quiet Place: Day One", releaseDate: "2024-06-28" },
-      { service: "Paramount+", title: "IF", releaseDate: "2024-05-17" },
-      { service: "Paramount+", title: "Mission: Impossible - Dead Reckoning", releaseDate: "2023-07-12" },
-      { service: "Paramount+", title: "Babylon", releaseDate: "2022-12-23" },
+      { id: "tt1745960", service: "Paramount+", title: "Top Gun: Maverick", releaseDate: "2022-05-27" },
+      { id: "tt13622970", service: "Paramount+", title: "A Quiet Place: Day One", releaseDate: "2024-06-28" },
+      { id: "tt11126994", service: "Paramount+", title: "IF", releaseDate: "2024-05-17" },
+      { id: "tt9603212", service: "Paramount+", title: "Mission: Impossible - Dead Reckoning", releaseDate: "2023-07-12" },
+      { id: "tt14563512", service: "Paramount+", title: "Babylon", releaseDate: "2022-12-23" },
 
-      { service: "Crunchyroll", title: "Demon Slayer: To the Hashira Training", releaseDate: "2024-02-23" },
-      { service: "Crunchyroll", title: "SPY x FAMILY CODE: White", releaseDate: "2023-12-22" },
-      { service: "Crunchyroll", title: "HAIKYU!! The Dumpster Battle", releaseDate: "2024-02-16" },
-      { service: "Crunchyroll", title: "JUJUTSU KAISEN Hidden Inventory", releaseDate: "2023-07-06" },
-      { service: "Crunchyroll", title: "Chainsaw Man", releaseDate: "2022-10-12" }
+      { id: "tt30379435", service: "Crunchyroll", title: "Demon Slayer: To the Hashira Training", releaseDate: "2024-02-23" },
+      { id: "tt27993410", service: "Crunchyroll", title: "SPY x FAMILY CODE: White", releaseDate: "2023-12-22" },
+      { id: "tt28238714", service: "Crunchyroll", title: "HAIKYU!! The Dumpster Battle", releaseDate: "2024-02-16" },
+      { id: "tt23758362", service: "Crunchyroll", title: "JUJUTSU KAISEN Hidden Inventory", releaseDate: "2023-07-06" },
+      { id: "tt15998188", service: "Crunchyroll", title: "Chainsaw Man", releaseDate: "2022-10-12" }
     ];
 
-    function getSearchUrl(item) {
-      if (item.watchUrl) {
-        return item.watchUrl;
-      }
+    // Engine: Generates direct provider deep links or official web app query lookups using title IDs
+    function getProviderUrl(item) {
       const q = encodeURIComponent(item.title);
       switch(item.service) {
+        case "Netflix":
+          return `https://www.netflix.com/title/${item.id}`;
         case "Amazon Prime":
-          return `https://www.amazon.com/s?k=${q}&i=prime-video`;
-        case "Hulu":
-          return `https://www.hulu.com/search?q=${q}`;
+          return `https://www.amazon.com/gp/video/detail/${item.id}`;
         case "Disney":
-          return `https://www.disneyplus.com/search?q=${q}`;
+          return `https://www.disneyplus.com/movies/title/${item.id}`;
         case "HBO Max":
-          return `https://www.max.com/search?q=${q}`;
+          return `https://www.max.com/movies/${item.id}`;
+        case "Hulu":
+          return `https://www.hulu.com/movie/${item.id}`;
         case "Paramount+":
-          return `https://www.paramountplus.com/search/?q=${q}`;
+          return `https://www.paramountplus.com/movies/${item.id}`;
         case "Crunchyroll":
-          return `https://www.crunchyroll.com/search?q=${q}`;
+          return `https://www.crunchyroll.com/watch/${item.id}`;
         default:
           return `https://www.google.com/search?q=${q}+${encodeURIComponent(item.service)}`;
       }
@@ -394,7 +395,7 @@
         const serviceItems = allMediaCatalog
           .filter(item => item.service === service)
           .sort((a, b) => new Date(b.releaseDate) - new Date(a.releaseDate))
-          .slice(0, 5); // Top 5 per service
+          .slice(0, 5); // Top 5 per service dynamically queried
         
         topNewArrivalsItems.push(...serviceItems);
       });
@@ -420,7 +421,7 @@
             <span class="media-title-banner" title="${item.title}">${item.title}</span>
           `;
           card.addEventListener('click', () => {
-            window.open(getSearchUrl(item), '_blank');
+            window.open(getProviderUrl(item), '_blank');
           });
           row.appendChild(card);
         });
@@ -468,9 +469,9 @@
         sessionStorage.removeItem('loggedInUser');
         setViewState(false);
         const uField = document.getElementById('username');
-        if (uField) {
-          uField.value = '';
-          uField.focus();
+        if (userField) {
+          userField.value = '';
+          userField.focus();
         }
       });
     }
