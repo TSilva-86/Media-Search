@@ -342,7 +342,6 @@
       { service: "Crunchyroll", title: "Chainsaw Man", releaseDate: "2022-10-12" }
     ];
 
-    // Search Router: Uses Title and Release Year (service name omitted to prevent query pollution)
     function getSearchUrl(item) {
       const year = item.releaseDate ? item.releaseDate.split('-')[0] : '';
       const query = `${item.title} ${year}`;
@@ -372,20 +371,13 @@
         .filter(s => s.username.toLowerCase() === username.toLowerCase() && s.active && s.active.toUpperCase() === 'Y')
         .map(s => s.service);
 
-      // Collect items from active services, then sort globally by release date (newest first)
-      let candidateItems = [];
-      activeServices.forEach(service => {
-        const serviceItems = allMediaCatalog.filter(item => item.service === service);
-        candidateItems.push(...serviceItems);
-      });
+      // 1. Gather all items belonging to the user's active services
+      const activeServiceItems = allMediaCatalog.filter(item => activeServices.includes(item.service));
 
-      // Sort globally by release date descending
-      candidateItems.sort((a, b) => new Date(b.releaseDate) - new Date(a.releaseDate));
+      // 2. Sort the entire pool strictly by release date descending (newest first) regardless of service
+      activeServiceItems.sort((a, b) => new Date(b.releaseDate) - new Date(a.releaseDate));
 
-      // Slice top overall releases across active services (e.g., top 15 or top total global new releases)
-      const topNewArrivalsItems = candidateItems.slice(0, 15);
-
-      if (topNewArrivalsItems.length > 0) {
+      if (activeServiceItems.length > 0) {
         const section = document.createElement('div');
         section.className = 'category-section';
 
@@ -397,7 +389,7 @@
         const row = document.createElement('div');
         row.className = 'row-container';
 
-        topNewArrivalsItems.forEach(item => {
+        activeServiceItems.forEach(item => {
           const card = document.createElement('div');
           card.className = 'media-card';
           card.innerHTML = `
