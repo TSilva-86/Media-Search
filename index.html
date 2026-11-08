@@ -1,143 +1,388 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Media Search Portal</title>
-    <style>
-        :root {
-            --bg-color: #141414;
-            --text-color: #ffffff;
-            --accent-color: #e50914;
-            --card-bg: #1f1f1f;
-        }
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-        }
-        .container { max-width: 1200px; margin: 0 auto; }
-        .login-box { max-width: 400px; margin: 100px auto; padding: 30px; background: var(--card-bg); border-radius: 8px; text-align: center; }
-        input, button { width: 100%; padding: 12px; margin: 10px 0; border-radius: 4px; border: none; box-sizing: border-box; }
-        input { background: #333; color: white; }
-        button { background: var(--accent-color); color: white; font-weight: bold; cursor: pointer; }
-        .hidden { display: none !important; }
-        .media-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; margin-top: 20px; }
-        .media-card { background: var(--card-bg); border-radius: 6px; overflow: hidden; transition: transform 0.2s; cursor: pointer; text-decoration: none; color: inherit; display: block; }
-        .media-card:hover { transform: scale(1.05); }
-        .media-info { padding: 15px; }
-        .media-title { font-weight: bold; margin-bottom: 5px; }
-        .media-service { font-size: 0.9em; color: #aaa; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Media Search - Login</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #000000;
+      color: #ffffff;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    #loginContainer {
+      display: flex;
+      flex-direction: column;
+      width: 360px;
+      gap: 12px;
+    }
+
+    .media-search-box {
+      width: 100%;
+      padding: 10px 16px;
+      background-color: #28a745;
+      color: #000000;
+      font-weight: bold;
+      font-size: 16px;
+      text-align: center;
+      border: 1px solid #218838;
+      border-radius: 4px;
+      box-sizing: border-box;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+    }
+
+    .login-card {
+      width: 100%;
+      background: #121212;
+      padding: 24px;
+      border-radius: 6px;
+      border: 1px solid #333333;
+      box-sizing: border-box;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    }
+
+    .login-card h2 {
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-size: 20px;
+      color: #ffffff;
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+      color: #bbbbbb;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+      background-color: #1e1e1e;
+      color: #ffffff;
+      border: 1px solid #444444;
+      border-radius: 4px;
+      box-sizing: border-box;
+      outline: none;
+    }
+
+    .form-group input:focus {
+      border-color: #28a745;
+    }
+
+    .btn-login {
+      width: 100%;
+      padding: 10px 16px;
+      background-color: #28a745;
+      color: #000000;
+      font-weight: bold;
+      font-size: 16px;
+      border: 1px solid #218838;
+      border-radius: 4px;
+      cursor: pointer;
+      box-sizing: border-box;
+    }
+
+    .btn-login:hover {
+      background-color: #218838;
+    }
+
+    #errorMsg {
+      color: #ff4d4d;
+      font-size: 13px;
+      text-align: center;
+      margin-top: 10px;
+      display: none;
+    }
+
+    #landingContainer {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: #000000;
+      box-sizing: border-box;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .landing-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+
+    .landing-banner {
+      width: 220px;
+    }
+
+    .btn-logoff {
+      padding: 10px 20px;
+      background-color: #28a745;
+      color: #000000;
+      font-weight: bold;
+      font-size: 14px;
+      border: 1px solid #218838;
+      border-radius: 4px;
+      cursor: pointer;
+      box-sizing: border-box;
+    }
+
+    .btn-logoff:hover {
+      background-color: #218838;
+    }
+
+    .section-banner {
+      width: 220px;
+      margin-top: 25px;
+      margin-bottom: 15px;
+    }
+
+    .carousel-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      max-width: 1100px;
+    }
+
+    .carousel-btn {
+      background-color: #121212;
+      color: #ffffff;
+      border: 1px solid #333333;
+      font-size: 20px;
+      font-weight: bold;
+      width: 44px;
+      height: 110px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .carousel-btn:hover {
+      background-color: #28a745;
+      color: #000000;
+      border-color: #218838;
+    }
+
+    .scroll-container {
+      display: flex;
+      gap: 16px;
+      overflow: hidden;
+      width: 100%;
+      padding: 5px 0;
+    }
+
+    .media-card {
+      flex: 0 0 180px;
+      height: 110px;
+      background-color: #121212;
+      border: 1px solid #333333;
+      border-radius: 6px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 12px;
+      text-align: center;
+      box-sizing: border-box;
+      cursor: pointer;
+      transition: border-color 0.2s, background-color 0.2s;
+    }
+
+    .media-card:hover {
+      border-color: #28a745;
+      background-color: #181818;
+    }
+
+    .media-service {
+      font-size: 11px;
+      color: #28a745;
+      font-weight: bold;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .media-title {
+      font-size: 13px;
+      color: #ffffff;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
 
-    <div class="container">
-        <!-- Login Gate -->
-        <div id="loginGate" class="login-box">
-            <h2>Sign In</h2>
-            <input type="text" id="username" placeholder="Username" autocomplete="off">
-            <input type="password" id="password" placeholder="Password">
-            <button onclick="handleLogin()">Login</button>
-            <p id="loginError" style="color: var(--accent-color); font-size: 0.9em;" class="hidden">Invalid credentials</p>
+  <!-- Login View -->
+  <div id="loginContainer">
+    <div class="media-search-box">Media Search</div>
+
+    <div class="login-card">
+      <h2>Enter Credentials</h2>
+      
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="user" autocomplete="username" autofocus required>
         </div>
 
-        <!-- Dashboard Layout -->
-        <div id="dashboard" class="hidden">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <h1 id="welcomeText">Welcome</h1>
-                <button onclick="handleLogout()" style="width: auto; padding: 8px 15px;">Logout</button>
-            </div>
-            
-            <h2>Your Available Media</h2>
-            <div id="catalogGrid" class="media-grid"></div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="pass" autocomplete="current-password" required>
         </div>
+
+        <button type="submit" class="btn-login">Login</button>
+        <div id="errorMsg">Invalid username or password</div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Landing Page View -->
+  <div id="landingContainer">
+    <div class="landing-header">
+      <div class="media-search-box landing-banner">Media Search</div>
+      <button class="btn-logoff" id="logoffBtn">Logoff</button>
     </div>
 
-    <script>
-        const USERS = { "tsilva": "1234" };
-        let currentUser = null;
+    <!-- Top New Arrivals Section -->
+    <div class="media-search-box section-banner">Top New Arrivals</div>
+    
+    <div class="carousel-wrapper">
+      <button class="carousel-btn" id="prevBtn">&#10094;</button>
+      
+      <div class="scroll-container" id="carouselTrack">
+        <!-- Populated via script -->
+      </div>
 
-        // Static media catalog tracking list
-        const allMediaCatalog = [
-            { title: "Stranger Things", service: "Netflix" },
-            { title: "The Bear", service: "Hulu" },
-            { title: "The Mandalorian", service: "Disney+" },
-            { title: "The Boys", service: "Amazon Prime" },
-            { title: "Succession", service: "Max" }
-        ];
+      <button class="carousel-btn" id="nextBtn">&#10095;</button>
+    </div>
+  </div>
 
-        // FIXED DYNAMIC LINK ROUTER: Correctly appends platform-specific search parameters
-        function generateDeepSearchLink(title, service) {
-            const query = encodeURIComponent(title);
-            const cleanService = service.toLowerCase().trim();
+  <script>
+    const VALID_USER = "tsilva";
+    const VALID_PASS = "1234";
 
-            switch (cleanService) {
-                case 'netflix':
-                    return `https://netflix.com{query}`;
-                case 'hulu':
-                    return `https://hulu.com{query}`;
-                case 'amazon prime':
-                case 'prime video':
-                    return `https://amazon.com{query}&i=instant-video`;
-                case 'max':
-                case 'hbo max':
-                    return `https://max.com{query}/`;
-                case 'disney+':
-                case 'disney plus':
-                    return `https://disneyplus.com`; 
-                default:
-                    return `https://google.com{query}+on+${encodeURIComponent(service)}`;
-            }
+    const userServices = [
+      { username: "tsilva", service: "Netflix", active: "Y" },
+      { username: "tsilva", service: "Hulu", active: "Y" },
+      { username: "tsilva", service: "Disney", active: "Y" },
+      { username: "tsilva", service: "HBO Max", active: "Y" },
+      { username: "tsilva", service: "Amazon Prime", active: "Y" },
+      { username: "tsilva", service: "Paramount+", active: "Y" },
+      { username: "tsilva", service: "Crunchyroll", active: "Y" }
+    ];
+
+    // Media catalog with direct search query URLs for each title
+    const allMediaCatalog = [
+      { service: "Netflix", title: "Rebel Ridge", releaseDate: "2024-09-06", url: "https://www.netflix.com/search?q=Rebel%20Ridge" },
+      { service: "Amazon Prime", title: "Road House", releaseDate: "2024-03-21", url: "https://www.amazon.com/s?k=Road+House&i=prime-video" },
+      { service: "Hulu", title: "Quiz Lady", releaseDate: "2023-11-03", url: "https://www.hulu.com/search?q=Quiz%20Lady" },
+      { service: "Netflix", title: "The Killer", releaseDate: "2023-11-10", url: "https://www.netflix.com/search?q=The%20Killer" },
+      { service: "Amazon Prime", title: "The Idea of You", releaseDate: "2024-05-02", url: "https://www.amazon.com/s?k=The+Idea+of+You&i=prime-video" },
+      { service: "Hulu", title: "Prey", releaseDate: "2022-08-05", url: "https://www.hulu.com/search?q=Prey" },
+      { service: "Disney", title: "Inside Out 2", releaseDate: "2024-06-14", url: "https://www.disneyplus.com/search?q=Inside%20Out%202" },
+      { service: "HBO Max", title: "The Batman", releaseDate: "2022-03-04", url: "https://www.max.com/search?q=The%20Batman" },
+      { service: "Paramount+", title: "Top Gun: Maverick", releaseDate: "2022-05-27", url: "https://www.paramountplus.com/search/?q=Top%20Gun%20Maverick" },
+      { service: "Crunchyroll", title: "Demon Slayer: To the Hashira Training", releaseDate: "2024-02-23", url: "https://www.crunchyroll.com/search?q=Demon%20Slayer" },
+      { service: "Netflix", title: "Glass Onion", releaseDate: "2022-12-23", url: "https://www.netflix.com/search?q=Glass%20Onion" }
+    ];
+
+    document.getElementById('loginForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const user = document.getElementById('username').value.trim();
+      const pass = document.getElementById('password').value.trim();
+      const errDiv = document.getElementById('errorMsg');
+
+      if (user.toLowerCase() === VALID_USER && pass === VALID_PASS) {
+        document.getElementById('loginContainer').style.display = 'none';
+        document.getElementById('landingContainer').style.display = 'block';
+        document.getElementById('password').value = '';
+        if (errDiv) errDiv.style.display = 'none';
+        populateCarousel(user.toLowerCase());
+      } else {
+        if (errDiv) errDiv.style.display = 'block';
+      }
+    });
+
+    function populateCarousel(loggedInUser) {
+      const track = document.getElementById('carouselTrack');
+      if (!track) return;
+      track.innerHTML = '';
+
+      const activeServicesForUser = userServices
+        .filter(s => s.username.toLowerCase() === loggedInUser && s.active && s.active.toUpperCase() === 'Y')
+        .map(s => s.service);
+
+      const filteredArrivals = allMediaCatalog
+        .filter(item => activeServicesForUser.includes(item.service))
+        .sort((a, b) => new Date(b.releaseDate) - new Date(a.releaseDate));
+
+      filteredArrivals.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'media-card';
+        card.innerHTML = `
+          <span class="media-service">${item.service}</span>
+          <span class="media-title">${item.title}</span>
+        `;
+        // Make the tile clickable to open its specific title search URL in a new tab
+        card.addEventListener('click', function() {
+          window.open(item.url, '_blank');
+        });
+        track.appendChild(card);
+      });
+    }
+
+    const logoffBtn = document.getElementById('logoffBtn');
+    if (logoffBtn) {
+      logoffBtn.addEventListener('click', function() {
+        document.getElementById('landingContainer').style.display = 'none';
+        document.getElementById('loginContainer').style.display = 'flex';
+        const userField = document.getElementById('username');
+        if (userField) {
+          userField.value = '';
+          userField.focus();
         }
+      });
+    }
 
-        function handleLogin() {
-            const userIn = document.getElementById('username').value.trim();
-            const passIn = document.getElementById('password').value;
-            
-            if (USERS[userIn] && USERS[userIn] === passIn) {
-                currentUser = userIn;
-                document.getElementById('loginGate').classList.add('hidden');
-                document.getElementById('dashboard').classList.remove('hidden');
-                document.getElementById('welcomeText').innerText = `Welcome, ${currentUser}`;
-                renderCatalog();
-            } else {
-                document.getElementById('loginError').classList.remove('hidden');
-            }
-        }
+    const track = document.getElementById('carouselTrack');
+    const nextBtn = document.getElementById('nextBtn');
+    const prevBtn = document.getElementById('prevBtn');
 
-        function handleLogout() {
-            currentUser = null;
-            document.getElementById('username').value = '';
-            document.getElementById('password').value = '';
-            document.getElementById('dashboard').classList.add('hidden');
-            document.getElementById('loginGate').classList.remove('hidden');
-            document.getElementById('loginError').classList.add('hidden');
-        }
+    if (nextBtn && track) {
+      nextBtn.addEventListener('click', function() {
+        const firstCard = track.firstElementChild;
+        if (firstCard) track.appendChild(firstCard);
+      });
+    }
 
-        function renderCatalog() {
-            const grid = document.getElementById('catalogGrid');
-            grid.innerHTML = '';
+    if (prevBtn && track) {
+      prevBtn.addEventListener('click', function() {
+        const lastCard = track.lastElementChild;
+        if (lastCard) track.insertBefore(lastCard, track.firstElementChild);
+      });
+    }
+  </script>
 
-            allMediaCatalog.forEach(item => {
-                const targetUrl = generateDeepSearchLink(item.title, item.service);
-                
-                const card = document.createElement('a');
-                card.className = 'media-card';
-                card.href = targetUrl;
-                card.target = '_blank';
-                
-                card.innerHTML = `
-                    <div class="media-info">
-                        <div class="media-title">${item.title}</div>
-                        <div class="media-service">${item.service}</div>
-                    </div>
-                `;
-                grid.appendChild(card);
-            });
-        }
-    </script>
 </body>
 </html>
