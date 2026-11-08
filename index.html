@@ -154,6 +154,32 @@
       padding-bottom: 40px;
     }
 
+    /* Service Filter Bar */
+    .filter-bar {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+
+    .service-filter-btn {
+      padding: 6px 14px;
+      background-color: var(--card-bg);
+      color: var(--text-muted);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .service-filter-btn.active {
+      background-color: var(--primary-color);
+      color: #000000;
+      border-color: var(--primary-hover);
+    }
+
     .category-section {
       display: flex;
       flex-direction: column;
@@ -216,7 +242,7 @@
     }
 
     .brand-name {
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 900;
       text-transform: uppercase;
       letter-spacing: 0.5px;
@@ -230,7 +256,7 @@
       opacity: 0.85;
     }
 
-    /* Service Brand Gradients / Colors */
+    /* Service Gradients */
     .theme-netflix { background: linear-gradient(135deg, #b9090b, #e50914); color: #ffffff; }
     .theme-amazon-prime { background: linear-gradient(135deg, #00a8e1, #146eb4); color: #ffffff; }
     .theme-hulu { background: linear-gradient(135deg, #1ce783, #107c41); color: #000000; }
@@ -239,7 +265,7 @@
     .theme-paramount { background: linear-gradient(135deg, #0064ff, #001f5c); color: #ffffff; }
     .theme-crunchyroll { background: linear-gradient(135deg, #f47521, #d64000); color: #ffffff; }
 
-    /* Green title box at the bottom matching the page style */
+    /* Green title box at the bottom */
     .media-title-banner {
       font-size: 12px;
       color: #000000;
@@ -253,6 +279,12 @@
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+    }
+
+    .empty-state {
+      color: var(--text-muted);
+      font-size: 14px;
+      padding: 10px 4px;
     }
   </style>
 </head>
@@ -285,8 +317,14 @@
       <button class="btn-action" id="logoffBtn" style="width: auto; padding: 10px 20px; font-size: 14px;">Logoff</button>
     </div>
 
-    <div class="dashboard-content" id="dashboardRows">
-      <!-- Category rows will be dynamically injected here -->
+    <div class="dashboard-content" id="dashboardContent">
+      <!-- Hardcoded Service Filters -->
+      <div class="filter-bar" id="filterBar">
+        <!-- Rendered via JS -->
+      </div>
+
+      <!-- Dynamic Rows Container -->
+      <div id="dashboardRows"></div>
     </div>
   </div>
 
@@ -296,59 +334,32 @@
       pass: "1234"
     };
 
-    const userServices = [
-      { username: "tsilva", service: "Netflix", active: "Y" },
-      { username: "tsilva", service: "Hulu", active: "Y" },
-      { username: "tsilva", service: "Disney", active: "Y" },
-      { username: "tsilva", service: "HBO Max", active: "Y" },
-      { username: "tsilva", service: "Amazon Prime", active: "Y" },
-      { username: "tsilva", service: "Paramount+", active: "Y" },
-      { username: "tsilva", service: "Crunchyroll", active: "Y" }
+    // Hardcoded Services list with active states (defaulting to all active)
+    const availableServices = [
+      { name: "Netflix", active: true },
+      { name: "Amazon Prime", active: true },
+      { name: "Hulu", active: true },
+      { name: "Disney", active: true },
+      { name: "HBO Max", active: true },
+      { name: "Paramount+", active: true },
+      { name: "Crunchyroll", active: true }
     ];
 
     const allMediaCatalog = [
       { service: "Netflix", title: "Rebel Ridge", releaseDate: "2024-09-06" },
       { service: "Netflix", title: "The Killer", releaseDate: "2023-11-10" },
       { service: "Netflix", title: "Glass Onion", releaseDate: "2022-12-23" },
-      { service: "Netflix", title: "Beverly Hills Cop: Axel F", releaseDate: "2024-07-03" },
-      { service: "Netflix", title: "Spaceman", releaseDate: "2024-03-01" },
-      { service: "Netflix", title: "Lift", releaseDate: "2024-01-12" },
-      
       { service: "Amazon Prime", title: "Road House", releaseDate: "2024-03-21" },
       { service: "Amazon Prime", title: "The Idea of You", releaseDate: "2024-05-02" },
-      { service: "Amazon Prime", title: "Red One", releaseDate: "2024-11-15" },
-      { service: "Amazon Prime", title: "Role Play", releaseDate: "2024-01-12" },
-      { service: "Amazon Prime", title: "The Tomorrow War", releaseDate: "2021-07-02" },
-
       { service: "Hulu", title: "Quiz Lady", releaseDate: "2023-11-03" },
       { service: "Hulu", title: "Prey", releaseDate: "2022-08-05" },
-      { service: "Hulu", title: "Not Okay", releaseDate: "2022-07-29" },
-      { service: "Hulu", title: "Boston Strangler", releaseDate: "2023-03-17" },
-      { service: "Hulu", title: "Flamin' Hot", releaseDate: "2023-06-09" },
-
       { service: "Disney", title: "Inside Out 2", releaseDate: "2024-06-14" },
       { service: "Disney", title: "Deadpool & Wolverine", releaseDate: "2024-07-26" },
-      { service: "Disney", title: "Elemental", releaseDate: "2023-06-16" },
-      { service: "Disney", title: "Peter Pan & Wendy", releaseDate: "2023-04-28" },
-      { service: "Disney", title: "Disenchanted", releaseDate: "2022-11-18" },
-
       { service: "HBO Max", title: "The Batman", releaseDate: "2022-03-04" },
       { service: "HBO Max", title: "Dune: Part Two", releaseDate: "2024-03-01" },
-      { service: "HBO Max", title: "Furiosa", releaseDate: "2024-05-24" },
-      { service: "HBO Max", title: "The Flash", releaseDate: "2023-06-16" },
-      { service: "HBO Max", title: "Blue Beetle", releaseDate: "2023-08-18" },
-
       { service: "Paramount+", title: "Top Gun: Maverick", releaseDate: "2022-05-27" },
       { service: "Paramount+", title: "A Quiet Place: Day One", releaseDate: "2024-06-28" },
-      { service: "Paramount+", title: "IF", releaseDate: "2024-05-17" },
-      { service: "Paramount+", title: "Mission: Impossible - Dead Reckoning", releaseDate: "2023-07-12" },
-      { service: "Paramount+", title: "Babylon", releaseDate: "2022-12-23" },
-
-      { service: "Crunchyroll", title: "Demon Slayer: To the Hashira Training", releaseDate: "2024-02-23" },
-      { service: "Crunchyroll", title: "SPY x FAMILY CODE: White", releaseDate: "2023-12-22" },
-      { service: "Crunchyroll", title: "HAIKYU!! The Dumpster Battle", releaseDate: "2024-02-16" },
-      { service: "Crunchyroll", title: "JUJUTSU KAISEN Hidden Inventory", releaseDate: "2023-07-06" },
-      { service: "Crunchyroll", title: "Chainsaw Man", releaseDate: "2022-10-12" }
+      { service: "Crunchyroll", title: "Demon Slayer: Hashira Training", releaseDate: "2024-02-23" }
     ];
 
     function getSearchUrl(item) {
@@ -370,53 +381,73 @@
       }
     }
 
-    function setViewState(isLoggedIn, username = "") {
+    function setViewState(isLoggedIn) {
       const loginContainer = document.getElementById('loginContainer');
       const landingContainer = document.getElementById('landingContainer');
 
       if (isLoggedIn) {
-        if (loginContainer) loginContainer.style.display = 'none';
-        if (landingContainer) landingContainer.style.display = 'block';
-        renderDashboard(username);
+        loginContainer.style.display = 'none';
+        landingContainer.style.display = 'block';
+        renderFilters();
+        renderDashboard();
       } else {
-        if (landingContainer) landingContainer.style.display = 'none';
-        if (loginContainer) loginContainer.style.display = 'flex';
+        landingContainer.style.display = 'none';
+        loginContainer.style.display = 'flex';
       }
     }
 
-    function renderDashboard(username) {
+    function toggleServiceFilter(serviceName) {
+      const service = availableServices.find(s => s.name === serviceName);
+      if (service) {
+        service.active = !service.active;
+        renderFilters();
+        renderDashboard();
+      }
+    }
+
+    function renderFilters() {
+      const filterBar = document.getElementById('filterBar');
+      filterBar.innerHTML = '';
+
+      availableServices.forEach(s => {
+        const btn = document.createElement('button');
+        btn.className = `service-filter-btn ${s.active ? 'active' : ''}`;
+        btn.textContent = s.active ? `✓ ${s.name}` : `+ ${s.name}`;
+        btn.addEventListener('click', () => toggleServiceFilter(s.name));
+        filterBar.appendChild(btn);
+      });
+    }
+
+    function renderDashboard() {
       const dashboard = document.getElementById('dashboardRows');
-      if (!dashboard) return;
       dashboard.innerHTML = '';
 
-      const activeServices = userServices
-        .filter(s => s.username.toLowerCase() === username.toLowerCase() && s.active && s.active.toUpperCase() === 'Y')
-        .map(s => s.service);
+      // Get list of currently enabled service names
+      const activeServiceNames = availableServices.filter(s => s.active).map(s => s.name);
+      const filteredItems = allMediaCatalog.filter(item => activeServiceNames.includes(item.service));
 
-      const activeServiceItems = allMediaCatalog.filter(item => activeServices.includes(item.service));
-
-      activeServiceItems.sort((a, b) => {
+      filteredItems.sort((a, b) => {
         const dateA = new Date(a.releaseDate);
         const dateB = new Date(b.releaseDate);
-        if (dateB - dateA !== 0) {
-          return dateB - dateA;
-        }
+        if (dateB - dateA !== 0) return dateB - dateA;
         return a.title.localeCompare(b.title);
       });
 
-      if (activeServiceItems.length > 0) {
-        const section = document.createElement('div');
-        section.className = 'category-section';
+      const section = document.createElement('div');
+      section.className = 'category-section';
 
-        const titleDiv = document.createElement('div');
-        titleDiv.className = 'section-title';
-        titleDiv.textContent = "Top New Arrivals";
-        section.appendChild(titleDiv);
+      const titleDiv = document.createElement('div');
+      titleDiv.className = 'section-title';
+      titleDiv.textContent = "Top New Arrivals";
+      section.appendChild(titleDiv);
 
-        const row = document.createElement('div');
-        row.className = 'row-container';
+      const row = document.createElement('div');
+      row.className = 'row-container';
 
-        activeServiceItems.forEach(item => {
+      if (filteredItems.length === 0) {
+        row.innerHTML = `<div class="empty-state">No services selected or no media available. Click the filter buttons above to include services.</div>`;
+      } else {
+        filteredItems.forEach(item => {
           const card = document.createElement('div');
           card.className = 'media-card';
           
@@ -434,10 +465,10 @@
           });
           row.appendChild(card);
         });
-
-        section.appendChild(row);
-        dashboard.appendChild(section);
       }
+
+      section.appendChild(row);
+      dashboard.appendChild(section);
     }
 
     window.addEventListener('DOMContentLoaded', () => {
@@ -450,7 +481,7 @@
       }
 
       const savedUser = sessionStorage.getItem('loggedInUser');
-      setViewState(!!savedUser, savedUser || AUTH_CONFIG.user);
+      setViewState(!!savedUser);
     });
 
     const loginForm = document.getElementById('loginForm');
@@ -465,7 +496,7 @@
           sessionStorage.setItem('loggedInUser', u);
           document.getElementById('password').value = '';
           if (err) err.style.display = 'none';
-          setViewState(true, u);
+          setViewState(true);
         } else {
           if (err) err.style.display = 'block';
         }
