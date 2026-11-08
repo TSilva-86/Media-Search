@@ -3,13 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Media Search - Login</title>
+  <title>Media Search</title>
   <style>
+    :root {
+      --bg-color: #000000;
+      --card-bg: #121212;
+      --card-hover: #181818;
+      --primary-color: #28a745;
+      --primary-hover: #218838;
+      --text-color: #ffffff;
+      --text-muted: #bbbbbb;
+      --border-color: #333333;
+      --error-color: #ff4d4d;
+    }
+
     body {
       margin: 0;
       padding: 0;
-      background-color: #000000;
-      color: #ffffff;
+      background-color: var(--bg-color);
+      color: var(--text-color);
       font-family: Arial, sans-serif;
       display: flex;
       justify-content: center;
@@ -18,6 +30,7 @@
       overflow: hidden;
     }
 
+    /* Isolated Login Module */
     #loginContainer {
       display: flex;
       flex-direction: column;
@@ -28,12 +41,12 @@
     .media-search-box {
       width: 100%;
       padding: 10px 16px;
-      background-color: #28a745;
+      background-color: var(--primary-color);
       color: #000000;
       font-weight: bold;
       font-size: 16px;
       text-align: center;
-      border: 1px solid #218838;
+      border: 1px solid var(--primary-hover);
       border-radius: 4px;
       box-sizing: border-box;
       box-shadow: 0 2px 5px rgba(0,0,0,0.15);
@@ -41,10 +54,10 @@
 
     .login-card {
       width: 100%;
-      background: #121212;
+      background: var(--card-bg);
       padding: 24px;
       border-radius: 6px;
-      border: 1px solid #333333;
+      border: 1px solid var(--border-color);
       box-sizing: border-box;
       box-shadow: 0 4px 10px rgba(0,0,0,0.5);
     }
@@ -53,7 +66,6 @@
       margin-top: 0;
       margin-bottom: 20px;
       font-size: 20px;
-      color: #ffffff;
       text-align: center;
     }
 
@@ -65,7 +77,7 @@
       display: block;
       margin-bottom: 6px;
       font-size: 14px;
-      color: #bbbbbb;
+      color: var(--text-muted);
     }
 
     .form-group input {
@@ -73,7 +85,7 @@
       padding: 10px;
       font-size: 14px;
       background-color: #1e1e1e;
-      color: #ffffff;
+      color: var(--text-color);
       border: 1px solid #444444;
       border-radius: 4px;
       box-sizing: border-box;
@@ -81,34 +93,35 @@
     }
 
     .form-group input:focus {
-      border-color: #28a745;
+      border-color: var(--primary-color);
     }
 
-    .btn-login {
+    .btn-action {
       width: 100%;
       padding: 10px 16px;
-      background-color: #28a745;
+      background-color: var(--primary-color);
       color: #000000;
       font-weight: bold;
       font-size: 16px;
-      border: 1px solid #218838;
+      border: 1px solid var(--primary-hover);
       border-radius: 4px;
       cursor: pointer;
       box-sizing: border-box;
     }
 
-    .btn-login:hover {
-      background-color: #218838;
+    .btn-action:hover {
+      background-color: var(--primary-hover);
     }
 
     #errorMsg {
-      color: #ff4d4d;
+      color: var(--error-color);
       font-size: 13px;
       text-align: center;
       margin-top: 10px;
       display: none;
     }
 
+    /* Isolated Landing Module */
     #landingContainer {
       display: none;
       position: absolute;
@@ -116,7 +129,7 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      background-color: #000000;
+      background-color: var(--bg-color);
       box-sizing: border-box;
       padding: 20px;
       overflow-y: auto;
@@ -131,22 +144,6 @@
 
     .landing-banner {
       width: 220px;
-    }
-
-    .btn-logoff {
-      padding: 10px 20px;
-      background-color: #28a745;
-      color: #000000;
-      font-weight: bold;
-      font-size: 14px;
-      border: 1px solid #218838;
-      border-radius: 4px;
-      cursor: pointer;
-      box-sizing: border-box;
-    }
-
-    .btn-logoff:hover {
-      background-color: #218838;
     }
 
     .section-banner {
@@ -164,9 +161,9 @@
     }
 
     .carousel-btn {
-      background-color: #121212;
-      color: #ffffff;
-      border: 1px solid #333333;
+      background-color: var(--card-bg);
+      color: var(--text-color);
+      border: 1px solid var(--border-color);
       font-size: 20px;
       font-weight: bold;
       width: 44px;
@@ -180,9 +177,9 @@
     }
 
     .carousel-btn:hover {
-      background-color: #28a745;
+      background-color: var(--primary-color);
       color: #000000;
-      border-color: #218838;
+      border-color: var(--primary-hover);
     }
 
     .scroll-container {
@@ -196,8 +193,8 @@
     .media-card {
       flex: 0 0 180px;
       height: 110px;
-      background-color: #121212;
-      border: 1px solid #333333;
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
       border-radius: 6px;
       display: flex;
       flex-direction: column;
@@ -211,13 +208,13 @@
     }
 
     .media-card:hover {
-      border-color: #28a745;
-      background-color: #181818;
+      border-color: var(--primary-color);
+      background-color: var(--card-hover);
     }
 
     .media-service {
       font-size: 11px;
-      color: #28a745;
+      color: var(--primary-color);
       font-weight: bold;
       text-transform: uppercase;
       margin-bottom: 6px;
@@ -225,61 +222,57 @@
 
     .media-title {
       font-size: 13px;
-      color: #ffffff;
+      color: var(--text-color);
       font-weight: bold;
     }
   </style>
 </head>
 <body>
 
-  <!-- Login View -->
+  <!-- Login View Component -->
   <div id="loginContainer">
     <div class="media-search-box">Media Search</div>
-
     <div class="login-card">
       <h2>Enter Credentials</h2>
-      
       <form id="loginForm">
         <div class="form-group">
           <label for="username">Username</label>
           <input type="text" id="username" name="user" autocomplete="username" autofocus required>
         </div>
-
         <div class="form-group">
           <label for="password">Password</label>
           <input type="password" id="password" name="pass" autocomplete="current-password" required>
         </div>
-
-        <button type="submit" class="btn-login">Login</button>
+        <button type="submit" class="btn-action">Login</button>
         <div id="errorMsg">Invalid username or password</div>
       </form>
     </div>
   </div>
 
-  <!-- Landing Page View -->
+  <!-- Landing View Component -->
   <div id="landingContainer">
     <div class="landing-header">
       <div class="media-search-box landing-banner">Media Search</div>
-      <button class="btn-logoff" id="logoffBtn">Logoff</button>
+      <button class="btn-action" id="logoffBtn" style="width: auto; padding: 10px 20px; font-size: 14px;">Logoff</button>
     </div>
 
-    <!-- Top New Arrivals Section -->
     <div class="media-search-box section-banner">Top New Arrivals</div>
     
     <div class="carousel-wrapper">
       <button class="carousel-btn" id="prevBtn">&#10094;</button>
-      
-      <div class="scroll-container" id="carouselTrack">
-        <!-- Populated via script -->
-      </div>
-
+      <div class="scroll-container" id="carouselTrack"></div>
       <button class="carousel-btn" id="nextBtn">&#10095;</button>
     </div>
   </div>
 
   <script>
-    const VALID_USER = "tsilva";
-    const VALID_PASS = "1234";
+    /* ==========================================
+       1. CONFIGURATION & DATA LAYER
+       ========================================== */
+    const AUTH_CONFIG = {
+      user: "tsilva",
+      pass: "1234"
+    };
 
     const userServices = [
       { username: "tsilva", service: "Netflix", active: "Y" },
@@ -305,100 +298,111 @@
       { service: "Netflix", title: "Glass Onion", releaseDate: "2022-12-23" }
     ];
 
+    /* ==========================================
+       2. ISOLATED URL GENERATION LOGIC
+       ========================================== */
     function getSearchUrl(service, title) {
-      const encodedTitle = encodeURIComponent(title);
+      const q = encodeURIComponent(title);
       switch(service) {
         case "Netflix":
-          return `https://www.netflix.com/search?q=${encodedTitle}`;
+          return `https://www.netflix.com/search?q=${q}`;
         case "Amazon Prime":
-          return `https://www.amazon.com/s?k=${encodedTitle}&i=prime-video`;
+          return `https://www.amazon.com/s?k=${q}&i=prime-video`;
         case "Hulu":
-          return `https://www.hulu.com/search?q=${encodedTitle}`;
+          return `https://www.hulu.com/search?q=${q}`;
         case "Disney":
-          return `https://www.disneyplus.com/search?q=${encodedTitle}`;
+          return `https://www.disneyplus.com/search?q=${q}`;
         case "HBO Max":
-          return `https://www.max.com/search?q=${encodedTitle}`;
+          return `https://www.max.com/search?q=${q}`;
         case "Paramount+":
-          return `https://www.paramountplus.com/search/?q=${encodedTitle}`;
+          return `https://www.paramountplus.com/search/?q=${q}`;
         case "Crunchyroll":
-          return `https://www.crunchyroll.com/search?q=${encodedTitle}`;
+          return `https://www.crunchyroll.com/search?q=${q}`;
         default:
-          return `https://www.google.com/search?q=${encodedTitle}+${service}`;
+          return `https://www.google.com/search?q=${q}+${encodeURIComponent(service)}`;
       }
     }
 
-    // Single source of truth for session & view rendering
-    function checkAuthAndRender() {
-      const activeUser = sessionStorage.getItem('loggedInUser');
+    /* ==========================================
+       3. VIEW & SESSION CONTROLLER LAYER
+       ========================================== */
+    function setViewState(isLoggedIn, username = "") {
       const loginContainer = document.getElementById('loginContainer');
       const landingContainer = document.getElementById('landingContainer');
 
-      if (activeUser) {
+      if (isLoggedIn) {
         if (loginContainer) loginContainer.style.display = 'none';
         if (landingContainer) landingContainer.style.display = 'block';
-        populateCarousel(activeUser);
+        renderCarousel(username);
       } else {
         if (landingContainer) landingContainer.style.display = 'none';
         if (loginContainer) loginContainer.style.display = 'flex';
       }
     }
 
-    window.addEventListener('DOMContentLoaded', checkAuthAndRender);
-
-    document.getElementById('loginForm').addEventListener('submit', function(event) {
-      event.preventDefault();
-
-      const user = document.getElementById('username').value.trim();
-      const pass = document.getElementById('password').value.trim();
-      const errDiv = document.getElementById('errorMsg');
-
-      if (user.toLowerCase() === VALID_USER && pass === VALID_PASS) {
-        sessionStorage.setItem('loggedInUser', user.toLowerCase());
-        document.getElementById('password').value = '';
-        if (errDiv) errDiv.style.display = 'none';
-        checkAuthAndRender();
-      } else {
-        if (errDiv) errDiv.style.display = 'block';
-      }
-    });
-
-    function populateCarousel(loggedInUser) {
+    function renderCarousel(username) {
       const track = document.getElementById('carouselTrack');
       if (!track) return;
       track.innerHTML = '';
 
-      const activeServicesForUser = userServices
-        .filter(s => s.username.toLowerCase() === loggedInUser && s.active && s.active.toUpperCase() === 'Y')
+      const activeServices = userServices
+        .filter(s => s.username.toLowerCase() === username.toLowerCase() && s.active && s.active.toUpperCase() === 'Y')
         .map(s => s.service);
 
-      const filteredArrivals = allMediaCatalog
-        .filter(item => activeServicesForUser.includes(item.service))
+      const items = allMediaCatalog
+        .filter(item => activeServices.includes(item.service))
         .sort((a, b) => new Date(b.releaseDate) - new Date(a.releaseDate));
 
-      filteredArrivals.forEach(item => {
-        const cardEl = document.createElement('div');
-        cardEl.className = 'media-card';
-        cardEl.innerHTML = `
+      items.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'media-card';
+        card.innerHTML = `
           <span class="media-service">${item.service}</span>
           <span class="media-title">${item.title}</span>
         `;
-        const targetUrl = getSearchUrl(item.service, item.title);
-        cardEl.addEventListener('click', function() {
-          window.open(targetUrl, '_blank');
+        card.addEventListener('click', () => {
+          window.open(getSearchUrl(item.service, item.title), '_blank');
         });
-        track.appendChild(cardEl);
+        track.appendChild(card);
+      });
+    }
+
+    /* ==========================================
+       4. EVENT BINDINGS & INIT
+       ========================================== */
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedUser = sessionStorage.getItem('loggedInUser');
+      setViewState(!!savedUser, savedUser);
+    });
+
+    const loginForm = document.getElementById('loginForm');
+    if (loginForm) {
+      loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const u = document.getElementById('username').value.trim().toLowerCase();
+        const p = document.getElementById('password').value.trim();
+        const err = document.getElementById('errorMsg');
+
+        if (u === AUTH_CONFIG.user && p === AUTH_CONFIG.pass) {
+          sessionStorage.setItem('loggedInUser', u);
+          document.getElementById('password').value = '';
+          if (err) err.style.display = 'none';
+          setViewState(true, u);
+        } else {
+          if (err) err.style.display = 'block';
+        }
       });
     }
 
     const logoffBtn = document.getElementById('logoffBtn');
     if (logoffBtn) {
-      logoffBtn.addEventListener('click', function() {
+      logoffBtn.addEventListener('click', () => {
         sessionStorage.removeItem('loggedInUser');
-        checkAuthAndRender();
-        const userField = document.getElementById('username');
-        if (userField) {
-          userField.value = '';
-          userField.focus();
+        setViewState(false);
+        const uField = document.getElementById('username');
+        if (uField) {
+          uField.value = '';
+          uField.focus();
         }
       });
     }
@@ -408,19 +412,18 @@
     const prevBtn = document.getElementById('prevBtn');
 
     if (nextBtn && track) {
-      nextBtn.addEventListener('click', function() {
-        const firstCard = track.firstElementChild;
-        if (firstCard) track.appendChild(firstCard);
+      nextBtn.addEventListener('click', () => {
+        const first = track.firstElementChild;
+        if (first) track.appendChild(first);
       });
     }
 
     if (prevBtn && track) {
-      prevBtn.addEventListener('click', function() {
-        const lastCard = track.lastElementChild;
-        if (lastCard) track.insertBefore(lastCard, track.firstElementChild);
+      prevBtn.addEventListener('click', () => {
+        const last = track.lastElementChild;
+        if (last) track.insertBefore(last, track.firstElementChild);
       });
     }
   </script>
-
 </body>
 </html>
