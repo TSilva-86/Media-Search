@@ -184,6 +184,8 @@
       flex: 0 0 160px;
       height: 240px;
       background-color: var(--card-bg);
+      background-size: cover;
+      background-position: center;
       border: 1px solid var(--border-color);
       border-radius: 6px;
       display: flex;
@@ -200,7 +202,6 @@
     .media-card:hover {
       transform: scale(1.03);
       border-color: var(--primary-color);
-      background-color: var(--card-hover);
     }
 
     .media-service {
@@ -213,21 +214,6 @@
       border-radius: 4px;
       align-self: flex-start;
       z-index: 2;
-    }
-
-    .media-poster-placeholder {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: #333333;
-      font-size: 12px;
-      z-index: 1;
     }
 
     .media-title-banner {
@@ -298,48 +284,48 @@
     ];
 
     const allMediaCatalog = [
-      { service: "Netflix", title: "Rebel Ridge", releaseDate: "2024-09-06" },
-      { service: "Netflix", title: "The Killer", releaseDate: "2023-11-10" },
-      { service: "Netflix", title: "Glass Onion", releaseDate: "2022-12-23" },
-      { service: "Netflix", title: "Beverly Hills Cop: Axel F", releaseDate: "2024-07-03" },
-      { service: "Netflix", title: "Spaceman", releaseDate: "2024-03-01" },
-      { service: "Netflix", title: "Lift", releaseDate: "2024-01-12" },
+      { service: "Netflix", title: "Rebel Ridge", releaseDate: "2024-09-06", posterUrl: "https://image.tmdb.org/t/p/w500/70zzjoePIHQvbe0YV6wLwJqveYn.jpg" },
+      { service: "Netflix", title: "The Killer", releaseDate: "2023-11-10", posterUrl: "https://image.tmdb.org/t/p/w500/e7Jvsry47JJQruuezjU2X1Z6J77.jpg" },
+      { service: "Netflix", title: "Glass Onion", releaseDate: "2022-12-23", posterUrl: "https://image.tmdb.org/t/p/w500/vD0uXYBBLLwRklEwTn8QhkFVKm9.jpg" },
+      { service: "Netflix", title: "Beverly Hills Cop: Axel F", releaseDate: "2024-07-03", posterUrl: "https://image.tmdb.org/t/p/w500/zszXXypwkfcIZvTBXOVv4oO3mAC.jpg" },
+      { service: "Netflix", title: "Spaceman", releaseDate: "2024-03-01", posterUrl: "https://image.tmdb.org/t/p/w500/zgQQF04u3OgPDJqClkgnyIRy79S.jpg" },
+      { service: "Netflix", title: "Lift", releaseDate: "2024-01-12", posterUrl: "https://image.tmdb.org/t/p/w500/gma8o1jWa6m0K1iJ9TzHIiCyTt0.jpg" },
       
-      { service: "Amazon Prime", title: "Road House", releaseDate: "2024-03-21" },
-      { service: "Amazon Prime", title: "The Idea of You", releaseDate: "2024-05-02" },
-      { service: "Amazon Prime", title: "Red One", releaseDate: "2024-11-15" },
-      { service: "Amazon Prime", title: "Role Play", releaseDate: "2024-01-12" },
-      { service: "Amazon Prime", title: "The Tomorrow War", releaseDate: "2021-07-02" },
+      { service: "Amazon Prime", title: "Road House", releaseDate: "2024-03-21", posterUrl: "https://image.tmdb.org/t/p/w500/bXi6IQiQDHD00JFio5ZSZOeRSBh.jpg" },
+      { service: "Amazon Prime", title: "The Idea of You", releaseDate: "2024-05-02", posterUrl: "https://image.tmdb.org/t/p/w500/zLW69xMMPcxaCNzL98cQy5nK202.jpg" },
+      { service: "Amazon Prime", title: "Red One", releaseDate: "2024-11-15", posterUrl: "https://image.tmdb.org/t/p/w500/cdqLnri3NEGcmfnqwk2TSIYtddg.jpg" },
+      { service: "Amazon Prime", title: "Role Play", releaseDate: "2024-01-12", posterUrl: "https://image.tmdb.org/t/p/w500/7mriq9RJmcGbyC29kU0m9X9iO5u.jpg" },
+      { service: "Amazon Prime", title: "The Tomorrow War", releaseDate: "2021-07-02", posterUrl: "https://image.tmdb.org/t/p/w500/34nDCQZwaEv84C4ij4MRGNCpCKm.jpg" },
 
-      { service: "Hulu", title: "Quiz Lady", releaseDate: "2023-11-03" },
-      { service: "Hulu", title: "Prey", releaseDate: "2022-08-05" },
-      { service: "Hulu", title: "Not Okay", releaseDate: "2022-07-29" },
-      { service: "Hulu", title: "Boston Strangler", releaseDate: "2023-03-17" },
-      { service: "Hulu", title: "Flamin' Hot", releaseDate: "2023-06-09" },
+      { service: "Hulu", title: "Quiz Lady", releaseDate: "2023-11-03", posterUrl: "https://image.tmdb.org/t/p/w500/z6hY9mXgQ6PqO15oD298L7N5w.jpg" },
+      { service: "Hulu", title: "Prey", releaseDate: "2022-08-05", posterUrl: "https://image.tmdb.org/t/p/w500/ujr5pztc1dbe7ViFmCKcGgibpFG.jpg" },
+      { service: "Hulu", title: "Not Okay", releaseDate: "2022-07-29", posterUrl: "https://image.tmdb.org/t/p/w500/xW1vtmV145kM2xP9x4q08R2Qp57.jpg" },
+      { service: "Hulu", title: "Boston Strangler", releaseDate: "2023-03-17", posterUrl: "https://image.tmdb.org/t/p/w500/iLzYp8fBw0m0Zt2rP8V4J6N0M3u.jpg" },
+      { service: "Hulu", title: "Flamin' Hot", releaseDate: "2023-06-09", posterUrl: "https://image.tmdb.org/t/p/w500/pEdbqVdKbeX2uT9R0H7gZp2K40.jpg" },
 
-      { service: "Disney", title: "Inside Out 2", releaseDate: "2024-06-14" },
-      { service: "Disney", title: "Deadpool & Wolverine", releaseDate: "2024-07-26" },
-      { service: "Disney", title: "Elemental", releaseDate: "2023-06-16" },
-      { service: "Disney", title: "Peter Pan & Wendy", releaseDate: "2023-04-28" },
-      { service: "Disney", title: "Disenchanted", releaseDate: "2022-11-18" },
+      { service: "Disney", title: "Inside Out 2", releaseDate: "2024-06-14", posterUrl: "https://image.tmdb.org/t/p/w500/vpnVM9B6NMmQpWeZvzLvDESb2QY.jpg" },
+      { service: "Disney", title: "Deadpool & Wolverine", releaseDate: "2024-07-26", posterUrl: "https://image.tmdb.org/t/p/w500/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg" },
+      { service: "Disney", title: "Elemental", releaseDate: "2023-06-16", posterUrl: "https://image.tmdb.org/t/p/w500/4m1Au3YkjqsxF8iwQy0fPYSxE0h.jpg" },
+      { service: "Disney", title: "Peter Pan & Wendy", releaseDate: "2023-04-28", posterUrl: "https://image.tmdb.org/t/p/w500/9NXw4nyLGOPjWlYF3C73lPHj1Qk.jpg" },
+      { service: "Disney", title: "Disenchanted", releaseDate: "2022-11-18", posterUrl: "https://image.tmdb.org/t/p/w500/4xwAO9UGDuPSTwE0wUfL4j7l3l.jpg" },
 
-      { service: "HBO Max", title: "The Batman", releaseDate: "2022-03-04" },
-      { service: "HBO Max", title: "Dune: Part Two", releaseDate: "2024-03-01" },
-      { service: "HBO Max", title: "Furiosa", releaseDate: "2024-05-24" },
-      { service: "HBO Max", title: "The Flash", releaseDate: "2023-06-16" },
-      { service: "HBO Max", title: "Blue Beetle", releaseDate: "2023-08-18" },
+      { service: "HBO Max", title: "The Batman", releaseDate: "2022-03-04", posterUrl: "https://image.tmdb.org/t/p/w500/74xTEgt7R36Fpooo50r9T25onhq.jpg" },
+      { service: "HBO Max", title: "Dune: Part Two", releaseDate: "2024-03-01", posterUrl: "https://image.tmdb.org/t/p/w500/1pdfifyIWwrkHNp4X0tK9M9G0U5.jpg" },
+      { service: "HBO Max", title: "Furiosa", releaseDate: "2024-05-24", posterUrl: "https://image.tmdb.org/t/p/w500/iADOJ8Zymht2JPMoy3R7xceZprc.jpg" },
+      { service: "HBO Max", title: "The Flash", releaseDate: "2023-06-16", posterUrl: "https://image.tmdb.org/t/p/w500/rktDFPbfHfUbArZ6OOOKsXcv0Bm.jpg" },
+      { service: "HBO Max", title: "Blue Beetle", releaseDate: "2023-08-18", posterUrl: "https://image.tmdb.org/t/p/w500/mXLOHHcIBuXU21yqGk0i9tMdf3t.jpg" },
 
-      { service: "Paramount+", title: "Top Gun: Maverick", releaseDate: "2022-05-27" },
-      { service: "Paramount+", title: "A Quiet Place: Day One", releaseDate: "2024-06-28" },
-      { service: "Paramount+", title: "IF", releaseDate: "2024-05-17" },
-      { service: "Paramount+", title: "Mission: Impossible - Dead Reckoning", releaseDate: "2023-07-12" },
-      { service: "Paramount+", title: "Babylon", releaseDate: "2022-12-23" },
+      { service: "Paramount+", title: "Top Gun: Maverick", releaseDate: "2022-05-27", posterUrl: "https://image.tmdb.org/t/p/w500/62HCnUTziyWcpDaBO2i1DX17ljH.jpg" },
+      { service: "Paramount+", title: "A Quiet Place: Day One", releaseDate: "2024-06-28", posterUrl: "https://image.tmdb.org/t/p/w500/yrpPYKijwdMHyTGIOd1iK1h0Xno.jpg" },
+      { service: "Paramount+", title: "IF", releaseDate: "2024-05-17", posterUrl: "https://image.tmdb.org/t/p/w500/xbpktj9Yg9a6s904323l9p3M020.jpg" },
+      { service: "Paramount+", title: "Mission: Impossible - Dead Reckoning", releaseDate: "2023-07-12", posterUrl: "https://image.tmdb.org/t/p/w500/NNxYkU70HPurnNCSiCjYAmacwm.jpg" },
+      { service: "Paramount+", title: "Babylon", releaseDate: "2022-12-23", posterUrl: "https://image.tmdb.org/t/p/w500/wjOHjIC3UwJVrGIMh7rxj2c842b.jpg" },
 
-      { service: "Crunchyroll", title: "Demon Slayer: To the Hashira Training", releaseDate: "2024-02-23" },
-      { service: "Crunchyroll", title: "SPY x FAMILY CODE: White", releaseDate: "2023-12-22" },
-      { service: "Crunchyroll", title: "HAIKYU!! The Dumpster Battle", releaseDate: "2024-02-16" },
-      { service: "Crunchyroll", title: "JUJUTSU KAISEN Hidden Inventory", releaseDate: "2023-07-06" },
-      { service: "Crunchyroll", title: "Chainsaw Man", releaseDate: "2022-10-12" }
+      { service: "Crunchyroll", title: "Demon Slayer: To the Hashira Training", releaseDate: "2024-02-23", posterUrl: "https://image.tmdb.org/t/p/w500/xXpVYqQqjWWmC84l2c2d4wZ8hYn.jpg" },
+      { service: "Crunchyroll", title: "SPY x FAMILY CODE: White", releaseDate: "2023-12-22", posterUrl: "https://image.tmdb.org/t/p/w500/aWv12K567R4TqR71d9P7rR552.jpg" },
+      { service: "Crunchyroll", title: "HAIKYU!! The Dumpster Battle", releaseDate: "2024-02-16", posterUrl: "https://image.tmdb.org/t/p/w500/gLwXb75f8wO681e1p83792jYj7b.jpg" },
+      { service: "Crunchyroll", title: "JUJUTSU KAISEN Hidden Inventory", releaseDate: "2023-07-06", posterUrl: "https://image.tmdb.org/t/p/w500/vQEjio0z1xWlU1qE9l5mPzK3J5.jpg" },
+      { service: "Crunchyroll", title: "Chainsaw Man", releaseDate: "2022-10-12", posterUrl: "https://image.tmdb.org/t/p/w500/npdB6nDHzbJbxqUp6m5z9b1FfXo.jpg" }
     ];
 
     function getSearchUrl(item) {
@@ -371,10 +357,8 @@
         .filter(s => s.username.toLowerCase() === username.toLowerCase() && s.active && s.active.toUpperCase() === 'Y')
         .map(s => s.service);
 
-      // 1. Gather all items belonging to the user's active services
       const activeServiceItems = allMediaCatalog.filter(item => activeServices.includes(item.service));
 
-      // 2. Sort strictly by release date descending, with secondary alphabetical sorting to break ties and prevent service clustering
       activeServiceItems.sort((a, b) => {
         const dateA = new Date(a.releaseDate);
         const dateB = new Date(b.releaseDate);
@@ -399,8 +383,10 @@
         activeServiceItems.forEach(item => {
           const card = document.createElement('div');
           card.className = 'media-card';
+          if (item.posterUrl) {
+            card.style.backgroundImage = `linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 50%), url('${item.posterUrl}')`;
+          }
           card.innerHTML = `
-            <div class="media-poster-placeholder">Poster</div>
             <span class="media-service">${item.service}</span>
             <span class="media-title-banner" title="${item.title}">${item.title}</span>
           `;
