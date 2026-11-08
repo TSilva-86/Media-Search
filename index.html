@@ -1,550 +1,522 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Media Search</title>
-  <style>
-    :root {
-      --bg-color: #000000;
-      --card-bg: #121212;
-      --card-hover: #181818;
-      --primary-color: #28a745;
-      --primary-hover: #218838;
-      --text-color: #ffffff;
-      --text-muted: #bbbbbb;
-      --border-color: #333333;
-      --error-color: #ff4d4d;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Media Search</title>
+<style>
+:root {
+  --bg-color: #000000;
+  --card-bg: #121212;
+  --card-hover: #181818;
+  --primary-color: #28a745;
+  --primary-hover: #218838;
+  --text-color: #ffffff;
+  --text-muted: #bbbbbb;
+  --border-color: #333333;
+  --error-color: #ff4d4d;
+}
 
-    body {
-      margin: 0;
-      padding: 0;
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      font-family: Arial, sans-serif;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: Arial, sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
 
-    #loginContainer {
-      display: flex;
-      flex-direction: column;
-      width: 360px;
-      gap: 12px;
-      margin: auto;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
+#loginContainer {
+  display: flex;
+  flex-direction: column;
+  width: 360px;
+  gap: 12px;
+  margin: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 
-    .media-search-box {
-      width: 100%;
-      padding: 10px 16px;
-      background-color: var(--primary-color);
-      color: #000000;
-      font-weight: bold;
-      font-size: 16px;
-      text-align: center;
-      border: 1px solid var(--primary-hover);
-      border-radius: 4px;
-      box-sizing: border-box;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.15);
-    }
+.login-card {
+  width: 100%;
+  background: var(--card-bg);
+  padding: 24px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  box-sizing: border-box;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
 
-    .login-card {
-      width: 100%;
-      background: var(--card-bg);
-      padding: 24px;
-      border-radius: 6px;
-      border: 1px solid var(--border-color);
-      box-sizing: border-box;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-    }
+.login-card h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 20px;
+  text-align: center;
+}
 
-    .login-card h2 {
-      margin-top: 0;
-      margin-bottom: 20px;
-      font-size: 20px;
-      text-align: center;
-    }
+.form-group {
+  margin-bottom: 16px;
+}
 
-    .form-group {
-      margin-bottom: 16px;
-    }
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+  color: var(--text-muted);
+}
 
-    .form-group label {
-      display: block;
-      margin-bottom: 6px;
-      font-size: 14px;
-      color: var(--text-muted);
-    }
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  background-color: #1e1e1e;
+  color: var(--text-color);
+  border: 1px solid #444444;
+  border-radius: 4px;
+  box-sizing: border-box;
+  outline: none;
+}
 
-    .form-group input {
-      width: 100%;
-      padding: 10px;
-      font-size: 14px;
-      background-color: #1e1e1e;
-      color: var(--text-color);
-      border: 1px solid #444444;
-      border-radius: 4px;
-      box-sizing: border-box;
-      outline: none;
-    }
+.form-group input:focus {
+  border-color: var(--primary-color);
+}
 
-    .form-group input:focus {
-      border-color: var(--primary-color);
-    }
+.btn-action {
+  width: 100%;
+  padding: 10px 16px;
+  background-color: var(--primary-color);
+  color: #000000;
+  font-weight: bold;
+  font-size: 16px;
+  border: 1px solid var(--primary-hover);
+  border-radius: 4px;
+  cursor: pointer;
+  box-sizing: border-box;
+}
 
-    .btn-action {
-      width: 100%;
-      padding: 10px 16px;
-      background-color: var(--primary-color);
-      color: #000000;
-      font-weight: bold;
-      font-size: 16px;
-      border: 1px solid var(--primary-hover);
-      border-radius: 4px;
-      cursor: pointer;
-      box-sizing: border-box;
-    }
+.btn-action:hover {
+  background-color: var(--primary-hover);
+}
 
-    .btn-action:hover {
-      background-color: var(--primary-hover);
-    }
+#errorMsg {
+  color: var(--error-color);
+  font-size: 13px;
+  text-align: center;
+  margin-top: 10px;
+  display: none;
+}
 
-    #errorMsg {
-      color: var(--error-color);
-      font-size: 13px;
-      text-align: center;
-      margin-top: 10px;
-      display: none;
-    }
+#landingContainer {
+  display: none;
+  width: 100vw;
+  min-height: 100vh;
+  background-color: var(--bg-color);
+  box-sizing: border-box;
+  padding: 20px;
+  overflow-y: auto;
+}
 
-    #landingContainer {
-      display: none;
-      width: 100vw;
-      min-height: 100vh;
-      background-color: var(--bg-color);
-      box-sizing: border-box;
-      padding: 20px;
-      overflow-y: auto;
-    }
+.landing-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto 20px auto;
+}
 
-    .landing-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      width: 100%;
-      max-width: 1200px;
-      margin: 0 auto 20px auto;
-    }
+.landing-banner {
+  width: 220px;
+  background-color: var(--primary-color);
+  color: #000000;
+  font-weight: bold;
+  font-size: 16px;
+  text-align: center;
+  border: 1px solid var(--primary-hover);
+  border-radius: 4px;
+  box-sizing: border-box;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+  padding: 10px 16px;
+}
 
-    .landing-banner {
-      width: 220px;
-    }
+.dashboard-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-bottom: 40px;
+}
 
-    .dashboard-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
-      padding-bottom: 40px;
-    }
+.filter-bar {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 10px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border-color);
+}
 
-    /* Circular Service Filter Bar */
-    .filter-bar {
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
-      align-items: center;
-      margin-bottom: 10px;
-      padding-bottom: 20px;
-      border-bottom: 1px solid var(--border-color);
-    }
+.service-filter-circle {
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 10px;
+  font-weight: 900;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+  padding: 6px;
+  user-select: none;
+  line-height: 1.1;
+}
 
-    .service-filter-circle {
-      width: 65px;
-      height: 65px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      font-size: 10px;
-      font-weight: 900;
-      text-transform: uppercase;
-      cursor: pointer;
-      border: 2px solid rgba(255, 255, 255, 0.15);
-      transition: all 0.2s ease;
-      box-sizing: border-box;
-      padding: 6px;
-      user-select: none;
-      line-height: 1.1;
-    }
+.service-filter-circle.inactive {
+  background: #111111 !important;
+  color: #555555 !important;
+  border-color: #222222 !important;
+  box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.8), 0 1px 2px rgba(255, 255, 255, 0.05);
+  transform: scale(0.95);
+  opacity: 0.6;
+}
 
-    /* Toggled Off State (Darker, Imprinted, Inset Shadow) */
-    .service-filter-circle.inactive {
-      background: #111111 !important;
-      color: #555555 !important;
-      border-color: #222222 !important;
-      box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.8), 0 1px 2px rgba(255, 255, 255, 0.05);
-      transform: scale(0.95);
-      opacity: 0.6;
-    }
+.service-filter-circle:hover {
+  transform: scale(1.05);
+  border-color: rgba(255, 255, 255, 0.4);
+}
 
-    .service-filter-circle:hover {
-      transform: scale(1.05);
-      border-color: rgba(255, 255, 255, 0.4);
-    }
+.service-filter-circle.inactive:hover {
+  transform: scale(0.98);
+  opacity: 0.8;
+}
 
-    .service-filter-circle.inactive:hover {
-      transform: scale(0.98);
-      opacity: 0.8;
-    }
+.category-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 
-    .category-section {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
+.section-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--text-color);
+  padding-left: 4px;
+}
 
-    .section-title {
-      font-size: 18px;
-      font-weight: bold;
-      color: var(--text-color);
-      padding-left: 4px;
-    }
+.row-container {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 10px 4px;
+  scrollbar-width: none;
+}
 
-    .row-container {
-      display: flex;
-      gap: 16px;
-      overflow-x: auto;
-      scroll-behavior: smooth;
-      padding: 10px 4px;
-      scrollbar-width: none;
-    }
+.row-container::-webkit-scrollbar {
+  display: none;
+}
 
-    .row-container::-webkit-scrollbar {
-      display: none;
-    }
+.media-card {
+  flex: 0 0 160px;
+  height: 240px;
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 12px;
+  box-sizing: border-box;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s, border-color 0.2s;
+}
 
-    .media-card {
-      flex: 0 0 160px;
-      height: 240px;
-      background-color: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 6px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 12px;
-      box-sizing: border-box;
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-      transition: transform 0.2s, border-color 0.2s;
-    }
+.media-card:hover {
+  transform: scale(1.03);
+  border-color: var(--primary-color);
+}
 
-    .media-card:hover {
-      transform: scale(1.03);
-      border-color: var(--primary-color);
-    }
+.service-brand-banner {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border-radius: 4px;
+  padding: 10px;
+  margin-bottom: 8px;
+}
 
-    /* Service Brand Theme Banners */
-    .service-brand-banner {
-      flex-grow: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      border-radius: 4px;
-      padding: 10px;
-      margin-bottom: 8px;
-    }
+.service-brand-banner:not([class*="theme-"]) {
+  background: var(--primary-color);
+  color: #000000;
+}
 
-    .brand-name {
-      font-size: 13px;
-      font-weight: 900;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
+.brand-name {
+  font-size: 13px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
 
-    .brand-type {
-      font-size: 9px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-top: 4px;
-      opacity: 0.85;
-    }
+.brand-type {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 4px;
+  opacity: 0.85;
+}
 
-    /* Service Color Schemes / Gradients */
-    .theme-amazon-prime { background: linear-gradient(135deg, #00a8e1, #146eb4); color: #ffffff; }
-    .theme-crunchyroll { background: linear-gradient(135deg, #f47521, #d64000); color: #ffffff; }
-    .theme-disney { background: linear-gradient(135deg, #1136b8, #0063e5); color: #ffffff; }
-    .theme-hbo-max { background: linear-gradient(135deg, #4b286d, #833ab4); color: #ffffff; }
-    .theme-hulu { background: linear-gradient(135deg, #1ce783, #107c41); color: #000000; }
-    .theme-netflix { background: linear-gradient(135deg, #b9090b, #e50914); color: #ffffff; }
-    .theme-paramount { background: linear-gradient(135deg, #0064ff, #001f5c); color: #ffffff; }
-    .theme-peacock { background: linear-gradient(135deg, #00a5ff, #002d72); color: #ffffff; }
-    .theme-showtime { background: linear-gradient(135deg, #d32f2f, #333333); color: #ffffff; }
+.theme-amazon-prime { background: linear-gradient(135deg, #00a8e1, #146eb4); color: #ffffff; }
+.theme-crunchyroll { background: linear-gradient(135deg, #f47521, #d64000); color: #ffffff; }
+.theme-disney { background: linear-gradient(135deg, #1136b8, #0063e5); color: #ffffff; }
+.theme-hbo-max { background: linear-gradient(135deg, #4b286d, #833ab4); color: #ffffff; }
+.theme-hulu { background: linear-gradient(135deg, #1ce783, #107c41); color: #000000; }
+.theme-netflix { background: linear-gradient(135deg, #b9090b, #e50914); color: #ffffff; }
+.theme-paramount { background: linear-gradient(135deg, #0064ff, #001f5c); color: #ffffff; }
+.theme-peacock { background: linear-gradient(135deg, #00a5ff, #002d72); color: #ffffff; }
+.theme-showtime { background: linear-gradient(135deg, #d32f2f, #333333); color: #ffffff; }
 
-    /* Green title box at the bottom */
-    .media-title-banner {
-      font-size: 12px;
-      color: #000000;
-      font-weight: bold;
-      background-color: var(--primary-color);
-      padding: 8px;
-      border-radius: 4px;
-      text-align: center;
-      width: 100%;
-      box-sizing: border-box;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
+.media-title-banner {
+  font-size: 12px;
+  color: #000000;
+  font-weight: bold;
+  background-color: var(--primary-color);
+  padding: 8px;
+  border-radius: 4px;
+  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
-    .empty-state {
-      color: var(--text-muted);
-      font-size: 14px;
-      padding: 10px 4px;
-    }
-  </style>
+.empty-state {
+  color: var(--text-muted);
+  font-size: 14px;
+  padding: 10px 4px;
+}
+</style>
 </head>
 <body>
 
-  <!-- Login View Component -->
-  <div id="loginContainer">
-    <div class="media-search-box">Media Search</div>
-    <div class="login-card">
-      <h2>Enter Credentials</h2>
-      <form id="loginForm">
-        <div class="form-group">
-          <label for="username">Username</label>
-          <input type="text" id="username" name="user" autocomplete="username" autofocus required>
-        </div>
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input type="password" id="password" name="pass" autocomplete="current-password" required>
-        </div>
-        <button type="submit" class="btn-action">Login</button>
-        <div id="errorMsg">Invalid username or password</div>
-      </form>
-    </div>
+<div id="loginContainer">
+  <div class="login-card">
+    <h2>Enter Credentials</h2>
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="user" autocomplete="username" autofocus required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="pass" autocomplete="current-password" required>
+      </div>
+      <button type="submit" class="btn-action">Login</button>
+      <div id="errorMsg">Invalid username or password</div>
+    </form>
   </div>
+</div>
 
-  <!-- Landing View Component -->
-  <div id="landingContainer">
-    <div class="landing-header">
-      <div class="media-search-box landing-banner">Media Search</div>
-      <button class="btn-action" id="logoffBtn" style="width: auto; padding: 10px 20px; font-size: 14px;">Logoff</button>
-    </div>
-
-    <div class="dashboard-content" id="dashboardContent">
-      <!-- Alphabetical Circular Service Filter Badges -->
-      <div class="filter-bar" id="filterBar"></div>
-
-      <!-- Dashboard Sections Container -->
-      <div id="dashboardRows"></div>
-    </div>
+<div id="landingContainer">
+  <div class="landing-header">
+    <div class="landing-banner">Media Search</div>
+    <button class="btn-action" id="logoffBtn" style="width: auto; padding: 10px 20px; font-size: 14px;">Logoff</button>
   </div>
+  <div class="dashboard-content" id="dashboardContent">
+    <div class="filter-bar" id="filterBar"></div>
+    <div id="dashboardRows"></div>
+  </div>
+</div>
 
-  <script>
-    const AUTH_CONFIG = {
-      user: "tsilva",
-      pass: "1234"
-    };
+<script>
+const AUTH_CONFIG = {
+  user: "tsilva",
+  pass: "1234"
+};
 
-    // Hardcoded Services list in strict alphabetical order, active by default
-    const availableServices = [
-      { name: "Amazon Prime", active: true },
-      { name: "Crunchyroll", active: true },
-      { name: "Disney", active: true },
-      { name: "HBO Max", active: true },
-      { name: "Hulu", active: true },
-      { name: "Netflix", active: true },
-      { name: "Paramount+", active: true },
-      { name: "Peacock", active: true },
-      { name: "Showtime", active: true }
-    ];
+const availableServices = [
+  { name: "Amazon Prime", active: true },
+  { name: "Crunchyroll", active: true },
+  { name: "Disney", active: true },
+  { name: "HBO Max", active: true },
+  { name: "Hulu", active: true },
+  { name: "Netflix", active: true },
+  { name: "Paramount+", active: true },
+  { name: "Peacock", active: true },
+  { name: "Showtime", active: true }
+];
 
-    const allMediaCatalog = [
-      { service: "Netflix", title: "Rebel Ridge", releaseDate: "2024-09-06" },
-      { service: "Netflix", title: "The Killer", releaseDate: "2023-11-10" },
-      { service: "Amazon Prime", title: "Road House", releaseDate: "2024-03-21" },
-      { service: "Hulu", title: "Quiz Lady", releaseDate: "2023-11-03" },
-      { service: "Disney", title: "Inside Out 2", releaseDate: "2024-06-14" },
-      { service: "HBO Max", title: "The Batman", releaseDate: "2022-03-04" },
-      { service: "Paramount+", title: "Top Gun: Maverick", releaseDate: "2022-05-27" },
-      { service: "Crunchyroll", title: "Demon Slayer: Hashira Training", releaseDate: "2024-02-23" },
-      { service: "Peacock", title: "The Traitors", releaseDate: "2024-01-12" },
-      { service: "Showtime", title: "The Curse", releaseDate: "2023-11-12" }
-    ];
+const allMediaCatalog = [
+  { service: "Netflix", title: "Rebel Ridge", releaseDate: "2024-09-06" },
+  { service: "Netflix", title: "The Killer", releaseDate: "2023-11-10" },
+  { service: "Amazon Prime", title: "Road House", releaseDate: "2024-03-21" },
+  { service: "Hulu", title: "Quiz Lady", releaseDate: "2023-11-03" },
+  { service: "Disney", title: "Inside Out 2", releaseDate: "2024-06-14" },
+  { service: "HBO Max", title: "The Batman", releaseDate: "2022-03-04" },
+  { service: "Paramount+", title: "Top Gun: Maverick", releaseDate: "2022-05-27" },
+  { service: "Crunchyroll", title: "Demon Slayer: Hashira Training", releaseDate: "2024-02-23" },
+  { service: "Peacock", title: "The Traitors", releaseDate: "2024-01-12" },
+  { service: "Showtime", title: "The Curse", releaseDate: "2023-11-12" }
+];
 
-    function getSearchUrl(item) {
-      const year = item.releaseDate ? item.releaseDate.split('-')[0] : '';
-      const query = `${item.title} ${year}`;
-      return `https://www.google.com/search?q=${encodeURIComponent(query)}`;
-    }
+function getSearchUrl(item) {
+  const year = item.releaseDate ? item.releaseDate.split('-')[0] : "";
+  const query = `${item.title} ${year}`.trim();
+  return `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+}
 
-    function getServiceThemeClass(serviceName) {
-      switch(serviceName.toLowerCase()) {
-        case 'amazon prime': return 'theme-amazon-prime';
-        case 'crunchyroll': return 'theme-crunchyroll';
-        case 'disney': return 'theme-disney';
-        case 'hbo max': return 'theme-hbo-max';
-        case 'hulu': return 'theme-hulu';
-        case 'netflix': return 'theme-netflix';
-        case 'paramount+': return 'theme-paramount';
-        case 'peacock': return 'theme-peacock';
-        case 'showtime': return 'theme-showtime';
-        default: return 'theme-netflix';
-      }
-    }
+function getServiceThemeClass(serviceName) {
+  if (!serviceName) return '';
+  switch(serviceName.toLowerCase()) {
+    case 'amazon prime': return 'theme-amazon-prime';
+    case 'crunchyroll': return 'theme-crunchyroll';
+    case 'disney': return 'theme-disney';
+    case 'hbo max': return 'theme-hbo-max';
+    case 'hulu': return 'theme-hulu';
+    case 'netflix': return 'theme-netflix';
+    case 'paramount+': return 'theme-paramount';
+    case 'peacock': return 'theme-peacock';
+    case 'showtime': return 'theme-showtime';
+    default: return '';
+  }
+}
 
-    function setViewState(isLoggedIn) {
-      const loginContainer = document.getElementById('loginContainer');
-      const landingContainer = document.getElementById('landingContainer');
+function setViewState(isLoggedIn) {
+  const loginContainer = document.getElementById('loginContainer');
+  const landingContainer = document.getElementById('landingContainer');
+  if (isLoggedIn) {
+    loginContainer.style.display = 'none';
+    landingContainer.style.display = 'block';
+    renderFilters();
+    renderDashboard();
+  } else {
+    landingContainer.style.display = 'none';
+    loginContainer.style.display = 'flex';
+  }
+}
 
-      if (isLoggedIn) {
-        loginContainer.style.display = 'none';
-        landingContainer.style.display = 'block';
-        renderFilters();
-        renderDashboard();
-      } else {
-        landingContainer.style.display = 'none';
-        loginContainer.style.display = 'flex';
-      }
-    }
+function toggleServiceFilter(serviceName) {
+  const service = availableServices.find(s => s.name === serviceName);
+  if (service) {
+    service.active = !service.active;
+    renderFilters();
+    renderDashboard();
+  }
+}
 
-    function toggleServiceFilter(serviceName) {
-      const service = availableServices.find(s => s.name === serviceName);
-      if (service) {
-        service.active = !service.active;
-        renderFilters();
-        renderDashboard();
-      }
-    }
+function renderFilters() {
+  const filterBar = document.getElementById('filterBar');
+  filterBar.innerHTML = "";
 
-    function renderFilters() {
-      const filterBar = document.getElementById('filterBar');
-      filterBar.innerHTML = '';
+  availableServices.forEach(s => {
+    const circle = document.createElement('div');
+    const themeClass = getServiceThemeClass(s.name);
+    circle.className = `service-filter-circle ${themeClass} ${s.active ? '' : 'inactive'}`;
+    circle.textContent = s.name;
+    circle.title = s.active ? `Hide ${s.name}` : `Show ${s.name}`;
+    circle.addEventListener('click', () => toggleServiceFilter(s.name));
+    filterBar.appendChild(circle);
+  });
+}
 
-      availableServices.forEach(s => {
-        const circle = document.createElement('div');
-        const themeClass = getServiceThemeClass(s.name);
-        
-        // Apply circular brand styling, adding 'inactive' class when toggled off
-        circle.className = `service-filter-circle ${themeClass} ${s.active ? '' : 'inactive'}`;
-        circle.textContent = s.name;
-        circle.title = s.active ? `Hide ${s.name}` : `Show ${s.name}`;
-        
-        circle.addEventListener('click', () => toggleServiceFilter(s.name));
-        filterBar.appendChild(circle);
+function renderDashboard() {
+  const dashboard = document.getElementById('dashboardRows');
+  dashboard.innerHTML = "";
+
+  const activeServiceNames = availableServices.filter(s => s.active).map(s => s.name);
+  const filteredItems = allMediaCatalog.filter(item => activeServiceNames.includes(item.service));
+
+  filteredItems.sort((a, b) => {
+    const dateA = new Date(a.releaseDate);
+    const dateB = new Date(b.releaseDate);
+    if (dateB - dateA !== 0) return dateB - dateA;
+    return a.title.localeCompare(b.title);
+  });
+
+  const section = document.createElement('div');
+  section.className = 'category-section';
+
+  const titleDiv = document.createElement('div');
+  titleDiv.className = 'section-title';
+  titleDiv.textContent = "Top New Arrivals";
+  section.appendChild(titleDiv);
+
+  const row = document.createElement('div');
+  row.className = 'row-container';
+
+  if (filteredItems.length === 0) {
+    row.innerHTML = '<div class="empty-state">All services are currently filtered out. Click the service circles above to include them.</div>';
+  } else {
+    filteredItems.forEach(item => {
+      const card = document.createElement('div');
+      card.className = 'media-card';
+      const themeClass = getServiceThemeClass(item.service);
+      card.innerHTML = `<div class="service-brand-banner ${themeClass}">
+        <span class="brand-name">${item.service}</span>
+        <span class="brand-type">New Arrival</span>
+      </div>
+      <span class="media-title-banner" title="${item.title}">${item.title}</span>`;
+      card.addEventListener('click', () => {
+        window.open(getSearchUrl(item), '_blank');
       });
-    }
-
-    function renderDashboard() {
-      const dashboard = document.getElementById('dashboardRows');
-      dashboard.innerHTML = '';
-
-      const activeServiceNames = availableServices.filter(s => s.active).map(s => s.name);
-      const filteredItems = allMediaCatalog.filter(item => activeServiceNames.includes(item.service));
-
-      filteredItems.sort((a, b) => {
-        const dateA = new Date(a.releaseDate);
-        const dateB = new Date(b.releaseDate);
-        if (dateB - dateA !== 0) return dateB - dateA;
-        return a.title.localeCompare(b.title);
-      });
-
-      // Top New Arrivals Section
-      const section = document.createElement('div');
-      section.className = 'category-section';
-
-      const titleDiv = document.createElement('div');
-      titleDiv.className = 'section-title';
-      titleDiv.textContent = "Top New Arrivals";
-      section.appendChild(titleDiv);
-
-      const row = document.createElement('div');
-      row.className = 'row-container';
-
-      if (filteredItems.length === 0) {
-        row.innerHTML = `<div class="empty-state">All services are currently filtered out. Click the service circles above to include them.</div>`;
-      } else {
-        filteredItems.forEach(item => {
-          const card = document.createElement('div');
-          card.className = 'media-card';
-          
-          const themeClass = getServiceThemeClass(item.service);
-
-          card.innerHTML = `
-            <div class="service-brand-banner ${themeClass}">
-              <span class="brand-name">${item.service}</span>
-              <span class="brand-type">New Arrival</span>
-            </div>
-            <span class="media-title-banner" title="${item.title}">${item.title}</span>
-          `;
-          card.addEventListener('click', () => {
-            window.open(getSearchUrl(item), '_blank');
-          });
-          row.appendChild(card);
-        });
-      }
-
-      section.appendChild(row);
-      dashboard.appendChild(section);
-    }
-
-    window.addEventListener('DOMContentLoaded', () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      const urlUser = urlParams.get('user');
-      const urlPass = urlParams.get('pass');
-
-      if (urlUser && urlUser.toLowerCase() === AUTH_CONFIG.user && urlPass === AUTH_CONFIG.pass) {
-        sessionStorage.setItem('loggedInUser', AUTH_CONFIG.user);
-      }
-
-      const savedUser = sessionStorage.getItem('loggedInUser');
-      setViewState(!!savedUser);
+      row.appendChild(card);
     });
+  }
 
-    const loginForm = document.getElementById('loginForm');
-    if (loginForm) {
-      loginForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const u = document.getElementById('username').value.trim().toLowerCase();
-        const p = document.getElementById('password').value.trim();
-        const err = document.getElementById('errorMsg');
+  section.appendChild(row);
+  dashboard.appendChild(section);
+}
 
-        if (u === AUTH_CONFIG.user && p === AUTH_CONFIG.pass) {
-          sessionStorage.setItem('loggedInUser', u);
-          document.getElementById('password').value = '';
-          if (err) err.style.display = 'none';
-          setViewState(true);
-        } else {
-          if (err) err.style.display = 'block';
-        }
-      });
+window.addEventListener('DOMContentLoaded', () => {
+  const savedUser = sessionStorage.getItem('loggedInUser');
+  setViewState(!!savedUser);
+});
+
+const loginForm = document.getElementById('loginForm');
+if (loginForm) {
+  loginForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const u = document.getElementById('username').value.trim().toLowerCase();
+    const p = document.getElementById('password').value.trim();
+    const err = document.getElementById('errorMsg');
+
+    if (u === AUTH_CONFIG.user && p === AUTH_CONFIG.pass) {
+      sessionStorage.setItem('loggedInUser', u);
+      document.getElementById('password').value = "";
+      if (err) err.style.display = 'none';
+      setViewState(true);
+    } else {
+      if (err) err.style.display = 'block';
     }
+  });
+}
 
-    const logoffBtn = document.getElementById('logoffBtn');
-    if (logoffBtn) {
-      logoffBtn.addEventListener('click', () => {
-        sessionStorage.removeItem('loggedInUser');
-        setViewState(false);
-        const uField = document.getElementById('username');
-        if (uField) {
-          uField.value = '';
-          uField.focus();
-        }
-      });
+const logoffBtn = document.getElementById('logoffBtn');
+if (logoffBtn) {
+  logoffBtn.addEventListener('click', () => {
+    sessionStorage.removeItem('loggedInUser');
+    setViewState(false);
+    const uField = document.getElementById('username');
+    if (uField) {
+      uField.value = "";
+      uField.focus();
     }
-  </script>
+  });
+}
+</script>
 </body>
 </html>
