@@ -232,3 +232,156 @@
 </head>
 <body>
 
+  <!-- Login View -->
+  <div id="loginContainer">
+    <div class="media-search-box">Media Search</div>
+
+    <div class="login-card">
+      <h2>Enter Credentials</h2>
+      
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="user" autocomplete="username" autofocus required>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="pass" autocomplete="current-password" required>
+        </div>
+
+        <button type="submit" class="btn-login">Login</button>
+        <div id="errorMsg">Invalid username or password</div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Landing Page View -->
+  <div id="landingContainer">
+    <div class="landing-header">
+      <div class="media-search-box landing-banner">Media Search</div>
+      <button class="btn-logoff" id="logoffBtn">Logoff</button>
+    </div>
+
+    <!-- Top New Arrivals Section -->
+    <div class="media-search-box section-banner">Top New Arrivals</div>
+    
+    <div class="carousel-wrapper">
+      <button class="carousel-btn" id="prevBtn">&#10094;</button>
+      
+      <div class="scroll-container" id="carouselTrack">
+        <!-- Populated via script -->
+      </div>
+
+      <button class="carousel-btn" id="nextBtn">&#10095;</button>
+    </div>
+  </div>
+
+  <script>
+    const VALID_USER = "tsilva";
+    const VALID_PASS = "1234";
+
+    const userServices = [
+      { username: "tsilva", service: "Netflix", active: "Y" },
+      { username: "tsilva", service: "Hulu", active: "Y" },
+      { username: "tsilva", service: "Disney", active: "Y" },
+      { username: "tsilva", service: "HBO Max", active: "Y" },
+      { username: "tsilva", service: "Amazon Prime", active: "Y" },
+      { username: "tsilva", service: "Paramount+", active: "Y" },
+      { username: "tsilva", service: "Crunchyroll", active: "Y" }
+    ];
+
+    // Updated with direct title watch paths to bypass search triggers
+    const allMediaCatalog = [
+      { service: "Netflix", title: "Rebel Ridge", releaseDate: "2024-09-06", url: "https://www.netflix.com/title/81250228" },
+      { service: "Amazon Prime", title: "Road House", releaseDate: "2024-03-21", url: "https://www.amazon.com/dp/B0CV3WM8HJ" },
+      { service: "Hulu", title: "Quiz Lady", releaseDate: "2023-11-03", url: "https://www.hulu.com/movie/quiz-lady-c37351df-296b-4835-9f5b-17932c5890ed" },
+      { service: "Netflix", title: "The Killer", releaseDate: "2023-11-10", url: "https://www.netflix.com/title/81597097" },
+      { service: "Amazon Prime", title: "The Idea of You", releaseDate: "2024-05-02", url: "https://www.amazon.com/dp/B0D1XD6NHX" },
+      { service: "Hulu", title: "Prey", releaseDate: "2022-08-05", url: "https://www.hulu.com/movie/prey-b41315b9-277d-4c3e-86d9-813e317bbd22" },
+      { service: "Disney", title: "Inside Out 2", releaseDate: "2024-06-14", url: "https://www.disneyplus.com/movies/inside-out-2/65sVfK0Vj4aF" },
+      { service: "HBO Max", title: "The Batman", releaseDate: "2022-03-04", url: "https://www.max.com/movies/the-batman/e1cfb44b-4b24-42f7-926f-e3ebce25c899" },
+      { service: "Paramount+", title: "Top Gun: Maverick", releaseDate: "2022-05-27", url: "https://www.paramountplus.com/movies/top-gun-maverick/W1Jp3A5_k6s1lG_25Q7LhU1W47s1hY_x/" },
+      { service: "Crunchyroll", title: "Demon Slayer: To the Hashira Training", releaseDate: "2024-02-23", url: "https://www.crunchyroll.com/watch/demon-slayer-kimetsu-no-yaiba" },
+      { service: "Netflix", title: "Glass Onion", releaseDate: "2022-12-23", url: "https://www.netflix.com/title/81458430" }
+    ];
+
+    document.getElementById('loginForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const user = document.getElementById('username').value.trim();
+      const pass = document.getElementById('password').value.trim();
+      const errDiv = document.getElementById('errorMsg');
+
+      if (user.toLowerCase() === VALID_USER && pass === VALID_PASS) {
+        document.getElementById('loginContainer').style.display = 'none';
+        document.getElementById('landingContainer').style.display = 'block';
+        document.getElementById('password').value = '';
+        if (errDiv) errDiv.style.display = 'none';
+        populateCarousel(user.toLowerCase());
+      } else {
+        if (errDiv) errDiv.style.display = 'block';
+      }
+    });
+
+    function populateCarousel(loggedInUser) {
+      const track = document.getElementById('carouselTrack');
+      if (!track) return;
+      track.innerHTML = '';
+
+      const activeServicesForUser = userServices
+        .filter(s => s.username.toLowerCase() === loggedInUser && s.active && s.active.toUpperCase() === 'Y')
+        .map(s => s.service);
+
+      const filteredArrivals = allMediaCatalog
+        .filter(item => activeServicesForUser.includes(item.service))
+        .sort((a, b) => new Date(b.releaseDate) - new Date(a.releaseDate));
+
+      filteredArrivals.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'media-card';
+        card.innerHTML = `
+          <span class="media-service">${item.service}</span>
+          <span class="media-title">${item.title}</span>
+        `;
+        card.addEventListener('click', function() {
+          window.open(item.url, '_blank');
+        });
+        track.appendChild(card);
+      });
+    }
+
+    const logoffBtn = document.getElementById('logoffBtn');
+    if (logoffBtn) {
+      logoffBtn.addEventListener('click', function() {
+        document.getElementById('landingContainer').style.display = 'none';
+        document.getElementById('loginContainer').style.display = 'flex';
+        const userField = document.getElementById('username');
+        if (userField) {
+          userField.value = '';
+          userField.focus();
+        }
+      });
+    }
+
+    const track = document.getElementById('carouselTrack');
+    const nextBtn = document.getElementById('nextBtn');
+    const prevBtn = document.getElementById('prevBtn');
+
+    if (nextBtn && track) {
+      nextBtn.addEventListener('click', function() {
+        const firstCard = track.firstElementChild;
+        if (firstCard) track.appendChild(firstCard);
+      });
+    }
+
+    if (prevBtn && track) {
+      prevBtn.addEventListener('click', function() {
+        const lastCard = track.lastElementChild;
+        if (lastCard) track.insertBefore(lastCard, track.firstElementChild);
+      });
+    }
+  </script>
+
+</body>
+</html>
