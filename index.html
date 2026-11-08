@@ -173,17 +173,17 @@ body {
   transition: all 0.2s ease;
   box-sizing: border-box;
   user-select: none;
-  overflow: hidden;
-  background-size: contain;
-  background-position: center;
+  background-size: 70% auto;
   background-repeat: no-repeat;
+  background-position: center;
+  background-color: #111111;
 }
 
+/* Lightened shading modifier for deactivated states */
 .service-filter-circle.inactive {
-  filter: grayscale(80%) brightness(55%);
-  border-color: #444444;
-  opacity: 0.55;
-  transform: scale(0.95);
+  filter: grayscale(70%) brightness(130%);
+  opacity: 0.45;
+  box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.8);
 }
 
 .service-filter-circle:hover {
@@ -193,8 +193,49 @@ body {
 
 .service-filter-circle.inactive:hover {
   transform: scale(0.98);
-  filter: grayscale(40%) brightness(75%);
-  opacity: 0.75;
+  opacity: 0.7;
+}
+
+/* Streaming Brand Logo Background Assets */
+.theme-amazon-prime { 
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/1/11/Amazon_Prime_Video_logo.svg');
+  background-color: #00a8e1;
+  background-size: 80% auto;
+}
+.theme-crunchyroll { 
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/0/0e/Crunchyroll_Logo.svg');
+  background-color: #f47521;
+}
+.theme-disney { 
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/3/3e/Disney%2B_logo.svg');
+  background-color: #1136b8;
+  background-size: 85% auto;
+}
+.theme-hbo-max { 
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/c/ce/Max_logo.svg');
+  background-color: #4b286d;
+}
+.theme-hulu { 
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/e/e4/Hulu_Logo.svg');
+  background-color: #1ce783;
+}
+.theme-netflix { 
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg');
+  background-color: #b9090b;
+  background-size: 80% auto;
+}
+.theme-paramount { 
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/a/a5/Paramount_Plus_logo.svg');
+  background-color: #0064ff;
+}
+.theme-peacock { 
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/d/d3/Peacock_Logo.svg');
+  background-color: #00a5ff;
+  background-size: 60% auto;
+}
+.theme-showtime { 
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/2/22/Showtime_Logo.svg');
+  background-color: #d32f2f;
 }
 
 .category-section {
@@ -255,10 +296,13 @@ body {
   border-radius: 4px;
   padding: 10px;
   margin-bottom: 8px;
+  background-size: 75% auto;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .service-brand-banner:not([class*="theme-"]) {
-  background: var(--primary-color);
+  background-color: var(--primary-color) !important;
   color: #000000;
 }
 
@@ -269,6 +313,12 @@ body {
   letter-spacing: 0.5px;
 }
 
+/* Hide fallback text if logo applies, keep clean layout */
+.service-brand-banner[class*="theme-"] .brand-name,
+.service-brand-banner[class*="theme-"] .brand-type {
+  display: none;
+}
+
 .brand-type {
   font-size: 9px;
   text-transform: uppercase;
@@ -276,17 +326,6 @@ body {
   margin-top: 4px;
   opacity: 0.85;
 }
-
-/* Service Branding Backgrounds & Logo Classes */
-.theme-amazon-prime { background: linear-gradient(135deg, #00a8e1, #146eb4); color: #ffffff; background-image: url('https://upload.wikimedia.org/wikipedia/commons/1/11/Amazon_Prime_Video_logo.svg'); background-size: 75%; background-repeat: no-repeat; background-position: center; }
-.theme-crunchyroll { background: linear-gradient(135deg, #f47521, #d64000); color: #ffffff; background-image: url('https://upload.wikimedia.org/wikipedia/commons/0/0e/Crunchyroll_Logo.svg'); background-size: 65%; background-repeat: no-repeat; background-position: center; }
-.theme-disney { background: linear-gradient(135deg, #1136b8, #0063e5); color: #ffffff; background-image: url('https://upload.wikimedia.org/wikipedia/commons/3/3e/Disney%2B_logo.svg'); background-size: 80%; background-repeat: no-repeat; background-position: center; }
-.theme-hbo-max { background: linear-gradient(135deg, #4b286d, #833ab4); color: #ffffff; background-image: url('https://upload.wikimedia.org/wikipedia/commons/c/ce/Max_logo.svg'); background-size: 70%; background-repeat: no-repeat; background-position: center; }
-.theme-hulu { background: linear-gradient(135deg, #1ce783, #107c41); color: #000000; background-image: url('https://upload.wikimedia.org/wikipedia/commons/e/e4/Hulu_logo_%282014%29.svg'); background-size: 70%; background-repeat: no-repeat; background-position: center; }
-.theme-netflix { background: linear-gradient(135deg, #b9090b, #e50914); color: #ffffff; background-image: url('https://upload.wikimedia.org/wikipedia/commons/0/0c/Netflix_2015_N_Logo.svg'); background-size: 40%; background-repeat: no-repeat; background-position: center; }
-.theme-paramount { background: linear-gradient(135deg, #0064ff, #001f5c); color: #ffffff; background-image: url('https://upload.wikimedia.org/wikipedia/commons/a/a5/Paramount_Plus_logo.svg'); background-size: 80%; background-repeat: no-repeat; background-position: center; }
-.theme-peacock { background: linear-gradient(135deg, #00a5ff, #002d72); color: #ffffff; background-image: url('https://upload.wikimedia.org/wikipedia/commons/d/d3/Peacock_Logo.svg'); background-size: 65%; background-repeat: no-repeat; background-position: center; }
-.theme-showtime { background: linear-gradient(135deg, #d32f2f, #333333); color: #ffffff; background-image: url('https://upload.wikimedia.org/wikipedia/commons/5/5a/Showtime_logo.svg'); background-size: 80%; background-repeat: no-repeat; background-position: center; }
 
 .media-title-banner {
   font-size: 12px;
@@ -420,23 +459,13 @@ function toggleServiceFilter(serviceName) {
 function renderFilters() {
   const filterBar = document.getElementById('filterBar');
   filterBar.innerHTML = "";
-  
+
   availableServices.forEach(s => {
     const circle = document.createElement('div');
     const themeClass = getServiceThemeClass(s.name);
     circle.className = `service-filter-circle ${themeClass} ${s.active ? '' : 'inactive'}`;
     circle.title = s.active ? `Hide ${s.name}` : `Show ${s.name}`;
     circle.addEventListener('click', () => toggleServiceFilter(s.name));
-    
-    // If no custom brand theme class is returned, render name as text fallback
-    if (!themeClass) {
-      circle.textContent = s.name;
-      circle.style.fontSize = '10px';
-      circle.style.fontWeight = '900';
-      circle.style.background = 'var(--primary-color)';
-      circle.style.color = '#000000';
-    }
-    
     filterBar.appendChild(circle);
   });
 }
@@ -444,10 +473,10 @@ function renderFilters() {
 function renderDashboard() {
   const dashboard = document.getElementById('dashboardRows');
   dashboard.innerHTML = "";
-  
+
   const activeServiceNames = availableServices.filter(s => s.active).map(s => s.name);
   const filteredItems = allMediaCatalog.filter(item => activeServiceNames.includes(item.service));
-  
+
   filteredItems.sort((a, b) => {
     const dateA = new Date(a.releaseDate);
     const dateB = new Date(b.releaseDate);
@@ -457,15 +486,15 @@ function renderDashboard() {
 
   const section = document.createElement('div');
   section.className = 'category-section';
-  
+
   const titleDiv = document.createElement('div');
   titleDiv.className = 'section-title';
   titleDiv.textContent = "Top New Arrivals";
   section.appendChild(titleDiv);
-  
+
   const row = document.createElement('div');
   row.className = 'row-container';
-  
+
   if (filteredItems.length === 0) {
     row.innerHTML = '<div class="empty-state">All services are currently filtered out. Click the service circles above to include them.</div>';
   } else {
@@ -486,7 +515,7 @@ function renderDashboard() {
       row.appendChild(card);
     });
   }
-  
+
   section.appendChild(row);
   dashboard.appendChild(section);
 }
@@ -503,7 +532,7 @@ if (loginForm) {
     const u = document.getElementById('username').value.trim().toLowerCase();
     const p = document.getElementById('password').value.trim();
     const err = document.getElementById('errorMsg');
-    
+
     if (u === AUTH_CONFIG.user && p === AUTH_CONFIG.pass) {
       sessionStorage.setItem('loggedInUser', u);
       document.getElementById('password').value = "";
