@@ -292,7 +292,7 @@
     ];
 
     const allMediaCatalog = [
-      { service: "Netflix", title: "Rebel Ridge", releaseDate: "2024-09-06", posterUrl: "https://image.tmdb.org/t/p/w500/70zzjoePIHQvbe0YV6wLwJqveYn.jpg" },
+      { service: "Netflix", title: "Rebel Ridge", releaseDate: "2024-09-06", posterUrl: "https://image.tmdb.org/t/p/w500/1Ww5pfFeZjjICzWq4S6oWqC7l06.jpg" },
       { service: "Netflix", title: "The Killer", releaseDate: "2023-11-10", posterUrl: "https://image.tmdb.org/t/p/w500/e7Jvsry47JJQruuezjU2X1Z6J77.jpg" },
       { service: "Netflix", title: "Glass Onion", releaseDate: "2022-12-23", posterUrl: "https://image.tmdb.org/t/p/w500/vD0uXYBBLLwRklEwTn8QhkFVKm9.jpg" },
       { service: "Netflix", title: "Beverly Hills Cop: Axel F", releaseDate: "2024-07-03", posterUrl: "https://image.tmdb.org/t/p/w500/zszXXypwkfcIZvTBXOVv4oO3mAC.jpg" },
@@ -305,11 +305,11 @@
       { service: "Amazon Prime", title: "Role Play", releaseDate: "2024-01-12", posterUrl: "https://image.tmdb.org/t/p/w500/7mriq9RJmcGbyC29kU0m9X9iO5u.jpg" },
       { service: "Amazon Prime", title: "The Tomorrow War", releaseDate: "2021-07-02", posterUrl: "https://image.tmdb.org/t/p/w500/34nDCQZwaEv84C4ij4MRGNCpCKm.jpg" },
 
-      { service: "Hulu", title: "Quiz Lady", releaseDate: "2023-11-03", posterUrl: "https://image.tmdb.org/t/p/w500/z6hY9mXgQ6PqO15oD298L7N5w.jpg" },
+      { service: "Hulu", title: "Quiz Lady", releaseDate: "2023-11-03", posterUrl: "https://image.tmdb.org/t/p/w500/taYgn3RRpCGlRGda4bcY54Cmu1n.jpg" },
       { service: "Hulu", title: "Prey", releaseDate: "2022-08-05", posterUrl: "https://image.tmdb.org/t/p/w500/ujr5pztc1dbe7ViFmCKcGgibpFG.jpg" },
       { service: "Hulu", title: "Not Okay", releaseDate: "2022-07-29", posterUrl: "https://image.tmdb.org/t/p/w500/xW1vtmV145kM2xP9x4q08R2Qp57.jpg" },
-      { service: "Hulu", title: "Boston Strangler", releaseDate: "2023-03-17", posterUrl: "https://image.tmdb.org/t/p/w500/iLzYp8fBw0m0Zt2rP8V4J6N0M3u.jpg" },
-      { service: "Hulu", title: "Flamin' Hot", releaseDate: "2023-06-09", posterUrl: "https://image.tmdb.org/t/p/w500/pEdbqVdKbeX2uT9R0H7gZp2K40.jpg" },
+      { service: "Hulu", title: "Boston Strangler", releaseDate: "2023-03-17", posterUrl: "https://image.tmdb.org/t/p/w500/fL2H1w6k4ZqHj12V5P4p7KzY30j.jpg" },
+      { service: "Hulu", title: "Flamin' Hot", releaseDate: "2023-06-09", posterUrl: "https://image.tmdb.org/t/p/w500/o7u4i9aT8q1Pz9kXj3l6W7z6v09.jpg" },
 
       { service: "Disney", title: "Inside Out 2", releaseDate: "2024-06-14", posterUrl: "https://image.tmdb.org/t/p/w500/vpnVM9B6NMmQpWeZvzLvDESb2QY.jpg" },
       { service: "Disney", title: "Deadpool & Wolverine", releaseDate: "2024-07-26", posterUrl: "https://image.tmdb.org/t/p/w500/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg" },
@@ -394,7 +394,7 @@
           
           let imgHtml = '';
           if (item.posterUrl) {
-            imgHtml = `<img src="${item.posterUrl}" class="media-poster-img" alt="${item.title}" loading="lazy">`;
+            imgHtml = `<img src="${item.posterUrl}" class="media-poster-img" alt="${item.title}" loading="lazy" onerror="this.style.display='none'">`;
           }
 
           card.innerHTML = `
