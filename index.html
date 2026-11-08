@@ -168,24 +168,24 @@ body {
   align-items: center;
   justify-content: center;
   text-align: center;
+  font-size: 10px;
+  font-weight: bold;
   cursor: pointer;
-  border: 2px solid rgba(255, 255, 255, 0.15);
+  border: none;
   transition: all 0.2s ease;
   box-sizing: border-box;
   user-select: none;
-  background-size: 75% auto;
+  background-size: 70% auto;
   background-repeat: no-repeat;
   background-position: center;
-  opacity: 1;
 }
 
 .service-filter-circle.inactive {
-  opacity: 0.55;
+  opacity: 0.35;
 }
 
 .service-filter-circle:hover {
   transform: scale(1.05);
-  border-color: rgba(255, 255, 255, 0.4);
 }
 
 .category-section {
@@ -253,7 +253,6 @@ body {
 
 .service-brand-banner:not([class*="theme-"]) {
   background-color: var(--primary-color);
-  color: #000000;
 }
 
 .brand-name {
@@ -271,16 +270,23 @@ body {
   opacity: 0.85;
 }
 
-.theme-amazon-prime { background-image: url('https://upload.wikimedia.org/wikipedia/commons/1/11/Amazon_Prime_Video_logo.svg'); background-color: #146eb4; color: transparent; }
-.theme-crunchyroll { background-image: url('https://upload.wikimedia.org/wikipedia/commons/0/0e/Crunchyroll_Logo.svg'); background-color: #f47521; color: transparent; }
-.theme-disney { background-image: url('https://upload.wikimedia.org/wikipedia/commons/3/3e/Disney%2B_logo.svg'); background-color: #0063e5; color: transparent; }
-.theme-hbo-max { background-image: url('https://upload.wikimedia.org/wikipedia/commons/c/ce/Max_logo.svg'); background-color: #833ab4; color: transparent; }
-.theme-hulu { background-image: url('https://upload.wikimedia.org/wikipedia/commons/e/e4/Hulu_Logo.svg'); background-color: #1ce783; color: transparent; }
-.theme-netflix { background-image: url('https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg'); background-color: #b9090b; color: transparent; }
-.theme-paramount { background-image: url('https://upload.wikimedia.org/wikipedia/commons/a/a5/Paramount%2B_logo.svg'); background-color: #001f5c; color: transparent; }
-.theme-peacock { background-image: url('https://upload.wikimedia.org/wikipedia/commons/d/d3/Peacock_Logo.svg'); background-color: #002d72; color: transparent; }
-.theme-showtime { background-image: url('https://upload.wikimedia.org/wikipedia/commons/2/22/Showtime_logo.svg'); background-color: #333333; color: transparent; }
+/* Authentic Dark App Icon Backgrounds & High Contrast Brand Colors */
+.theme-netflix { background-color: #000000; color: #e50914; background-image: url('https://upload.wikimedia.org/wikipedia/commons/0/0c/Netflix_2015_N_logo.svg'); background-size: 35% auto; }
+.theme-amazon-prime { background-color: #1a242f; color: #00a8e1; background-image: url('https://upload.wikimedia.org/wikipedia/commons/1/11/Amazon_Prime_Video_logo.svg'); }
+.theme-crunchyroll { background-color: #f47521; color: #ffffff; background-image: url('https://upload.wikimedia.org/wikipedia/commons/0/0e/Crunchyroll_Logo.svg'); background-size: 60% auto; }
+.theme-disney { background-color: #0b132b; color: #ffffff; background-image: url('https://upload.wikimedia.org/wikipedia/commons/3/3e/Disney%2B_logo.svg'); background-size: 80% auto; }
+.theme-hbo-max { background-color: #1d1236; color: #ffffff; background-image: url('https://upload.wikimedia.org/wikipedia/commons/c/ce/Max_logo.svg'); background-size: 65% auto; }
+.theme-hulu { background-color: #000000; color: #1ce783; background-image: url('https://upload.wikimedia.org/wikipedia/commons/e/e4/Hulu_Logo.svg'); }
+.theme-paramount { background-color: #005cff; color: #ffffff; background-image: url('https://upload.wikimedia.org/wikipedia/commons/a/a5/Paramount%2B_logo.svg'); background-size: 80% auto; }
+.theme-peacock { background-color: #000000; color: #ffffff; background-image: url('https://upload.wikimedia.org/wikipedia/commons/d/d3/Peacock_Logo.svg'); background-size: 50% auto; }
+.theme-showtime { background-color: #990000; color: #ffffff; background-image: url('https://upload.wikimedia.org/wikipedia/commons/1/1c/Showtime_logo.svg'); }
 
+/* Hide default text ONLY inside the header circles so icons look ultra clean */
+.filter-bar .service-filter-circle {
+  color: transparent !important;
+}
+
+/* Ensure card text banner remains highly readable */
 .media-title-banner {
   font-size: 12px;
   color: #000000;
@@ -418,6 +424,7 @@ function renderFilters() {
     const circle = document.createElement('div');
     const themeClass = getServiceThemeClass(s.name);
     circle.className = `service-filter-circle ${themeClass} ${s.active ? '' : 'inactive'}`;
+    circle.textContent = s.name;
     circle.title = s.active ? `Hide ${s.name}` : `Show ${s.name}`;
     circle.addEventListener('click', () => toggleServiceFilter(s.name));
     filterBar.appendChild(circle);
@@ -450,7 +457,7 @@ function renderDashboard() {
   row.className = 'row-container';
 
   if (filteredItems.length === 0) {
-    row.innerHTML = '<div class="empty-state">All services are currently filtered out. Click the service circles above to include them.</div>';
+    row.innerHTML = '<div class="empty-state">All services are currently filtered out. Click the service circles above to include them.<\/div>';
   } else {
     filteredItems.forEach(item => {
       const card = document.createElement('div');
@@ -458,8 +465,8 @@ function renderDashboard() {
       const themeClass = getServiceThemeClass(item.service);
       card.innerHTML = `
         <div class="service-brand-banner ${themeClass}">
-          <span class="brand-name">${themeClass ? '' : item.service}</span>
-          <span class="brand-type">${themeClass ? '' : 'New Arrival'}</span>
+          <span class="brand-name">${item.service}</span>
+          <span class="brand-type">New Arrival</span>
         </div>
         <span class="media-title-banner" title="${item.title}">${item.title}</span>
       `;
