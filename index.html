@@ -1,245 +1,423 @@
-Media Search
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Media Search</title>
+  <style>
+    :root {
+      --bg-color: #000000;
+      --card-bg: #121212;
+      --card-hover: #181818;
+      --primary-color: #28a745;
+      --primary-hover: #218838;
+      --text-color: #ffffff;
+      --text-muted: #bbbbbb;
+      --border-color: #333333;
+      --error-color: #ff4d4d;
+    }
 
-body {
-  margin: 0;
-  padding: 0;
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  font-family: Arial, sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  overflow: hidden;
-}
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
 
-#loginContainer {
-  display: flex;
-  flex-direction: column;
-  width: 360px;
-  gap: 12px;
-}
+    #loginContainer {
+      display: flex;
+      flex-direction: column;
+      width: 360px;
+      gap: 12px;
+    }
 
-.media-search-box {
-  width: 100%;
-  padding: 10px 16px;
-  background-color: var(--primary-color);
-  color: #000000;
-  font-weight: bold;
-  font-size: 16px;
-  text-align: center;
-  border: 1px solid var(--primary-hover);
-  border-radius: 4px;
-  box-sizing: border-box;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.15);
-}
+    .media-search-box {
+      width: 100%;
+      padding: 10px 16px;
+      background-color: var(--primary-color);
+      color: #000000;
+      font-weight: bold;
+      font-size: 16px;
+      text-align: center;
+      border: 1px solid var(--primary-hover);
+      border-radius: 4px;
+      box-sizing: border-box;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+    }
 
-.login-card {
-  width: 100%;
-  background: var(--card-bg);
-  padding: 24px;
-  border-radius: 6px;
-  border: 1px solid var(--border-color);
-  box-sizing: border-box;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-}
+    .login-card {
+      width: 100%;
+      background: var(--card-bg);
+      padding: 24px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      box-sizing: border-box;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    }
 
-.login-card h2 {
-  margin-top: 0;
-  margin-bottom: 20px;
-  font-size: 20px;
-  text-align: center;
-}
+    .login-card h2 {
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-size: 20px;
+      text-align: center;
+    }
 
-.form-group {
-  margin-bottom: 16px;
-}
+    .form-group {
+      margin-bottom: 16px;
+    }
 
-.form-group label {
-  display: block;
-  margin-bottom: 6px;
-  font-size: 14px;
-  color: var(--text-muted);
-}
+    .form-group label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
 
-.form-group input {
-  width: 100%;
-  padding: 10px;
-  font-size: 14px;
-  background-color: #1e1e1e;
-  color: var(--text-color);
-  border: 1px solid #444444;
-  border-radius: 4px;
-  box-sizing: border-box;
-  outline: none;
-}
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+      background-color: #1e1e1e;
+      color: var(--text-color);
+      border: 1px solid #444444;
+      border-radius: 4px;
+      box-sizing: border-box;
+      outline: none;
+    }
 
-.form-group input:focus {
-  border-color: var(--primary-color);
-}
+    .form-group input:focus {
+      border-color: var(--primary-color);
+    }
 
-.btn-action {
-  width: 100%;
-  padding: 10px 16px;
-  background-color: var(--primary-color);
-  color: #000000;
-  font-weight: bold;
-  font-size: 16px;
-  border: 1px solid var(--primary-hover);
-  border-radius: 4px;
-  cursor: pointer;
-  box-sizing: border-box;
-}
+    .btn-action {
+      width: 100%;
+      padding: 10px 16px;
+      background-color: var(--primary-color);
+      color: #000000;
+      font-weight: bold;
+      font-size: 16px;
+      border: 1px solid var(--primary-hover);
+      border-radius: 4px;
+      cursor: pointer;
+      box-sizing: border-box;
+    }
 
-.btn-action:hover {
-  background-color: var(--primary-hover);
-}
+    .btn-action:hover {
+      background-color: var(--primary-hover);
+    }
 
-#errorMsg {
-  color: var(--error-color);
-  font-size: 13px;
-  text-align: center;
-  margin-top: 10px;
-  display: none;
-}
+    #errorMsg {
+      color: var(--error-color);
+      font-size: 13px;
+      text-align: center;
+      margin-top: 10px;
+      display: none;
+    }
 
-#landingContainer {
-  display: none;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: var(--bg-color);
-  box-sizing: border-box;
-  padding: 20px;
-  overflow-y: auto;
-}
+    #landingContainer {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      min-height: 100vh;
+      background-color: var(--bg-color);
+      box-sizing: border-box;
+      padding: 20px;
+      overflow-y: auto;
+    }
 
-.landing-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto 20px auto;
-}
+    .landing-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto 20px auto;
+    }
 
-.landing-banner {
-  width: 220px;
-}
+    .landing-banner {
+      width: 220px;
+    }
 
-.dashboard-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  padding-bottom: 40px;
-}
+    .dashboard-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      padding-bottom: 40px;
+    }
 
-.category-section {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
+    .category-section {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
 
-.section-title {
-  font-size: 18px;
-  font-weight: bold;
-  color: var(--text-color);
-  padding-left: 4px;
-}
+    .section-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: var(--text-color);
+      padding-left: 4px;
+    }
 
-.row-container {
-  display: flex;
-  gap: 16px;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  padding: 10px 4px;
-  scrollbar-width: none; /* Firefox */
-}
+    .row-container {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      padding: 10px 4px;
+      scrollbar-width: none;
+    }
 
-.row-container::-webkit-scrollbar {
-  display: none; /* Safari and Chrome */
-}
+    .row-container::-webkit-scrollbar {
+      display: none;
+    }
 
-.media-card {
-  flex: 0 0 160px;
-  height: 240px;
-  background-color: var(--card-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 6px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 10px;
-  box-sizing: border-box;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  transition: transform 0.2s, border-color 0.2s;
-}
+    .media-card {
+      flex: 0 0 160px;
+      height: 240px;
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 10px;
+      box-sizing: border-box;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s, border-color 0.2s;
+    }
 
-.media-card:hover {
-  transform: scale(1.03);
-  border-color: var(--primary-color);
-  background-color: var(--card-hover);
-}
+    .media-card:hover {
+      transform: scale(1.03);
+      border-color: var(--primary-color);
+      background-color: var(--card-hover);
+    }
 
-.media-service {
-  font-size: 10px;
-  color: var(--primary-color);
-  font-weight: bold;
-  text-transform: uppercase;
-  background: rgba(0, 0, 0, 0.7);
-  padding: 4px 6px;
-  border-radius: 4px;
-  align-self: flex-start;
-  z-index: 2;
-}
+    .media-service {
+      font-size: 10px;
+      color: var(--primary-color);
+      font-weight: bold;
+      text-transform: uppercase;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 4px 6px;
+      border-radius: 4px;
+      align-self: flex-start;
+      z-index: 2;
+    }
 
-.media-poster-placeholder {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #333333;
-  font-size: 12px;
-  z-index: 1;
-}
+    .media-poster-placeholder {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #333333;
+      font-size: 12px;
+      z-index: 1;
+    }
 
-.media-title-banner {
-  font-size: 12px;
-  color: var(--text-color);
-  font-weight: bold;
-  background: rgba(0, 0, 0, 0.85);
-  padding: 6px 8px;
-  border-radius: 4px;
-  text-align: center;
-  z-index: 2;
-  width: 100%;
-  box-sizing: border-box;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
+    .media-title-banner {
+      font-size: 12px;
+      color: var(--text-color);
+      font-weight: bold;
+      background: rgba(0, 0, 0, 0.85);
+      padding: 6px 8px;
+      border-radius: 4px;
+      text-align: center;
+      z-index: 2;
+      width: 100%;
+      box-sizing: border-box;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
 
-Media Search
-Enter Credentials
-Username
-Password
-Login
-Invalid username or password
-Media Search
-Logoff
+  <!-- Login View Component -->
+  <div id="loginContainer">
+    <div class="media-search-box">Media Search</div>
+    <div class="login-card">
+      <h2>Enter Credentials</h2>
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="user" autocomplete="username" autofocus required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="pass" autocomplete="current-password" required>
+        </div>
+        <button type="submit" class="btn-action">Login</button>
+        <div id="errorMsg">Invalid username or password</div>
+      </form>
+    </div>
+  </div>
 
-<div class="dashboard-content" id="dashboardRows">
-  <!-- Category rows will be dynamically injected here -->
-</div>
+  <!-- Landing View Component -->
+  <div id="landingContainer">
+    <div class="landing-header">
+      <div class="media-search-box landing-banner">Media Search</div>
+      <button class="btn-action" id="logoffBtn" style="width: auto; padding: 10px 20px; font-size: 14px;">Logoff</button>
+    </div>
 
+    <div class="dashboard-content" id="dashboardRows">
+      <!-- Category rows will be dynamically injected here -->
+    </div>
+  </div>
+
+  <script>
+    const AUTH_CONFIG = {
+      user: "tsilva",
+      pass: "1234"
+    };
+
+    const userServices = [
+      { username: "tsilva", service: "Netflix", active: "Y" },
+      { username: "tsilva", service: "Hulu", active: "Y" },
+      { username: "tsilva", service: "Disney", active: "Y" },
+      { username: "tsilva", service: "HBO Max", active: "Y" },
+      { username: "tsilva", service: "Amazon Prime", active: "Y" },
+      { username: "tsilva", service: "Paramount+", active: "Y" },
+      { username: "tsilva", service: "Crunchyroll", active: "Y" }
+    ];
+
+    const allMediaCatalog = [
+      { 
+        service: "Netflix", 
+        title: "Rebel Ridge", 
+        category: "Top New Arrivals",
+        releaseDate: "2024-09-06", 
+        watchUrl: "https://www.netflix.com/us/title/81157729?s=a&trkid=13747225&shareType=Title&shareUuid=5c30e763-c4f2-484c-9649-4d8bec6b41eb&trg=cp&unifiedEntityIdEncoded=Video%3A81157729&vlang=en&clip=81786544" 
+      },
+      { service: "Amazon Prime", title: "Road House", category: "Top New Arrivals", releaseDate: "2024-03-21" },
+      { service: "Hulu", title: "Quiz Lady", category: "Top New Arrivals", releaseDate: "2023-11-03" },
+      { service: "Netflix", title: "The Killer", category: "Top New Arrivals", releaseDate: "2023-11-10" },
+      { service: "Amazon Prime", title: "The Idea of You", category: "Top New Arrivals", releaseDate: "2024-05-02" },
+      { service: "Disney", title: "Inside Out 2", category: "Top New Arrivals", releaseDate: "2024-06-14" },
+      { service: "HBO Max", title: "The Batman", category: "Action", releaseDate: "2022-03-04" },
+      { service: "Paramount+", title: "Top Gun: Maverick", category: "Action", releaseDate: "2022-05-27" },
+      { service: "Hulu", title: "Prey", category: "Action", releaseDate: "2022-08-05" },
+      { service: "Crunchyroll", title: "Demon Slayer: To the Hashira Training", category: "Anime", releaseDate: "2024-02-23" },
+      { service: "Netflix", title: "Glass Onion", category: "Top New Arrivals", releaseDate: "2022-12-23" }
+    ];
+
+    function getSearchUrl(item) {
+      if (item.watchUrl) {
+        return item.watchUrl;
+      }
+      const q = encodeURIComponent(item.title);
+      switch(item.service) {
+        case "Amazon Prime":
+          return `https://www.amazon.com/s?k=${q}&i=prime-video`;
+        case "Hulu":
+          return `https://www.hulu.com/search?q=${q}`;
+        case "Disney":
+          return `https://www.disneyplus.com/search?q=${q}`;
+        case "HBO Max":
+          return `https://www.max.com/search?q=${q}`;
+        case "Paramount+":
+          return `https://www.paramountplus.com/search/?q=${q}`;
+        case "Crunchyroll":
+          return `https://www.crunchyroll.com/search?q=${q}`;
+        default:
+          return `https://www.google.com/search?q=${q}+${encodeURIComponent(item.service)}`;
+      }
+    }
+
+    function setViewState(isLoggedIn, username = "") {
+      const loginContainer = document.getElementById('loginContainer');
+      const landingContainer = document.getElementById('landingContainer');
+
+      if (isLoggedIn) {
+        if (loginContainer) loginContainer.style.display = 'none';
+        if (landingContainer) landingContainer.style.display = 'block';
+        renderDashboard(username);
+      } else {
+        if (landingContainer) landingContainer.style.display = 'none';
+        if (loginContainer) loginContainer.style.display = 'flex';
+      }
+    }
+
+    function renderDashboard(username) {
+      const dashboard = document.getElementById('dashboardRows');
+      if (!dashboard) return;
+      dashboard.innerHTML = '';
+
+      const activeServices = userServices
+        .filter(s => s.username.toLowerCase() === username.toLowerCase() && s.active && s.active.toUpperCase() === 'Y')
+        .map(s => s.service);
+
+      const categories = ["Top New Arrivals", "Action", "Anime"];
+
+      categories.forEach(category => {
+        const categoryItems = allMediaCatalog.filter(item => 
+          (item.category === category || (!item.category && category === "Top New Arrivals")) &&
+          activeServices.includes(item.service)
+        );
+
+        if (categoryItems.length === 0) return;
+
+        const section = document.createElement('div');
+        section.className = 'category-section';
+
+        const titleDiv = document.createElement('div');
+        titleDiv.className = 'section-title';
+        titleDiv.textContent = category;
+        section.appendChild(titleDiv);
+
+        const row = document.createElement('div');
+        row.className = 'row-container';
+
+        categoryItems.forEach(item => {
+          const card = document.createElement('div');
+          card.className = 'media-card';
+          card.innerHTML = `
+            <div class="media-poster-placeholder">Poster</div>
+            <span class="media-service">${item.service}</span>
+            <span class="media-title-banner" title="${item.title}">${item.title}</span>
+          `;
+          card.addEventListener('click', () => {
+            window.open(getSearchUrl(item), '_blank');
+          });
+          row.appendChild(card);
+        });
+
+        section.appendChild(row);
+        dashboard.appendChild(section);
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      // Check for URL query params ?user=tsilva&pass=1234 for quick testing if present
+      const urlParams = new URLSearchParams(window.location.search);
+      const urlUser = urlParams.get('user');
+      const urlPass = urlParams.get('pass');
+
+      if (urlUser && urlUser.toLowerCase() === AUTH_CONFIG.user && urlPass === AUTH_CONFIG.pass) {
+        sessionStorage.setItem('loggedInUser', AUTH_CONFIG.user);
+      }
+
+      const savedUser = sessionStorage.getItem('loggedInUser');
+      setViewState(!!savedUser, savedUser || AUTH_CONFIG.user);
+    });
+
+    const loginForm = document.getElementById('loginForm');
+    if (loginForm) {
+      loginForm.addEventListener('submit', (e)
