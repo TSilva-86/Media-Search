@@ -297,7 +297,6 @@
       { username: "tsilva", service: "Crunchyroll", active: "Y" }
     ];
 
-    // Master Catalog repository (simulating structured DB/IMDb release entries)
     const allMediaCatalog = [
       { service: "Netflix", title: "Rebel Ridge", releaseDate: "2024-09-06", watchUrl: "https://www.netflix.com/us/title/81157729?s=a&trkid=13747225&shareType=Title&shareUuid=5c30e763-c4f2-484c-9649-4d8bec6b41eb&trg=cp&unifiedEntityIdEncoded=Video%3A81157729&vlang=en&clip=81786544" },
       { service: "Netflix", title: "The Killer", releaseDate: "2023-11-10" },
@@ -385,19 +384,17 @@
       if (!dashboard) return;
       dashboard.innerHTML = '';
 
-      // Get user's active services
       const activeServices = userServices
         .filter(s => s.username.toLowerCase() === username.toLowerCase() && s.active && s.active.toUpperCase() === 'Y')
         .map(s => s.service);
 
-      // --- SECTION 1: TOP NEW ARRIVALS (Independent Rule: Top 5 per active service sorted by release date) ---
       const topNewArrivalsItems = [];
       
       activeServices.forEach(service => {
         const serviceItems = allMediaCatalog
           .filter(item => item.service === service)
           .sort((a, b) => new Date(b.releaseDate) - new Date(a.releaseDate))
-          .slice(0, 5); // Take top 5 for this service
+          .slice(0, 5); // Top 5 per service
         
         topNewArrivalsItems.push(...serviceItems);
       });
@@ -431,8 +428,6 @@
         section.appendChild(row);
         dashboard.appendChild(section);
       }
-
-      // FUTURE SECTIONS (e.g. Dramas, Action, Spooky) will have their own independent logic blocks here!
     }
 
     window.addEventListener('DOMContentLoaded', () => {
