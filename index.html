@@ -291,19 +291,43 @@
       { username: "tsilva", service: "Crunchyroll", active: "Y" }
     ];
 
+    // Media catalog contains title and release info; search URLs are generated dynamically
     const allMediaCatalog = [
-      { service: "Netflix", title: "Rebel Ridge", releaseDate: "2024-09-06", url: "https://www.netflix.com" },
-      { service: "Amazon Prime", title: "Road House", releaseDate: "2024-03-21", url: "https://www.amazon.com/primevideo" },
-      { service: "Hulu", title: "Quiz Lady", releaseDate: "2023-11-03", url: "https://www.hulu.com" },
-      { service: "Netflix", title: "The Killer", releaseDate: "2023-11-10", url: "https://www.netflix.com" },
-      { service: "Amazon Prime", title: "The Idea of You", releaseDate: "2024-05-02", url: "https://www.amazon.com/primevideo" },
-      { service: "Hulu", title: "Prey", releaseDate: "2022-08-05", url: "https://www.hulu.com" },
-      { service: "Disney", title: "Inside Out 2", releaseDate: "2024-06-14", url: "https://www.disneyplus.com" },
-      { service: "HBO Max", title: "The Batman", releaseDate: "2022-03-04", url: "https://www.max.com" },
-      { service: "Paramount+", title: "Top Gun: Maverick", releaseDate: "2022-05-27", url: "https://www.paramountplus.com" },
-      { service: "Crunchyroll", title: "Demon Slayer: To the Hashira Training", releaseDate: "2024-02-23", url: "https://www.crunchyroll.com" },
-      { service: "Netflix", title: "Glass Onion", releaseDate: "2022-12-23", url: "https://www.netflix.com" }
+      { service: "Netflix", title: "Rebel Ridge", releaseDate: "2024-09-06" },
+      { service: "Amazon Prime", title: "Road House", releaseDate: "2024-03-21" },
+      { service: "Hulu", title: "Quiz Lady", releaseDate: "2023-11-03" },
+      { service: "Netflix", title: "The Killer", releaseDate: "2023-11-10" },
+      { service: "Amazon Prime", title: "The Idea of You", releaseDate: "2024-05-02" },
+      { service: "Hulu", title: "Prey", releaseDate: "2022-08-05" },
+      { service: "Disney", title: "Inside Out 2", releaseDate: "2024-06-14" },
+      { service: "HBO Max", title: "The Batman", releaseDate: "2022-03-04" },
+      { service: "Paramount+", title: "Top Gun: Maverick", releaseDate: "2022-05-27" },
+      { service: "Crunchyroll", title: "Demon Slayer: To the Hashira Training", releaseDate: "2024-02-23" },
+      { service: "Netflix", title: "Glass Onion", releaseDate: "2022-12-23" }
     ];
+
+    // Helper function to dynamically generate search URLs per service
+    function getSearchUrl(service, title) {
+      const encodedTitle = encodeURIComponent(title);
+      switch(service) {
+        case "Netflix":
+          return `https://www.netflix.com/search?q=${encodedTitle}`;
+        case "Amazon Prime":
+          return `https://www.amazon.com/s?k=${encodedTitle}&i=prime-video`;
+        case "Hulu":
+          return `https://www.hulu.com/search?q=${encodedTitle}`;
+        case "Disney":
+          return `https://www.disneyplus.com/search?q=${encodedTitle}`;
+        case "HBO Max":
+          return `https://www.max.com/search?q=${encodedTitle}`;
+        case "Paramount+":
+          return `https://www.paramountplus.com/search/?q=${encodedTitle}`;
+        case "Crunchyroll":
+          return `https://www.crunchyroll.com/search?q=${encodedTitle}`;
+        default:
+          return `https://www.google.com/search?q=${encodedTitle}+${service}`;
+      }
+    }
 
     window.addEventListener('DOMContentLoaded', () => {
       const activeUser = sessionStorage.getItem('loggedInUser');
@@ -353,8 +377,9 @@
           <span class="media-service">${item.service}</span>
           <span class="media-title">${item.title}</span>
         `;
+        const targetUrl = getSearchUrl(item.service, item.title);
         card.addEventListener('click', function() {
-          window.open(item.url, '_blank');
+          window.open(targetUrl, '_blank');
         });
         track.appendChild(card);
       });
@@ -395,3 +420,4 @@
 
 </body>
 </html>
+
