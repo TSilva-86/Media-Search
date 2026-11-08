@@ -394,7 +394,8 @@
           
           let imgHtml = '';
           if (item.posterUrl) {
-            imgHtml = `<img src="${item.posterUrl}" class="media-poster-img" alt="${item.title}" loading="lazy">`;
+            // Added onerror fallback to prevent black boxes if a poster fails to load
+            imgHtml = `<img src="${item.posterUrl}" class="media-poster-img" alt="${item.title}" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1485846234645-a62644f84728?w=500&auto=format&fit=crop&q=60';">`;
           }
 
           card.innerHTML = `
