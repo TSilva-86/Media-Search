@@ -23,9 +23,6 @@
       background-color: var(--bg-color);
       color: var(--text-color);
       font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
       min-height: 100vh;
       overflow-x: hidden;
     }
@@ -35,6 +32,11 @@
       flex-direction: column;
       width: 360px;
       gap: 12px;
+      margin: auto;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
     }
 
     .media-search-box {
@@ -122,9 +124,6 @@
 
     #landingContainer {
       display: none;
-      position: absolute;
-      top: 0;
-      left: 0;
       width: 100vw;
       min-height: 100vh;
       background-color: var(--bg-color);
