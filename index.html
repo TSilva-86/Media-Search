@@ -405,7 +405,6 @@
     }
 
     window.addEventListener('DOMContentLoaded', () => {
-      // Check for URL query params ?user=tsilva&pass=1234 for quick testing if present
       const urlParams = new URLSearchParams(window.location.search);
       const urlUser = urlParams.get('user');
       const urlPass = urlParams.get('pass');
@@ -420,4 +419,35 @@
 
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
-      loginForm.addEventListener('submit', (e)
+      loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const u = document.getElementById('username').value.trim().toLowerCase();
+        const p = document.getElementById('password').value.trim();
+        const err = document.getElementById('errorMsg');
+
+        if (u === AUTH_CONFIG.user && p === AUTH_CONFIG.pass) {
+          sessionStorage.setItem('loggedInUser', u);
+          document.getElementById('password').value = '';
+          if (err) err.style.display = 'none';
+          setViewState(true, u);
+        } else {
+          if (err) err.style.display = 'block';
+        }
+      });
+    }
+
+    const logoffBtn = document.getElementById('logoffBtn');
+    if (logoffBtn) {
+      logoffBtn.addEventListener('click', () => {
+        sessionStorage.removeItem('loggedInUser');
+        setViewState(false);
+        const uField = document.getElementById('username');
+        if (uField) {
+          uField.value = '';
+          uField.focus();
+        }
+      });
+    }
+  </script>
+</body>
+</html>
