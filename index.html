@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Search Portal</title>
+    <style>
+        :root {
+            --bg-color: #141414;
+            --text-color: #ffffff;
+            --accent-color: #e50914;
+            --card-bg: #1f1f1f;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .login-box { max-width: 400px; margin: 100px auto; padding: 30px; background: var(--card-bg); border-radius: 8px; text-align: center; }
+        input, button { width: 100%; padding: 12px; margin: 10px 0; border-radius: 4px; border: none; box-sizing: border-box; }
+        input { background: #333; color: white; }
+        button { background: var(--accent-color); color: white; font-weight: bold; cursor: pointer; }
+        .hidden { display: none !important; }
+        .media-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; margin-top: 20px; }
+        .media-card { background: var(--card-bg); border-radius: 6px; overflow: hidden; transition: transform 0.2s; cursor: pointer; text-decoration: none; color: inherit; display: block; }
+        .media-card:hover { transform: scale(1.05); }
+        .media-info { padding: 15px; }
+        .media-title { font-weight: bold; margin-bottom: 5px; }
+        .media-service { font-size: 0.9em; color: #aaa; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Login Gate -->
+        <div id="loginGate" class="login-box">
+            <h2>Sign In</h2>
+            <input type="text" id="username" placeholder="Username" autocomplete="off">
+            <input type="password" id="password" placeholder="Password">
+            <button onclick="handleLogin()">Login</button>
+            <p id="loginError" style="color: var(--accent-color); font-size: 0.9em;" class="hidden">Invalid credentials</p>
+        </div>
+
+        <!-- Dashboard Layout -->
+        <div id="dashboard" class="hidden">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h1 id="welcomeText">Welcome</h1>
+                <button onclick="handleLogout()" style="width: auto; padding: 8px 15px;">Logout</button>
+            </div>
+            
+            <h2>Your Available Media</h2>
+            <div id="catalogGrid" class="media-grid"></div>
+        </div>
+    </div>
+
+    <script>
+        const USERS = { "tsilva": "1234" };
+        let currentUser = null;
+
+        // Static media catalog tracking list
+        const allMediaCatalog = [
+            { title: "Stranger Things", service: "Netflix" },
+            { title: "The Bear", service: "Hulu" },
+            { title: "The Mandalorian", service: "Disney+" },
+            { title: "The Boys", service: "Amazon Prime" },
+            { title: "Succession", service: "Max" }
+        ];
+
+        // FIXED DYNAMIC LINK ROUTER: Correctly appends platform-specific search parameters
+        function generateDeepSearchLink(title, service) {
+            const query = encodeURIComponent(title);
+            const cleanService = service.toLowerCase().trim();
+
+            switch (cleanService) {
+                case 'netflix':
+                    return `https://netflix.com{query}`;
+                case 'hulu':
+                    return `https://hulu.com{query}`;
+                case 'amazon prime':
+                case 'prime video':
+                    return `https://amazon.com{query}&i=instant-video`;
+                case 'max':
+                case 'hbo max':
+                    return `https://max.com{query}/`;
+                case 'disney+':
+                case 'disney plus':
+                    return `https://disneyplus.com`; 
+                default:
+                    return `https://google.com{query}+on+${encodeURIComponent(service)}`;
+            }
+        }
+
+        function handleLogin() {
+            const userIn = document.getElementById('username').value.trim();
+            const passIn = document.getElementById('password').value;
+            
+            if (USERS[userIn] && USERS[userIn] === passIn) {
+                currentUser = userIn;
+                document.getElementById('loginGate').classList.add('hidden');
+                document.getElementById('dashboard').classList.remove('hidden');
+                document.getElementById('welcomeText').innerText = `Welcome, ${currentUser}`;
+                renderCatalog();
+            } else {
+                document.getElementById('loginError').classList.remove('hidden');
+            }
+        }
+
+        function handleLogout() {
+            currentUser = null;
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            document.getElementById('dashboard').classList.add('hidden');
+            document.getElementById('loginGate').classList.remove('hidden');
+            document.getElementById('loginError').classList.add('hidden');
+        }
+
+        function renderCatalog() {
+            const grid = document.getElementById('catalogGrid');
+            grid.innerHTML = '';
+
+            allMediaCatalog.forEach(item => {
+                const targetUrl = generateDeepSearchLink(item.title, item.service);
+                
+                const card = document.createElement('a');
+                card.className = 'media-card';
+                card.href = targetUrl;
+                card.target = '_blank';
+                
+                card.innerHTML = `
+                    <div class="media-info">
+                        <div class="media-title">${item.title}</div>
+                        <div class="media-service">${item.service}</div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+    </script>
+</body>
+</html>
