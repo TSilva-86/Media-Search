@@ -1,85 +1,4 @@
 <!DOCTYPE html>
-< lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Media Search</title>
-  <style>
-    :root {
-      --bg-color: #000000;
-      --card-bg: #121212;
-      --card-hover: #181818;
-      --primary-color: #28a745;
-      --primary-hover: #218838;
-      --text-color: #ffffff;
-      --text-muted: #bbbbbb;
-      --border-color: #333333;
-      --error-color: #ff4d4d;
-    }
-
-    body {
-      margin: 0;
-      padding: 0;
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      font-family: Arial, sans-serif;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    #loginContainer {
-      display: flex;
-      flex-direction: column;
-      width: 360px;
-      gap: 12px;
-      margin: auto;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-
-    .media-search-box {
-      width: 100%;
-      padding: 10px 16px;
-      background-color: var(--primary-color);
-      color: #000000;
-      font-weight: bold;
-      font-size: 16px;
-      text-align: center;
-      border: 1px solid var(--primary-hover);
-      border-radius: 4px;
-      box-sizing: border-box;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.15);
-    }
-
-    .login-card {
-      width: 100%;
-      background: var(--card-bg);
-      padding: 24px;
-      border-radius: 6px;
-      border: 1px solid var(--border-color);
-      box-sizing: border-box;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-    }
-
-    .login-card h2 {
-      margin-top: 0;
-      margin-bottom: 20px;
-      font-size: 20px;
-      text-align: center;
-    }
-
-    .form-group {
-      margin-bottom: 16px;
-    }
-
-    .form-group label {
-      display: block;
-      margin-bottom: 6px;
-      font-size: 14px;
-      color: var(--text-muted);
-    }<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -378,62 +297,62 @@
       { username: "tsilva", service: "Crunchyroll", active: "Y" }
     ];
 
-    // Master Catalog structured with unique ID references
+    // Master Catalog mapping service-native identifiers for direct deep-linking
     const allMediaCatalog = [
-      { id: "tt11301886", service: "Netflix", title: "Rebel Ridge", releaseDate: "2024-09-06" },
-      { id: "tt16124520", service: "Netflix", title: "The Killer", releaseDate: "2023-11-10" },
-      { id: "tt11564570", service: "Netflix", title: "Glass Onion", releaseDate: "2022-12-23" },
-      { id: "tt13922144", service: "Netflix", title: "Beverly Hills Cop: Axel F", releaseDate: "2024-07-03" },
-      { id: "tt11725514", service: "Netflix", title: "Spaceman", releaseDate: "2024-03-01" },
-      { id: "tt15445174", service: "Netflix", title: "Lift", releaseDate: "2024-01-12" },
+      { id: "81157729", service: "Netflix", title: "Rebel Ridge", releaseDate: "2024-09-06" },
+      { id: "81476889", service: "Netflix", title: "The Killer", releaseDate: "2023-11-10" },
+      { id: "81458471", service: "Netflix", title: "Glass Onion", releaseDate: "2022-12-23" },
+      { id: "81582845", service: "Netflix", title: "Beverly Hills Cop: Axel F", releaseDate: "2024-07-03" },
+      { id: "81223405", service: "Netflix", title: "Spaceman", releaseDate: "2024-03-01" },
+      { id: "81483842", service: "Netflix", title: "Lift", releaseDate: "2024-01-12" },
       
-      { id: "tt33598540", service: "Amazon Prime", title: "Road House", releaseDate: "2024-03-21" },
-      { id: "tt22471694", service: "Amazon Prime", title: "The Idea of You", releaseDate: "2024-05-02" },
-      { id: "tt25633192", service: "Amazon Prime", title: "Red One", releaseDate: "2024-11-15" },
-      { id: "tt23547844", service: "Amazon Prime", title: "Role Play", releaseDate: "2024-01-12" },
-      { id: "tt9777666", service: "Amazon Prime", title: "The Tomorrow War", releaseDate: "2021-07-02" },
+      { id: "B09ZVDZGP8", service: "Amazon Prime", title: "Road House", releaseDate: "2024-03-21" },
+      { id: "B0D1XD6V1G", service: "Amazon Prime", title: "The Idea of You", releaseDate: "2024-05-02" },
+      { id: "B0DMV13W3C", service: "Amazon Prime", title: "Red One", releaseDate: "2024-11-15" },
+      { id: "B0CSG69887", service: "Amazon Prime", title: "Role Play", releaseDate: "2024-01-12" },
+      { id: "B09935H8V4", service: "Amazon Prime", title: "The Tomorrow War", releaseDate: "2021-07-02" },
 
-      { id: "tt27494544", service: "Hulu", title: "Quiz Lady", releaseDate: "2023-11-03" },
-      { id: "tt11866324", service: "Hulu", title: "Prey", releaseDate: "2022-08-05" },
-      { id: "tt20857948", service: "Hulu", title: "Not Okay", releaseDate: "2022-07-29" },
-      { id: "tt21345432", service: "Hulu", title: "Boston Strangler", releaseDate: "2023-03-17" },
-      { id: "tt21807222", service: "Hulu", title: "Flamin' Hot", releaseDate: "2023-06-09" },
+      { id: "quiz-lady", service: "Hulu", title: "Quiz Lady", releaseDate: "2023-11-03" },
+      { id: "prey", service: "Hulu", title: "Prey", releaseDate: "2022-08-05" },
+      { id: "not-okay", service: "Hulu", title: "Not Okay", releaseDate: "2022-07-29" },
+      { id: "boston-strangler", service: "Hulu", title: "Boston Strangler", releaseDate: "2023-03-17" },
+      { id: "flamin-hot", service: "Hulu", title: "Flamin' Hot", releaseDate: "2023-06-09" },
 
-      { id: "tt22022452", service: "Disney", title: "Inside Out 2", releaseDate: "2024-06-14" },
-      { id: "tt6263850", service: "Disney", title: "Deadpool & Wolverine", releaseDate: "2024-07-26" },
-      { id: "tt15791034", service: "Disney", title: "Elemental", releaseDate: "2023-06-16" },
-      { id: "tt5690370", service: "Disney", title: "Peter Pan & Wendy", releaseDate: "2023-04-28" },
-      { id: "tt9355602", service: "Disney", title: "Disenchanted", releaseDate: "2022-11-18" },
+      { id: "inside-out-2", service: "Disney", title: "Inside Out 2", releaseDate: "2024-06-14" },
+      { id: "deadpool-and-wolverine", service: "Disney", title: "Deadpool & Wolverine", releaseDate: "2024-07-26" },
+      { id: "elemental", service: "Disney", title: "Elemental", releaseDate: "2023-06-16" },
+      { id: "peter-pan-and-wendy", service: "Disney", title: "Peter Pan & Wendy", releaseDate: "2023-04-28" },
+      { id: "disenchanted", service: "Disney", title: "Disenchanted", releaseDate: "2022-11-18" },
 
-      { id: "tt1877830", service: "HBO Max", title: "The Batman", releaseDate: "2022-03-04" },
-      { id: "tt15239678", service: "HBO Max", title: "Dune: Part Two", releaseDate: "2024-03-01" },
-      { id: "tt12037194", service: "HBO Max", title: "Furiosa", releaseDate: "2024-05-24" },
-      { id: "tt0439572", service: "HBO Max", title: "The Flash", releaseDate: "2023-06-16" },
-      { id: "tt0450385", service: "HBO Max", title: "Blue Beetle", releaseDate: "2023-08-18" },
+      { id: "the-batman", service: "HBO Max", title: "The Batman", releaseDate: "2022-03-04" },
+      { id: "dune-part-two", service: "HBO Max", title: "Dune: Part Two", releaseDate: "2024-03-01" },
+      { id: "furiosa", service: "HBO Max", title: "Furiosa", releaseDate: "2024-05-24" },
+      { id: "the-flash", service: "HBO Max", title: "The Flash", releaseDate: "2023-06-16" },
+      { id: "blue-beetle", service: "HBO Max", title: "Blue Beetle", releaseDate: "2023-08-18" },
 
-      { id: "tt1745960", service: "Paramount+", title: "Top Gun: Maverick", releaseDate: "2022-05-27" },
-      { id: "tt13622970", service: "Paramount+", title: "A Quiet Place: Day One", releaseDate: "2024-06-28" },
-      { id: "tt11126994", service: "Paramount+", title: "IF", releaseDate: "2024-05-17" },
-      { id: "tt9603212", service: "Paramount+", title: "Mission: Impossible - Dead Reckoning", releaseDate: "2023-07-12" },
-      { id: "tt14563512", service: "Paramount+", title: "Babylon", releaseDate: "2022-12-23" },
+      { id: "top-gun-maverick", service: "Paramount+", title: "Top Gun: Maverick", releaseDate: "2022-05-27" },
+      { id: "a-quiet-place-day-one", service: "Paramount+", title: "A Quiet Place: Day One", releaseDate: "2024-06-28" },
+      { id: "if", service: "Paramount+", title: "IF", releaseDate: "2024-05-17" },
+      { id: "mission-impossible-dead-reckoning", service: "Paramount+", title: "Mission: Impossible - Dead Reckoning", releaseDate: "2023-07-12" },
+      { id: "babylon", service: "Paramount+", title: "Babylon", releaseDate: "2022-12-23" },
 
-      { id: "tt30379435", service: "Crunchyroll", title: "Demon Slayer: To the Hashira Training", releaseDate: "2024-02-23" },
-      { id: "tt27993410", service: "Crunchyroll", title: "SPY x FAMILY CODE: White", releaseDate: "2023-12-22" },
-      { id: "tt28238714", service: "Crunchyroll", title: "HAIKYU!! The Dumpster Battle", releaseDate: "2024-02-16" },
-      { id: "tt23758362", service: "Crunchyroll", title: "JUJUTSU KAISEN Hidden Inventory", releaseDate: "2023-07-06" },
-      { id: "tt15998188", service: "Crunchyroll", title: "Chainsaw Man", releaseDate: "2022-10-12" }
+      { id: "demon-slayer-to-the-hashira-training", service: "Crunchyroll", title: "Demon Slayer: To the Hashira Training", releaseDate: "2024-02-23" },
+      { id: "spy-x-family-code-white", service: "Crunchyroll", title: "SPY x FAMILY CODE: White", releaseDate: "2023-12-22" },
+      { id: "haikyu-the-dumpster-battle", service: "Crunchyroll", title: "HAIKYU!! The Dumpster Battle", releaseDate: "2024-02-16" },
+      { id: "jujutsu-kaisen", service: "Crunchyroll", title: "JUJUTSU KAISEN Hidden Inventory", releaseDate: "2023-07-06" },
+      { id: "chainsaw-man", service: "Crunchyroll", title: "Chainsaw Man", releaseDate: "2022-10-12" }
     ];
 
-    // Structured ID routing engine
+    // Provider URL router mapped to native platform URL structures
     function getProviderUrl(item) {
       const q = encodeURIComponent(item.title);
       switch(item.service) {
         case "Netflix":
           return `https://www.netflix.com/title/${item.id}`;
         case "Amazon Prime":
-          return `https://www.amazon.com/gp/video/detail/${item.id}`;
+          return `https://www.amazon.com/dp/${item.id}`;
         case "Disney":
-          return `https://www.disneyplus.com/movies/title/${item.id}`;
+          return `https://www.disneyplus.com/browse/${item.id}`;
         case "HBO Max":
           return `https://www.max.com/movies/${item.id}`;
         case "Hulu":
@@ -559,12 +478,3 @@
   </script>
 </body>
 </html>
-
-
-    .form-group input {
-      width: 100%;
-      padding: 10px;
-      font-size: 14px;
-      background-color: #1e1e1e;
-      color: var(--text-color);
-      border: 1px solid #44444
