@@ -297,24 +297,50 @@
       { username: "tsilva", service: "Crunchyroll", active: "Y" }
     ];
 
+    // Master Catalog repository (simulating structured DB/IMDb release entries)
     const allMediaCatalog = [
-      { 
-        service: "Netflix", 
-        title: "Rebel Ridge", 
-        category: "Top New Arrivals",
-        releaseDate: "2024-09-06", 
-        watchUrl: "https://www.netflix.com/us/title/81157729?s=a&trkid=13747225&shareType=Title&shareUuid=5c30e763-c4f2-484c-9649-4d8bec6b41eb&trg=cp&unifiedEntityIdEncoded=Video%3A81157729&vlang=en&clip=81786544" 
-      },
-      { service: "Amazon Prime", title: "Road House", category: "Top New Arrivals", releaseDate: "2024-03-21" },
-      { service: "Hulu", title: "Quiz Lady", category: "Top New Arrivals", releaseDate: "2023-11-03" },
-      { service: "Netflix", title: "The Killer", category: "Top New Arrivals", releaseDate: "2023-11-10" },
-      { service: "Amazon Prime", title: "The Idea of You", category: "Top New Arrivals", releaseDate: "2024-05-02" },
-      { service: "Disney", title: "Inside Out 2", category: "Top New Arrivals", releaseDate: "2024-06-14" },
-      { service: "HBO Max", title: "The Batman", category: "Action", releaseDate: "2022-03-04" },
-      { service: "Paramount+", title: "Top Gun: Maverick", category: "Action", releaseDate: "2022-05-27" },
-      { service: "Hulu", title: "Prey", category: "Action", releaseDate: "2022-08-05" },
-      { service: "Crunchyroll", title: "Demon Slayer: To the Hashira Training", category: "Anime", releaseDate: "2024-02-23" },
-      { service: "Netflix", title: "Glass Onion", category: "Top New Arrivals", releaseDate: "2022-12-23" }
+      { service: "Netflix", title: "Rebel Ridge", releaseDate: "2024-09-06", watchUrl: "https://www.netflix.com/us/title/81157729?s=a&trkid=13747225&shareType=Title&shareUuid=5c30e763-c4f2-484c-9649-4d8bec6b41eb&trg=cp&unifiedEntityIdEncoded=Video%3A81157729&vlang=en&clip=81786544" },
+      { service: "Netflix", title: "The Killer", releaseDate: "2023-11-10" },
+      { service: "Netflix", title: "Glass Onion", releaseDate: "2022-12-23" },
+      { service: "Netflix", title: "Beverly Hills Cop: Axel F", releaseDate: "2024-07-03" },
+      { service: "Netflix", title: "Spaceman", releaseDate: "2024-03-01" },
+      { service: "Netflix", title: "Lift", releaseDate: "2024-01-12" },
+      
+      { service: "Amazon Prime", title: "Road House", releaseDate: "2024-03-21" },
+      { service: "Amazon Prime", title: "The Idea of You", releaseDate: "2024-05-02" },
+      { service: "Amazon Prime", title: "Red One", releaseDate: "2024-11-15" },
+      { service: "Amazon Prime", title: "Role Play", releaseDate: "2024-01-12" },
+      { service: "Amazon Prime", title: "The Tomorrow War", releaseDate: "2021-07-02" },
+
+      { service: "Hulu", title: "Quiz Lady", releaseDate: "2023-11-03" },
+      { service: "Hulu", title: "Prey", releaseDate: "2022-08-05" },
+      { service: "Hulu", title: "Not Okay", releaseDate: "2022-07-29" },
+      { service: "Hulu", title: "Boston Strangler", releaseDate: "2023-03-17" },
+      { service: "Hulu", title: "Flamin' Hot", releaseDate: "2023-06-09" },
+
+      { service: "Disney", title: "Inside Out 2", releaseDate: "2024-06-14" },
+      { service: "Disney", title: "Deadpool & Wolverine", releaseDate: "2024-07-26" },
+      { service: "Disney", title: "Elemental", releaseDate: "2023-06-16" },
+      { service: "Disney", title: "Peter Pan & Wendy", releaseDate: "2023-04-28" },
+      { service: "Disney", title: "Disenchanted", releaseDate: "2022-11-18" },
+
+      { service: "HBO Max", title: "The Batman", releaseDate: "2022-03-04" },
+      { service: "HBO Max", title: "Dune: Part Two", releaseDate: "2024-03-01" },
+      { service: "HBO Max", title: "Furiosa", releaseDate: "2024-05-24" },
+      { service: "HBO Max", title: "The Flash", releaseDate: "2023-06-16" },
+      { service: "HBO Max", title: "Blue Beetle", releaseDate: "2023-08-18" },
+
+      { service: "Paramount+", title: "Top Gun: Maverick", releaseDate: "2022-05-27" },
+      { service: "Paramount+", title: "A Quiet Place: Day One", releaseDate: "2024-06-28" },
+      { service: "Paramount+", title: "IF", releaseDate: "2024-05-17" },
+      { service: "Paramount+", title: "Mission: Impossible - Dead Reckoning", releaseDate: "2023-07-12" },
+      { service: "Paramount+", title: "Babylon", releaseDate: "2022-12-23" },
+
+      { service: "Crunchyroll", title: "Demon Slayer: To the Hashira Training", releaseDate: "2024-02-23" },
+      { service: "Crunchyroll", title: "SPY x FAMILY CODE: White", releaseDate: "2023-12-22" },
+      { service: "Crunchyroll", title: "HAIKYU!! The Dumpster Battle", releaseDate: "2024-02-16" },
+      { service: "Crunchyroll", title: "JUJUTSU KAISEN Hidden Inventory", releaseDate: "2023-07-06" },
+      { service: "Crunchyroll", title: "Chainsaw Man", releaseDate: "2022-10-12" }
     ];
 
     function getSearchUrl(item) {
@@ -359,32 +385,36 @@
       if (!dashboard) return;
       dashboard.innerHTML = '';
 
+      // Get user's active services
       const activeServices = userServices
         .filter(s => s.username.toLowerCase() === username.toLowerCase() && s.active && s.active.toUpperCase() === 'Y')
         .map(s => s.service);
 
-      const categories = ["Top New Arrivals", "Action", "Anime"];
+      // --- SECTION 1: TOP NEW ARRIVALS (Independent Rule: Top 5 per active service sorted by release date) ---
+      const topNewArrivalsItems = [];
+      
+      activeServices.forEach(service => {
+        const serviceItems = allMediaCatalog
+          .filter(item => item.service === service)
+          .sort((a, b) => new Date(b.releaseDate) - new Date(a.releaseDate))
+          .slice(0, 5); // Take top 5 for this service
+        
+        topNewArrivalsItems.push(...serviceItems);
+      });
 
-      categories.forEach(category => {
-        const categoryItems = allMediaCatalog.filter(item => 
-          (item.category === category || (!item.category && category === "Top New Arrivals")) &&
-          activeServices.includes(item.service)
-        );
-
-        if (categoryItems.length === 0) return;
-
+      if (topNewArrivalsItems.length > 0) {
         const section = document.createElement('div');
         section.className = 'category-section';
 
         const titleDiv = document.createElement('div');
         titleDiv.className = 'section-title';
-        titleDiv.textContent = category;
+        titleDiv.textContent = "Top New Arrivals";
         section.appendChild(titleDiv);
 
         const row = document.createElement('div');
         row.className = 'row-container';
 
-        categoryItems.forEach(item => {
+        topNewArrivalsItems.forEach(item => {
           const card = document.createElement('div');
           card.className = 'media-card';
           card.innerHTML = `
@@ -400,7 +430,9 @@
 
         section.appendChild(row);
         dashboard.appendChild(section);
-      });
+      }
+
+      // FUTURE SECTIONS (e.g. Dramas, Action, Spooky) will have their own independent logic blocks here!
     }
 
     window.addEventListener('DOMContentLoaded', () => {
