@@ -1,4 +1,85 @@
 <!DOCTYPE html>
+< lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Media Search</title>
+  <style>
+    :root {
+      --bg-color: #000000;
+      --card-bg: #121212;
+      --card-hover: #181818;
+      --primary-color: #28a745;
+      --primary-hover: #218838;
+      --text-color: #ffffff;
+      --text-muted: #bbbbbb;
+      --border-color: #333333;
+      --error-color: #ff4d4d;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: Arial, sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    #loginContainer {
+      display: flex;
+      flex-direction: column;
+      width: 360px;
+      gap: 12px;
+      margin: auto;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .media-search-box {
+      width: 100%;
+      padding: 10px 16px;
+      background-color: var(--primary-color);
+      color: #000000;
+      font-weight: bold;
+      font-size: 16px;
+      text-align: center;
+      border: 1px solid var(--primary-hover);
+      border-radius: 4px;
+      box-sizing: border-box;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+    }
+
+    .login-card {
+      width: 100%;
+      background: var(--card-bg);
+      padding: 24px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      box-sizing: border-box;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    }
+
+    .login-card h2 {
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-size: 20px;
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+      color: var(--text-muted);
+    }<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -297,7 +378,7 @@
       { username: "tsilva", service: "Crunchyroll", active: "Y" }
     ];
 
-    // Master Catalog repository structured with unique IDs and metadata
+    // Master Catalog structured with unique ID references
     const allMediaCatalog = [
       { id: "tt11301886", service: "Netflix", title: "Rebel Ridge", releaseDate: "2024-09-06" },
       { id: "tt16124520", service: "Netflix", title: "The Killer", releaseDate: "2023-11-10" },
@@ -343,7 +424,7 @@
       { id: "tt15998188", service: "Crunchyroll", title: "Chainsaw Man", releaseDate: "2022-10-12" }
     ];
 
-    // Engine: Generates direct provider deep links or official web app query lookups using title IDs
+    // Structured ID routing engine
     function getProviderUrl(item) {
       const q = encodeURIComponent(item.title);
       switch(item.service) {
@@ -395,7 +476,7 @@
         const serviceItems = allMediaCatalog
           .filter(item => item.service === service)
           .sort((a, b) => new Date(b.releaseDate) - new Date(a.releaseDate))
-          .slice(0, 5); // Top 5 per service dynamically queried
+          .slice(0, 5); // Top 5 per service
         
         topNewArrivalsItems.push(...serviceItems);
       });
@@ -469,12 +550,21 @@
         sessionStorage.removeItem('loggedInUser');
         setViewState(false);
         const uField = document.getElementById('username');
-        if (userField) {
-          userField.value = '';
-          userField.focus();
+        if (uField) {
+          uField.value = '';
+          uField.focus();
         }
       });
     }
   </script>
 </body>
 </html>
+
+
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+      background-color: #1e1e1e;
+      color: var(--text-color);
+      border: 1px solid #44444
