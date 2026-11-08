@@ -168,25 +168,22 @@ body {
   align-items: center;
   justify-content: center;
   text-align: center;
-  font-size: 10px;
-  font-weight: 900;
-  text-transform: uppercase;
   cursor: pointer;
   border: 2px solid rgba(255, 255, 255, 0.15);
   transition: all 0.2s ease;
   box-sizing: border-box;
-  padding: 6px;
   user-select: none;
-  line-height: 1.1;
+  overflow: hidden;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .service-filter-circle.inactive {
-  background: #111111 !important;
-  color: #555555 !important;
-  border-color: #222222 !important;
-  box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.8), 0 1px 2px rgba(255, 255, 255, 0.05);
+  filter: grayscale(80%) brightness(55%);
+  border-color: #444444;
+  opacity: 0.55;
   transform: scale(0.95);
-  opacity: 0.6;
 }
 
 .service-filter-circle:hover {
@@ -196,7 +193,8 @@ body {
 
 .service-filter-circle.inactive:hover {
   transform: scale(0.98);
-  opacity: 0.8;
+  filter: grayscale(40%) brightness(75%);
+  opacity: 0.75;
 }
 
 .category-section {
@@ -279,15 +277,16 @@ body {
   opacity: 0.85;
 }
 
-.theme-amazon-prime { background: linear-gradient(135deg, #00a8e1, #146eb4); color: #ffffff; }
-.theme-crunchyroll { background: linear-gradient(135deg, #f47521, #d64000); color: #ffffff; }
-.theme-disney { background: linear-gradient(135deg, #1136b8, #0063e5); color: #ffffff; }
-.theme-hbo-max { background: linear-gradient(135deg, #4b286d, #833ab4); color: #ffffff; }
-.theme-hulu { background: linear-gradient(135deg, #1ce783, #107c41); color: #000000; }
-.theme-netflix { background: linear-gradient(135deg, #b9090b, #e50914); color: #ffffff; }
-.theme-paramount { background: linear-gradient(135deg, #0064ff, #001f5c); color: #ffffff; }
-.theme-peacock { background: linear-gradient(135deg, #00a5ff, #002d72); color: #ffffff; }
-.theme-showtime { background: linear-gradient(135deg, #d32f2f, #333333); color: #ffffff; }
+/* Service Branding Backgrounds & Logo Classes */
+.theme-amazon-prime { background: linear-gradient(135deg, #00a8e1, #146eb4); color: #ffffff; background-image: url('https://upload.wikimedia.org/wikipedia/commons/1/11/Amazon_Prime_Video_logo.svg'); background-size: 75%; background-repeat: no-repeat; background-position: center; }
+.theme-crunchyroll { background: linear-gradient(135deg, #f47521, #d64000); color: #ffffff; background-image: url('https://upload.wikimedia.org/wikipedia/commons/0/0e/Crunchyroll_Logo.svg'); background-size: 65%; background-repeat: no-repeat; background-position: center; }
+.theme-disney { background: linear-gradient(135deg, #1136b8, #0063e5); color: #ffffff; background-image: url('https://upload.wikimedia.org/wikipedia/commons/3/3e/Disney%2B_logo.svg'); background-size: 80%; background-repeat: no-repeat; background-position: center; }
+.theme-hbo-max { background: linear-gradient(135deg, #4b286d, #833ab4); color: #ffffff; background-image: url('https://upload.wikimedia.org/wikipedia/commons/c/ce/Max_logo.svg'); background-size: 70%; background-repeat: no-repeat; background-position: center; }
+.theme-hulu { background: linear-gradient(135deg, #1ce783, #107c41); color: #000000; background-image: url('https://upload.wikimedia.org/wikipedia/commons/e/e4/Hulu_logo_%282014%29.svg'); background-size: 70%; background-repeat: no-repeat; background-position: center; }
+.theme-netflix { background: linear-gradient(135deg, #b9090b, #e50914); color: #ffffff; background-image: url('https://upload.wikimedia.org/wikipedia/commons/0/0c/Netflix_2015_N_Logo.svg'); background-size: 40%; background-repeat: no-repeat; background-position: center; }
+.theme-paramount { background: linear-gradient(135deg, #0064ff, #001f5c); color: #ffffff; background-image: url('https://upload.wikimedia.org/wikipedia/commons/a/a5/Paramount_Plus_logo.svg'); background-size: 80%; background-repeat: no-repeat; background-position: center; }
+.theme-peacock { background: linear-gradient(135deg, #00a5ff, #002d72); color: #ffffff; background-image: url('https://upload.wikimedia.org/wikipedia/commons/d/d3/Peacock_Logo.svg'); background-size: 65%; background-repeat: no-repeat; background-position: center; }
+.theme-showtime { background: linear-gradient(135deg, #d32f2f, #333333); color: #ffffff; background-image: url('https://upload.wikimedia.org/wikipedia/commons/5/5a/Showtime_logo.svg'); background-size: 80%; background-repeat: no-repeat; background-position: center; }
 
 .media-title-banner {
   font-size: 12px;
@@ -421,14 +420,23 @@ function toggleServiceFilter(serviceName) {
 function renderFilters() {
   const filterBar = document.getElementById('filterBar');
   filterBar.innerHTML = "";
-
+  
   availableServices.forEach(s => {
     const circle = document.createElement('div');
     const themeClass = getServiceThemeClass(s.name);
     circle.className = `service-filter-circle ${themeClass} ${s.active ? '' : 'inactive'}`;
-    circle.textContent = s.name;
     circle.title = s.active ? `Hide ${s.name}` : `Show ${s.name}`;
     circle.addEventListener('click', () => toggleServiceFilter(s.name));
+    
+    // If no custom brand theme class is returned, render name as text fallback
+    if (!themeClass) {
+      circle.textContent = s.name;
+      circle.style.fontSize = '10px';
+      circle.style.fontWeight = '900';
+      circle.style.background = 'var(--primary-color)';
+      circle.style.color = '#000000';
+    }
+    
     filterBar.appendChild(circle);
   });
 }
@@ -436,10 +444,10 @@ function renderFilters() {
 function renderDashboard() {
   const dashboard = document.getElementById('dashboardRows');
   dashboard.innerHTML = "";
-
+  
   const activeServiceNames = availableServices.filter(s => s.active).map(s => s.name);
   const filteredItems = allMediaCatalog.filter(item => activeServiceNames.includes(item.service));
-
+  
   filteredItems.sort((a, b) => {
     const dateA = new Date(a.releaseDate);
     const dateB = new Date(b.releaseDate);
@@ -449,15 +457,15 @@ function renderDashboard() {
 
   const section = document.createElement('div');
   section.className = 'category-section';
-
+  
   const titleDiv = document.createElement('div');
   titleDiv.className = 'section-title';
   titleDiv.textContent = "Top New Arrivals";
   section.appendChild(titleDiv);
-
+  
   const row = document.createElement('div');
   row.className = 'row-container';
-
+  
   if (filteredItems.length === 0) {
     row.innerHTML = '<div class="empty-state">All services are currently filtered out. Click the service circles above to include them.</div>';
   } else {
@@ -465,18 +473,20 @@ function renderDashboard() {
       const card = document.createElement('div');
       card.className = 'media-card';
       const themeClass = getServiceThemeClass(item.service);
-      card.innerHTML = `<div class="service-brand-banner ${themeClass}">
-        <span class="brand-name">${item.service}</span>
-        <span class="brand-type">New Arrival</span>
-      </div>
-      <span class="media-title-banner" title="${item.title}">${item.title}</span>`;
+      card.innerHTML = `
+        <div class="service-brand-banner ${themeClass}">
+          <span class="brand-name">${item.service}</span>
+          <span class="brand-type">New Arrival</span>
+        </div>
+        <span class="media-title-banner" title="${item.title}">${item.title}</span>
+      `;
       card.addEventListener('click', () => {
         window.open(getSearchUrl(item), '_blank');
       });
       row.appendChild(card);
     });
   }
-
+  
   section.appendChild(row);
   dashboard.appendChild(section);
 }
@@ -493,7 +503,7 @@ if (loginForm) {
     const u = document.getElementById('username').value.trim().toLowerCase();
     const p = document.getElementById('password').value.trim();
     const err = document.getElementById('errorMsg');
-
+    
     if (u === AUTH_CONFIG.user && p === AUTH_CONFIG.pass) {
       sessionStorage.setItem('loggedInUser', u);
       document.getElementById('password').value = "";
