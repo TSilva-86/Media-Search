@@ -154,32 +154,55 @@
       padding-bottom: 40px;
     }
 
-    /* Service Filter Bar across the top in alphabetical order */
+    /* Circular Service Filter Bar */
     .filter-bar {
       display: flex;
-      gap: 8px;
+      gap: 16px;
       flex-wrap: wrap;
+      align-items: center;
       margin-bottom: 10px;
-      padding-bottom: 15px;
+      padding-bottom: 20px;
       border-bottom: 1px solid var(--border-color);
     }
 
-    .service-filter-btn {
-      padding: 6px 14px;
-      background-color: var(--card-bg);
-      color: var(--text-muted);
-      border: 1px solid var(--border-color);
-      border-radius: 20px;
-      font-size: 13px;
-      font-weight: bold;
+    .service-filter-circle {
+      width: 65px;
+      height: 65px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 10px;
+      font-weight: 900;
+      text-transform: uppercase;
       cursor: pointer;
-      transition: all 0.2s;
+      border: 2px solid rgba(255, 255, 255, 0.15);
+      transition: all 0.2s ease;
+      box-sizing: border-box;
+      padding: 6px;
+      user-select: none;
+      line-height: 1.1;
     }
 
-    .service-filter-btn.active {
-      background-color: var(--primary-color);
-      color: #000000;
-      border-color: var(--primary-hover);
+    /* Toggled Off State (Darker, Imprinted, Inset Shadow) */
+    .service-filter-circle.inactive {
+      background: #111111 !important;
+      color: #555555 !important;
+      border-color: #222222 !important;
+      box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.8), 0 1px 2px rgba(255, 255, 255, 0.05);
+      transform: scale(0.95);
+      opacity: 0.6;
+    }
+
+    .service-filter-circle:hover {
+      transform: scale(1.05);
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+
+    .service-filter-circle.inactive:hover {
+      transform: scale(0.98);
+      opacity: 0.8;
     }
 
     .category-section {
@@ -258,7 +281,7 @@
       opacity: 0.85;
     }
 
-    /* Service Gradients */
+    /* Service Color Schemes / Gradients */
     .theme-amazon-prime { background: linear-gradient(135deg, #00a8e1, #146eb4); color: #ffffff; }
     .theme-crunchyroll { background: linear-gradient(135deg, #f47521, #d64000); color: #ffffff; }
     .theme-disney { background: linear-gradient(135deg, #1136b8, #0063e5); color: #ffffff; }
@@ -322,7 +345,7 @@
     </div>
 
     <div class="dashboard-content" id="dashboardContent">
-      <!-- Hardcoded Service Filters (Sorted Alphabetically) -->
+      <!-- Alphabetical Circular Service Filter Badges -->
       <div class="filter-bar" id="filterBar"></div>
 
       <!-- Dashboard Sections Container -->
@@ -412,11 +435,16 @@
       filterBar.innerHTML = '';
 
       availableServices.forEach(s => {
-        const btn = document.createElement('button');
-        btn.className = `service-filter-btn ${s.active ? 'active' : ''}`;
-        btn.textContent = s.active ? `✓ ${s.name}` : `+ ${s.name}`;
-        btn.addEventListener('click', () => toggleServiceFilter(s.name));
-        filterBar.appendChild(btn);
+        const circle = document.createElement('div');
+        const themeClass = getServiceThemeClass(s.name);
+        
+        // Apply circular brand styling, adding 'inactive' class when toggled off
+        circle.className = `service-filter-circle ${themeClass} ${s.active ? '' : 'inactive'}`;
+        circle.textContent = s.name;
+        circle.title = s.active ? `Hide ${s.name}` : `Show ${s.name}`;
+        
+        circle.addEventListener('click', () => toggleServiceFilter(s.name));
+        filterBar.appendChild(circle);
       });
     }
 
@@ -447,7 +475,7 @@
       row.className = 'row-container';
 
       if (filteredItems.length === 0) {
-        row.innerHTML = `<div class="empty-state">All services are currently filtered out. Click the filter buttons above to include services.</div>`;
+        row.innerHTML = `<div class="empty-state">All services are currently filtered out. Click the service circles above to include them.</div>`;
       } else {
         filteredItems.forEach(item => {
           const card = document.createElement('div');
