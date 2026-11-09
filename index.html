@@ -161,91 +161,50 @@ body {
 }
 
 .service-filter-circle {
-  width: 65px;
-  height: 65px;
+  width: 68px;
+  height: 68px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
+  text-align: center;
+  font-size: 11px;
+  font-weight: bold;
   cursor: pointer;
-  border: 2px solid rgba(255, 255, 255, 0.15);
+  border: 2px solid rgba(255, 255, 255, 0.2);
   transition: all 0.2s ease;
   box-sizing: border-box;
+  padding: 6px;
   user-select: none;
-  color: transparent !important;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  opacity: 1;
+  line-height: 1.2;
+  word-wrap: break-word;
 }
 
-/* Precise App Icon Background Colors & Layout Configurations Matching Reference Image 2 exactly */
-.service-filter-circle.theme-netflix {
-  background-color: #000000;
-  background-image: url('https://upload.wikimedia.org/wikipedia/commons/0/0c/Netflix_2015_N_logo.svg');
-  background-size: 45% auto;
-}
+/* Service Brand Color Definitions */
+.theme-amazon-prime { background-color: #00a8e1; color: #ffffff; }
+.theme-crunchyroll { background-color: #f47521; color: #ffffff; }
+.theme-disney { background-color: #0063e5; color: #ffffff; }
+.theme-hbo-max { background-color: #4b286d; color: #ffffff; }
+.theme-hulu { background-color: #1ce783; color: #000000; }
+.theme-netflix { background-color: #e50914; color: #ffffff; }
+.theme-paramount { background-color: #0064ff; color: #ffffff; }
+.theme-peacock { background-color: #00a5ff; color: #ffffff; }
+.theme-showtime { background-color: #d32f2f; color: #ffffff; }
 
-.service-filter-circle.theme-amazon-prime {
-  background-color: #1e92d4;
-  background-image: url('https://upload.wikimedia.org/wikipedia/commons/1/11/Amazon_Prime_Video_logo.svg');
-  background-size: 75% auto;
-}
-
-.service-filter-circle.theme-hulu {
-  background-color: #000000;
-  background-image: url('https://upload.wikimedia.org/wikipedia/commons/e/e4/Hulu_Logo.svg');
-  background-size: 65% auto;
-}
-
-.service-filter-circle.theme-disney {
-  background-color: #12213e;
-  background-image: url('https://upload.wikimedia.org/wikipedia/commons/3/3d/Disney%2B_logo.svg');
-  background-size: 75% auto;
-}
-
-.service-filter-circle.theme-hbo-max {
-  background-color: #1e1f2a;
-  background-image: url('https://upload.wikimedia.org/wikipedia/commons/c/ce/Max_logo.svg');
-  background-size: 65% auto;
-}
-
-.service-filter-circle.theme-crunchyroll {
-  background-color: #ff6600;
-  background-image: url('https://upload.wikimedia.org/wikipedia/commons/0/0e/Crunchyroll_Logo.svg');
-  background-size: 70% auto;
-}
-
-.service-filter-circle.theme-paramount {
-  background-color: #0054a6;
-  background-image: url('https://upload.wikimedia.org/wikipedia/commons/a/a5/Paramount%2B_logo.svg');
-  background-size: 75% auto;
-}
-
-.service-filter-circle.theme-peacock {
-  background-color: #111111;
-  background-image: url('https://upload.wikimedia.org/wikipedia/commons/d/d3/Peacock_Logo.svg');
-  background-size: 60% auto;
-}
-
-.service-filter-circle.theme-showtime {
-  background-color: #000000;
-  background-image: url('https://upload.wikimedia.org/wikipedia/commons/5/5a/Showtime_Logo.svg');
-  background-size: 80% auto;
-}
-
-/* Lightened shading state identifier toggle */
+/* Soft Shading Modifier for Filter Toggles */
 .service-filter-circle.inactive {
-  opacity: 0.55 !important;
+  opacity: 0.35 !important;
+  border-color: rgba(255, 255, 255, 0.05);
 }
 
 .service-filter-circle:hover {
   transform: scale(1.05);
-  border-color: rgba(255, 255, 255, 0.4);
+  border-color: rgba(255, 255, 255, 0.5);
 }
 
 .service-filter-circle.inactive:hover {
   transform: scale(0.98);
+  opacity: 0.5 !important;
 }
 
 .category-section {
@@ -327,16 +286,6 @@ body {
   margin-top: 4px;
   opacity: 0.85;
 }
-
-.theme-amazon-prime { background: linear-gradient(135deg, #00a8e1, #146eb4); color: #ffffff; }
-.theme-crunchyroll { background: linear-gradient(135deg, #f47521, #d64000); color: #ffffff; }
-.theme-disney { background: linear-gradient(135deg, #1136b8, #0063e5); color: #ffffff; }
-.theme-hbo-max { background: linear-gradient(135deg, #4b286d, #833ab4); color: #ffffff; }
-.theme-hulu { background: linear-gradient(135deg, #1ce783, #107c41); color: #000000; }
-.theme-netflix { background: linear-gradient(135deg, #b9090b, #e50914); color: #ffffff; }
-.theme-paramount { background: linear-gradient(135deg, #0064ff, #001f5c); color: #ffffff; }
-.theme-peacock { background: linear-gradient(135deg, #00a5ff, #002d72); color: #ffffff; }
-.theme-showtime { background: linear-gradient(135deg, #d32f2f, #333333); color: #ffffff; }
 
 .media-title-banner {
   font-size: 12px;
@@ -423,7 +372,7 @@ const allMediaCatalog = [
 ];
 
 function getSearchUrl(item) {
-  const year = item.releaseDate ? item.releaseDate.split('-') : "";
+  const year = item.releaseDate ? item.releaseDate.split('-')[0] : "";
   const query = `${item.title} ${year}`.trim();
   return `https://www.google.com/search?q=${encodeURIComponent(query)}`;
 }
@@ -508,7 +457,7 @@ function renderDashboard() {
   row.className = 'row-container';
 
   if (filteredItems.length === 0) {
-    row.innerHTML = '<div class="empty-state">All services are currently filtered out. Click the service circles above to include them.<\/div>';
+    row.innerHTML = '<div class="empty-state">All services are currently filtered out. Click the service circles above to include them.</div>';
   } else {
     filteredItems.forEach(item => {
       const card = document.createElement('div');
@@ -516,10 +465,10 @@ function renderDashboard() {
       const themeClass = getServiceThemeClass(item.service);
       card.innerHTML = `
         <div class="service-brand-banner ${themeClass}">
-          <span class="brand-name">${item.service}<\/span>
-          <span class="brand-type">New Arrival<\/span>
+          <span class="brand-name">${item.service}</span>
+          <span class="brand-type">New Arrival</span>
         </div>
-        <span class="media-title-banner" title="${item.title}">${item.title}<\/span>
+        <span class="media-title-banner" title="${item.title}">${item.title}</span>
       `;
       card.addEventListener('click', () => {
         window.open(getSearchUrl(item), '_blank');
