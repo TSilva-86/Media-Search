@@ -168,24 +168,77 @@ body {
   align-items: center;
   justify-content: center;
   text-align: center;
-  font-size: 10px;
-  font-weight: bold;
   cursor: pointer;
-  border: none;
+  border: 2px solid rgba(255, 255, 255, 0.15);
   transition: all 0.2s ease;
   box-sizing: border-box;
   user-select: none;
-  background-size: 70% auto;
+  color: transparent !important;
+  background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
+  opacity: 1;
 }
 
+/* Precise App Icon Color Profiles using highly robust vector SVGs directly embedded */
+.service-filter-circle.theme-netflix {
+  background-color: #000000 !important;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M32 20h12v60H32z' fill='%23b9090b'/><path d='M56 20h12v60H56z' fill='%23b9090b'/><path d='M32 20l24 60h12L44 20z' fill='%23e50914'/></svg>") !important;
+  background-size: 60% auto;
+}
+.service-filter-circle.theme-amazon-prime {
+  background-color: #151d24 !important;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 40'><path d='M10 20c5-3 15-3 20 0s5 5 5 5-2-7-10-8-12 0-15 3z' fill='%2300a8e1'/><path d='M28 22l3 3 4-5-6 1z' fill='%2300a8e1'/></svg>") !important;
+  background-size: 85% auto;
+}
+.service-filter-circle.theme-hulu {
+  background-color: #0b0c0e !important;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 40'><text x='10' y='28' fill='%231ce783' font-family='Arial' font-weight='bold' font-size='24'>hulu</text></svg>") !important;
+  background-size: 80% auto;
+}
+.service-filter-circle.theme-disney {
+  background-color: #020722 !important;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 50'><text x='10' y='35' fill='%2300a5ff' font-family='Arial' font-weight='bold' font-size='20'>Disney+</text></svg>") !important;
+  background-size: 85% auto;
+}
+.service-filter-circle.theme-hbo-max {
+  background-color: #02001c !important;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 40'><text x='15' y='28' fill='%23833ab4' font-family='Arial' font-weight='bold' font-size='22'>max</text></svg>") !important;
+  background-size: 80% auto;
+}
+.service-filter-circle.theme-crunchyroll {
+  background-color: #f47521 !important;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='20' fill='white'/><circle cx='57' cy='50' r='12' fill='%23f47521'/></svg>") !important;
+  background-size: 70% auto;
+}
+.service-filter-circle.theme-paramount {
+  background-color: #002244 !important;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 50'><text x='5' y='32' fill='white' font-family='Arial' font-size='14'>Paramount+</text></svg>") !important;
+  background-size: 90% auto;
+}
+.service-filter-circle.theme-peacock {
+  background-color: #000000 !important;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 40'><text x='10' y='28' fill='white' font-family='Arial' font-weight='bold' font-size='18'>Peacock</text></svg>") !important;
+  background-size: 85% auto;
+}
+.service-filter-circle.theme-showtime {
+  background-color: #d32f2f !important;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 40'><text x='5' y='28' fill='white' font-family='Arial' font-weight='bold' font-size='16'>SHOWTIME</text></svg>") !important;
+  background-size: 90% auto;
+}
+
+/* Soft Shading Modifier for Toggled-Off Items */
 .service-filter-circle.inactive {
-  opacity: 0.35;
+  opacity: 0.45 !important;
 }
 
 .service-filter-circle:hover {
   transform: scale(1.05);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.service-filter-circle.inactive:hover {
+  transform: scale(0.98);
 }
 
 .category-section {
@@ -246,13 +299,11 @@ body {
   border-radius: 4px;
   padding: 10px;
   margin-bottom: 8px;
-  background-size: 65% auto;
-  background-repeat: no-repeat;
-  background-position: center;
 }
 
 .service-brand-banner:not([class*="theme-"]) {
-  background-color: var(--primary-color);
+  background: var(--primary-color);
+  color: #000000;
 }
 
 .brand-name {
@@ -270,23 +321,16 @@ body {
   opacity: 0.85;
 }
 
-/* Authentic Dark App Icon Backgrounds & High Contrast Brand Colors */
-.theme-netflix { background-color: #000000; color: #e50914; background-image: url('https://upload.wikimedia.org/wikipedia/commons/0/0c/Netflix_2015_N_logo.svg'); background-size: 35% auto; }
-.theme-amazon-prime { background-color: #1a242f; color: #00a8e1; background-image: url('https://upload.wikimedia.org/wikipedia/commons/1/11/Amazon_Prime_Video_logo.svg'); }
-.theme-crunchyroll { background-color: #f47521; color: #ffffff; background-image: url('https://upload.wikimedia.org/wikipedia/commons/0/0e/Crunchyroll_Logo.svg'); background-size: 60% auto; }
-.theme-disney { background-color: #0b132b; color: #ffffff; background-image: url('https://upload.wikimedia.org/wikipedia/commons/3/3e/Disney%2B_logo.svg'); background-size: 80% auto; }
-.theme-hbo-max { background-color: #1d1236; color: #ffffff; background-image: url('https://upload.wikimedia.org/wikipedia/commons/c/ce/Max_logo.svg'); background-size: 65% auto; }
-.theme-hulu { background-color: #000000; color: #1ce783; background-image: url('https://upload.wikimedia.org/wikipedia/commons/e/e4/Hulu_Logo.svg'); }
-.theme-paramount { background-color: #005cff; color: #ffffff; background-image: url('https://upload.wikimedia.org/wikipedia/commons/a/a5/Paramount%2B_logo.svg'); background-size: 80% auto; }
-.theme-peacock { background-color: #000000; color: #ffffff; background-image: url('https://upload.wikimedia.org/wikipedia/commons/d/d3/Peacock_Logo.svg'); background-size: 50% auto; }
-.theme-showtime { background-color: #990000; color: #ffffff; background-image: url('https://upload.wikimedia.org/wikipedia/commons/1/1c/Showtime_logo.svg'); }
+.theme-amazon-prime { background: linear-gradient(135deg, #00a8e1, #146eb4); color: #ffffff; }
+.theme-crunchyroll { background: linear-gradient(135deg, #f47521, #d64000); color: #ffffff; }
+.theme-disney { background: linear-gradient(135deg, #1136b8, #0063e5); color: #ffffff; }
+.theme-hbo-max { background: linear-gradient(135deg, #4b286d, #833ab4); color: #ffffff; }
+.theme-hulu { background: linear-gradient(135deg, #1ce783, #107c41); color: #000000; }
+.theme-netflix { background: linear-gradient(135deg, #b9090b, #e50914); color: #ffffff; }
+.theme-paramount { background: linear-gradient(135deg, #0064ff, #001f5c); color: #ffffff; }
+.theme-peacock { background: linear-gradient(135deg, #00a5ff, #002d72); color: #ffffff; }
+.theme-showtime { background: linear-gradient(135deg, #d32f2f, #333333); color: #ffffff; }
 
-/* Hide default text ONLY inside the header circles so icons look ultra clean */
-.filter-bar .service-filter-circle {
-  color: transparent !important;
-}
-
-/* Ensure card text banner remains highly readable */
 .media-title-banner {
   font-size: 12px;
   color: #000000;
@@ -457,7 +501,7 @@ function renderDashboard() {
   row.className = 'row-container';
 
   if (filteredItems.length === 0) {
-    row.innerHTML = '<div class="empty-state">All services are currently filtered out. Click the service circles above to include them.<\/div>';
+    row.innerHTML = '<div class="empty-state">All services are currently filtered out. Click the service circles above to include them.</div>';
   } else {
     filteredItems.forEach(item => {
       const card = document.createElement('div');
