@@ -221,7 +221,8 @@ body {
 .section-title {
   font-size: 18px;
   font-weight: bold;
-  color: var(--text-color);
+  color: var(--primary-color);
+  background-color: #000000;
   padding-left: 4px;
 }
 
@@ -319,14 +320,6 @@ body {
   letter-spacing: 0.5px;
 }
 
-.brand-type {
-  font-size: 9px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-top: 4px;
-  opacity: 0.85;
-}
-
 .media-title-banner {
   font-size: 12px;
   color: #000000;
@@ -371,7 +364,7 @@ body {
 
 <div id="landingContainer">
   <div class="landing-header">
-    <div class="landing-banner">Media Search v.10</div>
+    <div class="landing-banner">Media Search v.11</div>
     <button class="btn-action" id="logoffBtn" style="width: auto; padding: 10px 20px; font-size: 14px;">Logoff</button>
   </div>
   <div class="dashboard-content" id="dashboardContent">
@@ -574,7 +567,7 @@ function toggleServiceFilter(serviceName) {
 function renderFilters() {
   const filterBar = document.getElementById('filterBar');
   filterBar.innerHTML = "";
-  
+
   availableServices.forEach(s => {
     const circle = document.createElement('div');
     const themeClass = getServiceThemeClass(s.name);
@@ -589,7 +582,7 @@ function renderFilters() {
 function scrollRow(rowId, direction) {
   const rowContainer = document.getElementById(rowId);
   if (rowContainer) {
-    const scrollAmount = 340; // Roughly two card widths + gap
+    const scrollAmount = 340;
     rowContainer.scrollBy({
       left: direction * scrollAmount,
       behavior: 'smooth'
@@ -600,56 +593,56 @@ function scrollRow(rowId, direction) {
 function renderDashboard() {
   const dashboard = document.getElementById('dashboardRows');
   dashboard.innerHTML = "";
-  
+
   const activeServiceNames = availableServices.filter(s => s.active).map(s => s.name);
   const filteredItems = allMediaCatalog.filter(item => activeServiceNames.includes(item.service));
-  
+
   filteredItems.sort((a, b) => {
     const dateA = new Date(a.releaseDate);
     const dateB = new Date(b.releaseDate);
     if (dateB - dateA !== 0) return dateB - dateA;
     return a.title.localeCompare(b.title);
   });
-  
+
   const section = document.createElement('div');
   section.className = 'category-section';
-  
+
   const headerWrapper = document.createElement('div');
   headerWrapper.className = 'section-header-wrapper';
-  
+
   const titleDiv = document.createElement('div');
   titleDiv.className = 'section-title';
   titleDiv.textContent = "Top New Arrivals";
   headerWrapper.appendChild(titleDiv);
-  
+
   const scrollBtns = document.createElement('div');
   scrollBtns.className = 'scroll-buttons-container';
-  
+
   const leftBtn = document.createElement('button');
   leftBtn.className = 'scroll-btn';
   leftBtn.innerHTML = '&#10094;';
   leftBtn.title = 'Scroll Left';
   leftBtn.addEventListener('click', () => scrollRow('rowContainerNewArrivals', -1));
-  
+
   const rightBtn = document.createElement('button');
   rightBtn.className = 'scroll-btn';
   rightBtn.innerHTML = '&#10095;';
   rightBtn.title = 'Scroll Right';
   rightBtn.addEventListener('click', () => scrollRow('rowContainerNewArrivals', 1));
-  
+
   scrollBtns.appendChild(leftBtn);
   scrollBtns.appendChild(rightBtn);
   headerWrapper.appendChild(scrollBtns);
-  
+
   section.appendChild(headerWrapper);
-  
+
   const rowWrapper = document.createElement('div');
   rowWrapper.className = 'row-wrapper';
-  
+
   const row = document.createElement('div');
   row.className = 'row-container';
   row.id = 'rowContainerNewArrivals';
-  
+
   if (filteredItems.length === 0) {
     row.innerHTML = '<div class="empty-state">All services are currently filtered out. Click the service circles above to include them.</div>';
   } else {
@@ -657,14 +650,14 @@ function renderDashboard() {
       const card = document.createElement('div');
       card.className = 'media-card';
       const themeClass = getServiceThemeClass(item.service);
-      card.innerHTML = '<div class="service-brand-banner ' + themeClass + '"><span class="brand-name">' + item.service + '</span><span class="brand-type">New Arrival</span></div><span class="media-title-banner" title="' + item.title + '">' + item.title + '</span>';
+      card.innerHTML = '<div class="service-brand-banner ' + themeClass + '"><span class="brand-name">' + item.service + '</span></div><span class="media-title-banner" title="' + item.title + '">' + item.title + '</span>';
       card.addEventListener('click', function() {
         window.open(getSearchUrl(item), '_blank');
       });
       row.appendChild(card);
     });
   }
-  
+
   rowWrapper.appendChild(row);
   section.appendChild(rowWrapper);
   dashboard.appendChild(section);
@@ -682,7 +675,7 @@ if (loginForm) {
     const u = document.getElementById('username').value.trim().toLowerCase();
     const p = document.getElementById('password').value.trim();
     const err = document.getElementById('errorMsg');
-  
+
     if (u === AUTH_CONFIG.user && p === AUTH_CONFIG.pass) {
       sessionStorage.setItem('loggedInUser', u);
       document.getElementById('password').value = "";
@@ -699,10 +692,9 @@ if (logoffBtn) {
   logoffBtn.addEventListener('click', () => {
     sessionStorage.removeItem('loggedInUser');
     setViewState(false);
-    const uField =
-    document.getElementById('username');
+    const uField = document.getElementById('username');
     if (uField) {
-      uField.value = "",
+      uField.value = "";
       uField.focus();
     }
   });
