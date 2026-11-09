@@ -385,7 +385,6 @@ async function fetchLiveNewArrivals() {
     renderDashboard();
   } catch (error) {
     console.warn("Live timeline lookup delayed.", error);
-    renderDashboard();
   }
 }
 
@@ -440,9 +439,9 @@ function renderFilters() {
   availableServices.forEach(s => {
     const circle = document.createElement('div');
     const themeClass = getServiceThemeClass(s.name);
-    circle.className = "service-filter-circle " + themeClass + " " + (s.active ? "" : "inactive");
+    circle.className = "service-filter-circle " + themeClass + (s.active ? "" : " inactive");
     circle.textContent = s.name;
-    circle.title = s.active ? "Hide " + s.name : "Show " + s.name;
+    circle.title = s.active ? "Exclude " + s.name : "Include " + s.name;
     circle.addEventListener('click', function() { toggleServiceFilter(s.name); });
     filterBar.appendChild(circle);
   });
@@ -461,7 +460,7 @@ function renderDashboard() {
     if (dateB - dateA !== 0) return dateB - dateA;
     return a.title.localeCompare(b.title);
   });
-
+  
   const section = document.createElement('div');
   section.className = 'category-section';
   
@@ -485,7 +484,6 @@ function renderDashboard() {
       card.addEventListener('click', function() {
         window.open(getSearchUrl(item), '_blank');
       });
-      
       row.appendChild(card);
     });
   }
