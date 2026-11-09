@@ -211,11 +211,52 @@ body {
   gap: 10px;
 }
 
+.section-header-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 4px;
+}
+
 .section-title {
   font-size: 18px;
   font-weight: bold;
   color: var(--text-color);
   padding-left: 4px;
+}
+
+.scroll-buttons-container {
+  display: flex;
+  gap: 8px;
+}
+
+.scroll-btn {
+  background-color: #222222;
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  width: 32px;
+  height: 32px;
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+  user-select: none;
+}
+
+.scroll-btn:hover {
+  background-color: var(--primary-color);
+  color: #000000;
+  border-color: var(--primary-hover);
+}
+
+.row-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .row-container {
@@ -225,6 +266,7 @@ body {
   scroll-behavior: smooth;
   padding: 10px 4px;
   scrollbar-width: none;
+  width: 100%;
 }
 
 .row-container::-webkit-scrollbar {
@@ -329,7 +371,7 @@ body {
 
 <div id="landingContainer">
   <div class="landing-header">
-    <div class="landing-banner">Media Search v.9</div>
+    <div class="landing-banner">Media Search v.10</div>
     <button class="btn-action" id="logoffBtn" style="width: auto; padding: 10px 20px; font-size: 14px;">Logoff</button>
   </div>
   <div class="dashboard-content" id="dashboardContent">
@@ -359,7 +401,6 @@ const availableServices = [
 let allMediaCatalog = [];
 
 function fetchLiveNewArrivals() {
-  // Strictly curated catalog of current, actively streamable recent releases available now (2025/2026 hits)
   const currentAvailableCatalog = {
     "Netflix": [
       { title: "The Beast in Me", date: "2026-02-15" },
@@ -545,6 +586,17 @@ function renderFilters() {
   });
 }
 
+function scrollRow(rowId, direction) {
+  const rowContainer = document.getElementById(rowId);
+  if (rowContainer) {
+    const scrollAmount = 340; // Roughly two card widths + gap
+    rowContainer.scrollBy({
+      left: direction * scrollAmount,
+      behavior: 'smooth'
+    });
+  }
+}
+
 function renderDashboard() {
   const dashboard = document.getElementById('dashboardRows');
   dashboard.innerHTML = "";
@@ -562,13 +614,41 @@ function renderDashboard() {
   const section = document.createElement('div');
   section.className = 'category-section';
   
+  const headerWrapper = document.createElement('div');
+  headerWrapper.className = 'section-header-wrapper';
+  
   const titleDiv = document.createElement('div');
   titleDiv.className = 'section-title';
   titleDiv.textContent = "Top New Arrivals";
-  section.appendChild(titleDiv);
+  headerWrapper.appendChild(titleDiv);
+  
+  const scrollBtns = document.createElement('div');
+  scrollBtns.className = 'scroll-buttons-container';
+  
+  const leftBtn = document.createElement('button');
+  leftBtn.className = 'scroll-btn';
+  leftBtn.innerHTML = '&#10094;';
+  leftBtn.title = 'Scroll Left';
+  leftBtn.addEventListener('click', () => scrollRow('rowContainerNewArrivals', -1));
+  
+  const rightBtn = document.createElement('button');
+  rightBtn.className = 'scroll-btn';
+  rightBtn.innerHTML = '&#10095;';
+  rightBtn.title = 'Scroll Right';
+  rightBtn.addEventListener('click', () => scrollRow('rowContainerNewArrivals', 1));
+  
+  scrollBtns.appendChild(leftBtn);
+  scrollBtns.appendChild(rightBtn);
+  headerWrapper.appendChild(scrollBtns);
+  
+  section.appendChild(headerWrapper);
+  
+  const rowWrapper = document.createElement('div');
+  rowWrapper.className = 'row-wrapper';
   
   const row = document.createElement('div');
   row.className = 'row-container';
+  row.id = 'rowContainerNewArrivals';
   
   if (filteredItems.length === 0) {
     row.innerHTML = '<div class="empty-state">All services are currently filtered out. Click the service circles above to include them.</div>';
@@ -585,7 +665,8 @@ function renderDashboard() {
     });
   }
   
-  section.appendChild(row);
+  rowWrapper.appendChild(row);
+  section.appendChild(rowWrapper);
   dashboard.appendChild(section);
 }
 
@@ -618,9 +699,10 @@ if (logoffBtn) {
   logoffBtn.addEventListener('click', () => {
     sessionStorage.removeItem('loggedInUser');
     setViewState(false);
-    const uField = document.getElementById('username');
+    const uField =
+    document.getElementById('username');
     if (uField) {
-      uField.value = "";
+      uField.value = "",
       uField.focus();
     }
   });
