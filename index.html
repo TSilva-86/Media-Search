@@ -125,6 +125,7 @@ body {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto 20px auto;
+  position: relative;
 }
 
 .landing-banner {
@@ -139,6 +140,12 @@ body {
   box-sizing: border-box;
   box-shadow: 0 2px 5px rgba(0,0,0,0.15);
   padding: 10px 16px;
+}
+
+.version-indicator {
+  color: var(--text-muted);
+  font-size: 14px;
+  font-weight: bold;
 }
 
 .dashboard-content {
@@ -330,6 +337,7 @@ body {
 <div id="landingContainer">
   <div class="landing-header">
     <div class="landing-banner">Media Search</div>
+    <div class="version-indicator">V.1</div>
     <button class="btn-action" id="logoffBtn" style="width: auto; padding: 10px 20px; font-size: 14px;">Logoff</button>
   </div>
   <div class="dashboard-content" id="dashboardContent">
