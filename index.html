@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Media Search - V.4</title>
+    <title>Media Search - V.5</title>
     <style>
         :root {
             --bg-color: #0f172a;
@@ -312,7 +312,7 @@
     <!-- Main Application Content -->
     <div id="app-content">
         <header>
-            <h1>Media Search - V.4</h1>
+            <h1>Media Search - V.5</h1>
             <button class="logout-btn" onclick="handleLogout()">Sign Out</button>
         </header>
 
@@ -433,21 +433,39 @@
                 } else {
                     btn.classList.remove('excluded');
                 }
+                
                 btn.onclick = () => toggleService(service);
-                btn.ondblclick = (e) => {
+                
+                const handleHoldOrDouble = (e) => {
                     e.preventDefault();
-                    isolateService(service);
+                    const currentExcluded = getExcludedPlatforms();
+                    const isCurrentlyExcluded = currentExcluded.includes(service);
+                    
+                    if (isCurrentlyExcluded) {
+                        // Hold on inactive -> All buttons go active (empty excluded list)
+                        setExcludedPlatforms([]);
+                    } else {
+                        // Hold on active -> Isolate this button (exclude all others)
+                        const newExcluded = SERVICES.filter(s => s !== service);
+                        setExcludedPlatforms(newExcluded);
+                    }
+                    initFilters();
+                    renderNewArrivals();
+                    triggerGlobalFilterEvent(getExcludedPlatforms());
                 };
+
+                btn.ondblclick = handleHoldOrDouble;
+
                 let pressTimer;
                 btn.onmousedown = (e) => {
                     if (e.detail === 2) return;
-                    pressTimer = setTimeout(() => isolateService(service), 600);
+                    pressTimer = setTimeout(() => handleHoldOrDouble(e), 600);
                 };
                 btn.onmouseup = () => clearTimeout(pressTimer);
                 btn.onmouseleave = () => clearTimeout(pressTimer);
                 
                 btn.ontouchstart = () => {
-                    pressTimer = setTimeout(() => isolateService(service), 600);
+                    pressTimer = setTimeout(() => handleHoldOrDouble({ preventDefault: () => {} }), 600);
                 };
                 btn.ontouchend = () => clearTimeout(pressTimer);
             });
@@ -460,14 +478,6 @@
             } else {
                 excluded.push(serviceName);
             }
-            setExcludedPlatforms(excluded);
-            initFilters();
-            renderNewArrivals();
-            triggerGlobalFilterEvent(excluded);
-        }
-
-        function isolateService(serviceName) {
-            const excluded = SERVICES.filter(s => s !== serviceName);
             setExcludedPlatforms(excluded);
             initFilters();
             renderNewArrivals();
@@ -490,7 +500,7 @@
                 return;
             }
 
-            let html = ''
+            let html = '';
             
             filteredMovies.forEach(movie => {
                 const bgColor = SERVICE_COLORS[movie.service] || '#334155';
@@ -509,7 +519,7 @@
                 html += `
                     <div class="movie-tile" style="background-color: ${bgColor};">
                         <div class="movie-title">${movie.title}</div>
-                        <div class="movie-service">${movie.service} /div>
+                        <div class="movie-service">${movie.service}</div>
                     </div>
                 `;
             });
