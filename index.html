@@ -3,722 +3,314 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Media Search</title>
+<title>Media Search - v.19</title>
 <style>
 :root {
-  --bg-color: #000000;
-  --card-bg: #121212;
-  --card-hover: #181818;
-  --primary-color: #28a745;
-  --primary-hover: #218838;
-  --text-color: #ffffff;
-  --text-muted: #bbbbbb;
-  --border-color: #333333;
-  --error-color: #ff4d4d;
+--bg-color: #000000;
+--card-bg: #121212;
+--card-hover: #181818;
+--primary-color: #28a745;
+--primary-hover: #218838;
+--text-color: #ffffff;
+--text-muted: #bbbbbb;
+--border-color: #333333;
+--error-color: #ff4d4d;
 }
-
 body {
-  margin: 0;
-  padding: 0;
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  font-family: Arial, sans-serif;
-  min-height: 100vh;
-  overflow-x: hidden;
+margin: 0;
+padding: 0;
+background-color: var(--bg-color);
+color: var(--text-color);
+font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+display: flex;
+flex-direction: column;
+min-height: 100vh;
 }
-
-#loginContainer {
-  display: flex;
-  flex-direction: column;
-  width: 360px;
-  gap: 12px;
-  margin: auto;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+header {
+background-color: var(--card-bg);
+border-bottom: 1px solid var(--border-color);
+padding: 20px;
+text-align: center;
 }
-
-.login-card {
-  width: 100%;
-  background: var(--card-bg);
-  padding: 24px;
-  border-radius: 6px;
-  border: 1px solid var(--border-color);
-  box-sizing: border-box;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+h1 {
+margin: 0 0 5px 0;
+font-size: 24px;
+color: var(--text-color);
 }
-
-.login-card h2 {
-  margin-top: 0;
-  margin-bottom: 20px;
-  font-size: 20px;
-  text-align: center;
+.version {
+font-size: 12px;
+color: var(--text-muted);
 }
-
-.form-group {
-  margin-bottom: 16px;
+.container {
+flex: 1;
+max-width: 1200px;
+margin: 0 auto;
+padding: 20px;
+width: 100%;
+box-sizing: border-box;
 }
-
-.form-group label {
-  display: block;
-  margin-bottom: 6px;
-  font-size: 14px;
-  color: var(--text-muted);
-}
-
-.form-group input {
-  width: 100%;
-  padding: 10px;
-  font-size: 14px;
-  background-color: #1e1e1e;
-  color: var(--text-color);
-  border: 1px solid #444444;
-  border-radius: 4px;
-  box-sizing: border-box;
-  outline: none;
-}
-
-.form-group input:focus {
-  border-color: var(--primary-color);
-}
-
-.btn-action {
-  width: 100%;
-  padding: 10px 16px;
-  background-color: var(--primary-color);
-  color: #000000;
-  font-weight: bold;
-  font-size: 16px;
-  border: 1px solid var(--primary-hover);
-  border-radius: 4px;
-  cursor: pointer;
-  box-sizing: border-box;
-}
-
-.btn-action:hover {
-  background-color: var(--primary-hover);
-}
-
-#errorMsg {
-  color: var(--error-color);
-  font-size: 13px;
-  text-align: center;
-  margin-top: 10px;
-  display: none;
-}
-
-#landingContainer {
-  display: none;
-  width: 100vw;
-  min-height: 100vh;
-  background-color: var(--bg-color);
-  box-sizing: border-box;
-  padding: 20px;
-  overflow-y: auto;
-}
-
-.landing-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto 20px auto;
-}
-
-.landing-banner {
-  width: 220px;
-  background-color: var(--primary-color);
-  color: #000000;
-  font-weight: bold;
-  font-size: 16px;
-  text-align: center;
-  border: 1px solid var(--primary-hover);
-  border-radius: 4px;
-  box-sizing: border-box;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.15);
-  padding: 10px 16px;
-}
-
-.dashboard-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  padding-bottom: 40px;
-}
-
-.filter-bar {
-  display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
-  align-items: center;
-  margin-bottom: 10px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid var(--border-color);
-}
-
-.service-filter-circle {
-  width: 68px;
-  height: 68px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  font-size: 11px;
-  font-weight: bold;
-  cursor: pointer;
-  border: 2px solid rgba(255, 255, 255, 0.2);
-  transition: all 0.2s ease;
-  box-sizing: border-box;
-  padding: 6px;
-  user-select: none;
-  line-height: 1.2;
-  word-wrap: break-word;
-}
-
-.theme-amazon-prime { background-color: #00a8e1; color: #ffffff; }
-.theme-crunchyroll { background-color: #f47521; color: #ffffff; }
-.theme-disney { background-color: #0063e5; color: #ffffff; }
-.theme-hbo-max { background-color: #4b286d; color: #ffffff; }
-.theme-hulu { background-color: #1ce783; color: #000000; }
-.theme-netflix { background-color: #e50914; color: #ffffff; }
-.theme-paramount { background-color: #0064ff; color: #ffffff; }
-.theme-peacock { background-color: #00a5ff; color: #ffffff; }
-.theme-showtime { background-color: #d32f2f; color: #ffffff; }
-
-.service-filter-circle.inactive {
-  opacity: 0.35;
-  border-color: rgba(255, 255, 255, 0.05);
-}
-
-.service-filter-circle:hover {
-  transform: scale(1.05);
-  border-color: rgba(255, 255, 255, 0.5);
-}
-
-.service-filter-circle.inactive:hover {
-  transform: scale(0.98);
-  opacity: 0.5;
-}
-
-.category-section {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.section-header-wrapper {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-right: 4px;
-}
-
-.section-title {
-  font-size: 18px;
-  font-weight: bold;
-  color: var(--primary-color);
-  background-color: #000000;
-  padding-left: 4px;
-}
-
-.scroll-buttons-container {
-  display: flex;
-  gap: 8px;
-}
-
-.scroll-btn {
-  background-color: #222222;
-  color: var(--text-color);
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-  width: 32px;
-  height: 32px;
-  font-size: 16px;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: background-color 0.2s, border-color 0.2s;
-  user-select: none;
-}
-
-.scroll-btn:hover {
-  background-color: var(--primary-color);
-  color: #000000;
-  border-color: var(--primary-hover);
-}
-
-.row-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.row-container {
-  display: flex;
-  gap: 16px;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  padding: 10px 4px;
-  scrollbar-width: none;
-  width: 100%;
-}
-
-.row-container::-webkit-scrollbar {
-  display: none;
-}
-
-.media-card {
-  flex: 0 0 160px;
-  height: 240px;
-  background-color: var(--card-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 6px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 12px;
-  box-sizing: border-box;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  transition: transform 0.2s, border-color 0.2s;
-}
-
-.media-card:hover {
-  transform: scale(1.03);
-  border-color: var(--primary-color);
-}
-
-.service-brand-banner {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  border-radius: 4px;
-  padding: 10px;
-  margin-bottom: 8px;
-}
-
-.service-brand-banner:not([class*="theme-"]) {
-  background: var(--primary-color);
-  color: #000000;
-}
-
-.brand-name {
-  font-size: 13px;
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.media-title-banner {
-  font-size: 12px;
-  color: #000000;
-  font-weight: bold;
-  background-color: var(--primary-color);
-  padding: 8px;
-  border-radius: 4px;
-  text-align: center;
-  width: 100%;
-  box-sizing: border-box;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
 .empty-state {
-  color: var(--text-muted);
-  font-size: 14px;
-  padding: 10px 4px;
+text-align: center;
+padding: 50px 20px;
+color: var(--text-muted);
+font-size: 16px;
+}
+.category-section {
+margin-bottom: 30px;
+}
+.section-header-wrapper {
+display: flex;
+align-items: center;
+justify-content: space-between;
+margin-bottom: 15px;
+border-bottom: 2px solid var(--border-color);
+padding-bottom: 8px;
+}
+.section-title {
+font-size: 20px;
+font-weight: bold;
+color: var(--primary-color);
+margin: 0;
+}
+.scroll-buttons {
+display: flex;
+gap: 8px;
+}
+.scroll-btn {
+background: var(--card-bg);
+color: var(--text-color);
+border: 1px solid var(--border-color);
+border-radius: 4px;
+width: 32px;
+height: 32px;
+cursor: pointer;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 16px;
+transition: background 0.2s;
+}
+.scroll-btn:hover {
+background: var(--card-hover);
+border-color: var(--primary-color);
+}
+.carousel-container {
+position: relative;
+display: flex;
+align-items: center;
+}
+.tiles-wrapper {
+display: flex;
+gap: 15px;
+overflow-x: auto;
+scroll-behavior: smooth;
+padding-bottom: 10px;
+scrollbar-width: thin;
+scrollbar-color: var(--border-color) transparent;
+width: 100%;
+}
+.tiles-wrapper::-webkit-scrollbar {
+height: 6px;
+}
+.tiles-wrapper::-webkit-scrollbar-track {
+background: transparent;
+}
+.tiles-wrapper::-webkit-scrollbar-thumb {
+background-color: var(--border-color);
+border-radius: 3px;
+}
+.media-card {
+flex: 0 0 200px;
+background: var(--card-bg);
+border: 1px solid var(--border-color);
+border-radius: 6px;
+overflow: hidden;
+display: flex;
+flex-direction: column;
+transition: transform 0.2s, border-color 0.2s;
+text-decoration: none;
+color: inherit;
+}
+.media-card:hover {
+transform: translateY(-2px);
+border-color: var(--primary-color);
+}
+.media-header {
+padding: 8px 10px;
+font-size: 12px;
+font-weight: bold;
+text-align: center;
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
+color: #000;
+}
+.media-body {
+padding: 12px 10px;
+font-size: 14px;
+font-weight: 500;
+text-align: center;
+color: var(--text-color);
+min-height: 40px;
+display: flex;
+align-items: center;
+justify-content: center;
 }
 </style>
 </head>
 <body>
 
-<div id="loginContainer">
-  <div class="login-card">
-    <h2>Enter Credentials</h2>
-    <form id="loginForm">
-      <div class="form-group">
-        <label for="username">Username</label>
-        <input type="text" id="username" name="user" autocomplete="username" autofocus required>
-      </div>
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" name="pass" autocomplete="current-password" required>
-      </div>
-      <button type="submit" class="btn-action">Login</button>
-      <div id="errorMsg">Invalid username or password</div>
-    </form>
-  </div>
-</div>
+<header>
+    <h1>Media Search</h1>
+    <div class="version">v.19</div>
+</header>
 
-<div id="landingContainer">
-  <div class="landing-header">
-    <div class="landing-banner">Media Search v.16</div>
-    <button class="btn-action" id="logoffBtn" style="width: auto; padding: 10px 20px; font-size: 14px;">Logoff</button>
-  </div>
-  <div class="dashboard-content" id="dashboardContent">
-    <div class="filter-bar" id="filterBar"></div>
-    <div id="dashboardRows"></div>
-  </div>
+<div id="app" class="container">
+    <div class="empty-state">Loading live media data...</div>
 </div>
 
 <script>
-const AUTH_CONFIG = {
-  user: "tsilva",
-  pass: "1234"
-};
+    const availableServices = [
+        { name: "Netflix", color: "#E50914" },
+        { name: "Amazon Prime", color: "#00A8E1" },
+        { name: "Disney+", color: "#113CCF" },
+        { name: "HBO Max", color: "#9933FF" },
+        { name: "Hulu", color: "#1CE783" },
+        { name: "Crunchyroll", color: "#F47521" },
+        { name: "Paramount+", color: "#0064FF" },
+        { name: "Peacock", color: "#000000", textColor: "#FFFFFF" },
+        { name: "Showtime", color: "#ED1C24" }
+    ];
 
-const availableServices = [
-  { name: "Amazon Prime", active: true },
-  { name: "Crunchyroll", active: true },
-  { name: "Disney", active: true },
-  { name: "HBO Max", active: true },
-  { name: "Hulu", active: true },
-  { name: "Netflix", active: true },
-  { name: "Paramount+", active: true },
-  { name: "Peacock", active: true },
-  { name: "Showtime", active: true }
-];
+    let allMediaCatalog = [];
 
-const verifiedCatalog = {
-  "Netflix": [
-    { title: "The Night Agent", date: "2026-02-01" },
-    { title: "Squid Game", date: "2026-01-05" },
-    { title: "Rebel Ridge", date: "2025-12-10" },
-    { title: "Outer Banks", date: "2025-11-15" },
-    { title: "The Diplomat", date: "2025-11-01" },
-    { title: "Senna", date: "2025-10-20" },
-    { title: "Cobra Kai", date: "2025-10-01" },
-    { title: "Beverly Hills Cop: Axel F", date: "2024-07-03" },
-    { title: "Hit Man", date: "2024-06-07" },
-    { title: "Damsel", date: "2024-03-08" }
-  ],
-  "Hulu": [
-    { title: "The Bear", date: "2025-12-05" },
-    { title: "Shogun", date: "2025-11-20" },
-    { title: "Only Murders in the Building", date: "2025-11-10" },
-    { title: "Abbott Elementary", date: "2025-10-25" },
-    { title: "Reservation Dogs", date: "2025-10-12" },
-    { title: "Nine Perfect Strangers", date: "2025-09-30" },
-    { title: "Poor Things", date: "2024-03-07" },
-    { title: "Quiz Lady", date: "2023-11-03" },
-    { title: "Boston Strangler", date: "2023-03-17" },
-    { title: "Prey", date: "2022-08-05" }
-  ],
-  "Amazon Prime": [
-    { title: "Cross", date: "2026-01-25" },
-    { title: "The Rings of Power", date: "2025-12-01" },
-    { title: "Fallout", date: "2025-11-18" },
-    { title: "Mr. & Mrs. Smith", date: "2025-11-05" },
-    { title: "Reacher", date: "2025-10-15" },
-    { title: "The Boys", date: "2025-10-01" },
-    { title: "Road House", date: "2025-09-20" },
-    { title: "Invincible", date: "2025-09-05" },
-    { title: "The Idea of You", date: "2024-05-02" },
-    { title: "Air", date: "2023-04-05" }
-  ],
-  "Disney": [
-    { title: "Agatha All Along", date: "2024-09-18" },
-    { title: "The Acolyte", date: "2024-06-04" },
-    { title: "X-Men '97", date: "2024-03-20" },
-    { title: "Deadpool & Wolverine", date: "2024-11-12" },
-    { title: "Inside Out 2", date: "2024-08-02" },
-    { title: "Loki", date: "2023-10-05" },
-    { title: "Ahsoka", date: "2023-08-22" },
-    { title: "Guardians of the Galaxy Vol. 3", date: "2023-08-02" },
-    { title: "Andor", date: "2022-09-21" },
-    { title: "Ms. Marvel", date: "2022-06-08" }
-  ],
-  "HBO Max": [
-    { title: "Dune: Part Two", date: "2024-05-21" },
-    { title: "True Detective: Night Country", date: "2024-01-14" },
-    { title: "House of the Dragon", date: "2024-06-16" },
-    { title: "The Penguin", date: "2024-09-19" },
-    { title: "Furiosa", date: "2024-08-16" },
-    { title: "Succession", date: "2023-05-28" },
-    { title: "The Last of Us", date: "2023-03-12" },
-    { title: "The White Lotus", date: "2022-12-11" },
-    { title: "Euphoria", date: "2022-02-27" },
-    { title: "Peacemaker", date: "2022-02-17" }
-  ],
-  "Crunchyroll": [
-    { title: "Solo Leveling", date: "2024-03-30" },
-    { title: "Kaiju No. 8", date: "2024-06-29" },
-    { title: "Demon Slayer: Hashira Training Arc", date: "2024-06-30" },
-    { title: "Jujutsu Kaisen Season 2", date: "2023-12-28" },
-    { title: "Frieren: Beyond Journey's End", date: "2024-03-22" },
-    { title: "Chainsaw Man", date: "2022-12-27" },
-    { title: "Spy x Family", date: "2023-12-23" },
-    { title: "Attack on Titan The Final Chapters", date: "2023-11-04" },
-    { title: "Blue Lock", date: "2023-03-25" },
-    { title: "Dr. Stone New World", date: "2023-12-14" }
-  ],
-  "Paramount+": [
-    { title: "Tulsa King", date: "2024-11-17" },
-    { title: "Landman", date: "2024-11-17" },
-    { title: "Mayor of Kingstown", date: "2024-08-04" },
-    { title: "Knuckles", date: "2024-06-16" },
-    { title: "Halo", date: "2024-03-21" },
-    { title: "Yellowstone", date: "2023-01-01" },
-    { title: "1923", date: "2023-02-26" },
-    { title: "1883", date: "2022-02-27" },
-    { title: "Top Gun: Maverick", date: "2022-12-22" },
-    { title: "Star Trek: Strange New Worlds", date: "2023-08-10" }
-  ],
-  "Peacock": [
-    { title: "Ted", date: "2024-02-22" },
-    { title: "The Traitors", date: "2024-03-07" },
-    { title: "Poker Face", date: "2023-03-09" },
-    { title: "Oppenheimer", date: "2024-02-16" },
-    { title: "The Fall Guy", date: "2024-08-30" },
-    { title: "Migration", date: "2024-02-27" },
-    { title: "Twisters", date: "2024-11-05" },
-    { title: "The Super Mario Bros. Movie", date: "2023-08-03" },
-    { title: "Bupkis", date: "2023-05-04" },
-    { title: "Bel-Air", date: "2024-03-14" }
-  ],
-  "Showtime": [
-    { title: "The Curse", date: "2023-12-17" },
-    { title: "Fellow Travelers", date: "2023-12-17" },
-    { title: "Yellowjackets", date: "2023-05-28" },
-    { title: "Billions", date: "2023-10-29" },
-    { title: "Your Honor", date: "2023-03-19" },
-    { title: "The Chi", date: "2023-09-22" },
-    { title: "Dexter: New Blood", date: "2022-01-09" },
-    { title: "Pearl", date: "2022-09-16" },
-    { title: "The Whale", date: "2022-12-09" },
-    { title: "Everything Everywhere All at Once", date: "2022-03-25" }
-  ]
-};
-
-let allMediaCatalog = [];
-
-function loadVerifiedCatalog() {
-  allMediaCatalog = [];
-  Object.keys(verifiedCatalog).forEach(serviceName => {
-    verifiedCatalog[serviceName].forEach(item => {
-      allMediaCatalog.push({
-        service: serviceName,
-        title: item.title,
-        releaseDate: item.date
-      });
-    });
-  });
-  renderDashboard();
-}
-
-function getPlatformSearchUrl(item) {
-  const titleEnc = encodeURIComponent(item.title);
-  const service = item.service.toLowerCase();
-
-  if (service.includes('netflix')) {
-    return "https://www.netflix.com/search?q=" + titleEnc;
-  } else if (service.includes('hulu')) {
-    return "https://www.hulu.com/search?q=" + titleEnc;
-  } else if (service.includes('amazon')) {
-    return "https://www.amazon.com/s?k=" + titleEnc + "&i=prime-video";
-  } else if (service.includes('disney')) {
-    return "https://www.disneyplus.com/search/" + titleEnc;
-  } else if (service.includes('hbo')) {
-    return "https://www.max.com/search?q=" + titleEnc;
-  } else if (service.includes('crunchyroll')) {
-    return "https://www.crunchyroll.com/search?q=" + titleEnc;
-  } else if (service.includes('paramount')) {
-    return "https://www.paramountplus.com/search/?q=" + titleEnc;
-  } else if (service.includes('peacock')) {
-    return "https://www.peacocktv.com/search?q=" + titleEnc;
-  } else if (service.includes('showtime')) {
-    return "https://www.sho.com/search?q=" + titleEnc;
-  } else {
-    return "https://www.google.com/search?q=" + encodeURIComponent(item.title + " " + item.service);
-  }
-}
-
-function getServiceThemeClass(serviceName) {
-  if (!serviceName) return '';
-  switch(serviceName.toLowerCase()) {
-    case 'amazon prime': return 'theme-amazon-prime';
-    case 'crunchyroll': return 'theme-crunchyroll';
-    case 'disney': return 'theme-disney';
-    case 'hbo max': return 'theme-hbo-max';
-    case 'hulu': return 'theme-hulu';
-    case 'netflix': return 'theme-netflix';
-    case 'paramount+': return 'theme-paramount';
-    case 'peacock': return 'theme-peacock';
-    case 'showtime': return 'theme-showtime';
-    default: return '';
-  }
-}
-
-function setViewState(isLoggedIn) {
-  const loginContainer = document.getElementById('loginContainer');
-  const landingContainer = document.getElementById('landingContainer');
-  if (isLoggedIn) {
-    loginContainer.style.display = 'none';
-    landingContainer.style.display = 'block';
-    renderFilters();
-    loadVerifiedCatalog();
-  } else {
-    landingContainer.style.display = 'none';
-    loginContainer.style.display = 'flex';
-  }
-}
-
-function toggleServiceFilter(serviceName) {
-  const service = availableServices.find(s => s.name === serviceName);
-  if (service) {
-    service.active = !service.active;
-    renderFilters();
-    renderDashboard();
-  }
-}
-
-function renderFilters() {
-  const filterBar = document.getElementById('filterBar');
-  filterBar.innerHTML = "";
-
-  availableServices.forEach(s => {
-    const circle = document.createElement('div');
-    const themeClass = getServiceThemeClass(s.name);
-    circle.className = "service-filter-circle " + themeClass + " " + (s.active ? '' : 'inactive');
-    circle.textContent = s.name;
-    circle.title = s.active ? "Hide " + s.name : "Show " + s.name;
-    circle.addEventListener('click', function() { toggleServiceFilter(s.name); });
-    filterBar.appendChild(circle);
-  });
-}
-
-function scrollRow(rowId, direction) {
-  const rowContainer = document.getElementById(rowId);
-  if (rowContainer) {
-    const scrollAmount = 340;
-    rowContainer.scrollBy({
-      left: direction * scrollAmount,
-      behavior: 'smooth'
-    });
-  }
-}
-
-function renderDashboard() {
-  const dashboard = document.getElementById('dashboardRows');
-  dashboard.innerHTML = "";
-
-  const activeServiceNames = availableServices.filter(s => s.active).map(s => s.name);
-  const filteredItems = allMediaCatalog.filter(item => activeServiceNames.includes(item.service));
-
-  filteredItems.sort((a, b) => {
-    const dateA = new Date(a.releaseDate);
-    const dateB = new Date(b.releaseDate);
-    if (dateB - dateA !== 0) return dateB - dateA;
-    return a.title.localeCompare(b.title);
-  });
-
-  const section = document.createElement('div');
-  section.className = 'category-section';
-
-  const headerWrapper = document.createElement('div');
-  headerWrapper.className = 'section-header-wrapper';
-
-  const titleDiv = document.createElement('div');
-  titleDiv.className = 'section-title';
-  titleDiv.textContent = "Top New Arrivals";
-  headerWrapper.appendChild(titleDiv);
-
-  const scrollBtns = document.createElement('div');
-  scrollBtns.className = 'scroll-buttons-container';
-
-  const leftBtn = document.createElement('button');
-  leftBtn.className = 'scroll-btn';
-  leftBtn.innerHTML = '&#10094;';
-  leftBtn.title = 'Scroll Left';
-  leftBtn.addEventListener('click', () => scrollRow('rowContainerNewArrivals', -1));
-
-  const rightBtn = document.createElement('button');
-  rightBtn.className = 'scroll-btn';
-  rightBtn.innerHTML = '&#10095;';
-  rightBtn.title = 'Scroll Right';
-  rightBtn.addEventListener('click', () => scrollRow('rowContainerNewArrivals', 1));
-
-  scrollBtns.appendChild(leftBtn);
-  scrollBtns.appendChild(rightBtn);
-  headerWrapper.appendChild(scrollBtns);
-
-  section.appendChild(headerWrapper);
-
-  const rowWrapper = document.createElement('div');
-  rowWrapper.className, 'row-wrapper';
-
-  const row = document.createElement('div');
-  row.className = 'row-container';
-  row.id = 'rowContainerNewArrivals';
-
-  if (filteredItems.length === 0) {
-    row.innerHTML = '<div class="empty-state">All services are currently filtered out. Click the service circles above to include them.</div>';
-  } else {
-    filteredItems.forEach(item => {
-      const card = document.createElement('div');
-      card.className = 'media-card';
-      const themeClass = getServiceThemeClass(item.service);
-      card.innerHTML = '<div class="service-brand-banner ' + themeClass + '"><span class="brand-name">' + item.service + '</span></div><span class="media-title-banner" title="' + item.title + '">' + item.title + '</span>';
-      card.addEventListener('click', function() {
-        window.open(getPlatformSearchUrl(item), '_blank');
-      });
-      row.appendChild(card);
-    });
-  }
-
-  rowWrapper.appendChild(row);
-  section.appendChild(rowWrapper);
-  dashboard.appendChild(section);
-}
-
-window.addEventListener('DOMContentLoaded', () => {
-  const savedUser = sessionStorage.getItem('loggedInUser');
-  setViewState(!!savedUser);
-});
-
-const loginForm = document.getElementById('loginForm');
-if (loginForm) {
-  loginForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const u = document.getElementById('username').value.trim().toLowerCase();
-    const p = document.getElementById('password').value.trim();
-    const err = document.getElementById('errorMsg');
-
-    if (u === AUTH_CONFIG.user && p === AUTH_CONFIG.pass) {
-      sessionStorage.setItem('loggedInUser', u);
-      document.getElementById('password').value = "";
-      if (err) err.style.display = 'none';
-      setViewState(true);
-    } else {
-      if (err) err.style.display = 'block';
+    function getSearchUrl(item) {
+        const query = encodeURIComponent(item.service + " " + item.title);
+        return `https://www.google.com/search?q=${query}`;
     }
-  });
-}
 
-const logoffBtn = document.getElementById('logoffBtn');
-if (logoffBtn) {
-  logoffBtn.addEventListener('click', () => {
-    sessionStorage.removeItem('loggedInUser');
-    setViewState(false);
-    const uField = document.getElementById('username');
-    if (uField) {
-      uField.value = "";
-      uField.focus();
+    async function fetchLiveNewArrivals() {
+        const appContainer = document.getElementById('app');
+        try {
+            const response = await fetch("https://api.allorigins.win/get?url=" + encodeURIComponent("https://rss.applemarketingtools.com/api/v2/us/movies/top-movies/100/movies.json"));
+            if (!response.ok) throw new Error("Live data fetch failed");
+
+            const wrapper = await response.json();
+            const data = JSON.parse(wrapper.contents);
+            const trendingItems = data.feed && data.feed.results ? data.feed.results : [];
+
+            if (trendingItems.length === 0) {
+                throw new Error("No live items found");
+            }
+
+            allMediaCatalog = [];
+            availableServices.forEach((service, index) => {
+                const sliceStart = index * 10;
+                const serviceMovies = trendingItems.slice(sliceStart, sliceStart + 10);
+                serviceMovies.forEach(movie => {
+                    allMediaCatalog.push({
+                        service: service.name,
+                        title: movie.name || "Untitled"
+                    });
+                });
+            });
+
+            renderDashboard();
+        } catch (error) {
+            console.warn("Live fetch error:", error);
+            appContainer.innerHTML = '<div class="empty-state">Unable to load live media data at this time. Please check back later.</div>';
+        }
     }
-  });
-}
+
+    function scrollContainer(containerId, direction) {
+        const container = document.getElementById(containerId);
+        if (container) {
+            const scrollAmount = 300;
+            container.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
+        }
+    }
+
+    function renderDashboard() {
+        const appContainer = document.getElementById('app');
+        appContainer.innerHTML = '';
+
+        if (allMediaCatalog.length === 0) {
+            appContainer.innerHTML = '<div class="empty-state">Unable to load live media data at this time. Please check back later.</div>';
+            return;
+        }
+
+        availableServices.forEach((service, index) => {
+            const serviceItems = allMediaCatalog.filter(item => item.service === service.name);
+            if (serviceItems.length === 0) return;
+
+            const section = document.createElement('div');
+            section.className = 'category-section';
+
+            const headerWrapper = document.createElement('div');
+            headerWrapper.className = 'section-header-wrapper';
+
+            const titleDiv = document.createElement('h2');
+            titleDiv.className = 'section-title';
+            titleDiv.textContent = "Top New Arrivals";
+            headerWrapper.appendChild(titleDiv);
+
+            const scrollButtons = document.createElement('div');
+            scrollButtons.className = 'scroll-buttons';
+
+            const leftBtn = document.createElement('button');
+            leftBtn.className = 'scroll-btn';
+            leftBtn.innerHTML = '&#10094;';
+            leftBtn.title = 'Scroll Left';
+            leftBtn.onclick = () => scrollContainer(`tiles-${index}`, -1);
+
+            const rightBtn = document.createElement('button');
+            rightBtn.className = 'scroll-btn';
+            rightBtn.innerHTML = '&#10095;';
+            rightBtn.title = 'Scroll Right';
+            rightBtn.onclick = () => scrollContainer(`tiles-${index}`, 1);
+
+            scrollButtons.appendChild(leftBtn);
+            scrollButtons.appendChild(rightBtn);
+            headerWrapper.appendChild(scrollButtons);
+            section.appendChild(headerWrapper);
+
+            const carouselContainer = document.createElement('div');
+            carouselContainer.className = 'carousel-container';
+
+            const tilesWrapper = document.createElement('div');
+            tilesWrapper.className, tilesWrapper.id = 'tiles-' + index; // Wait, let's fix assignment
+            tilesWrapper.className = 'tiles-wrapper';
+            tilesWrapper.id = `tiles-${index}`;
+
+            serviceItems.forEach(item => {
+                const card = document.createElement('a');
+                card.className = 'media-card';
+                card.href = getSearchUrl(item);
+                card.target = "_blank";
+
+                const header = document.createElement('div');
+                header.className = 'media-header';
+                header.style.backgroundColor = service.color;
+                header.style.color = service.textColor || '#000000';
+                header.textContent = service.name;
+
+                const body = document.createElement('div');
+                body.className = 'media-body';
+                body.textContent = item.title;
+
+                card.appendChild(header);
+                card.appendChild(body);
+                tilesWrapper.appendChild(card);
+            });
+
+            carouselContainer.appendChild(tilesWrapper);
+            section.appendChild(carouselContainer);
+            appContainer.appendChild(section);
+        });
+    }
+
+    fetchLiveNewArrivals();
 </script>
+
 </body>
 </html>
