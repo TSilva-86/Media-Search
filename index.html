@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Media Search - V.2</title>
+    <title>Media Search - V.3</title>
     <style>
         :root {
             --bg-color: #0f172a;
@@ -151,23 +151,25 @@
             color: var(--error-color);
         }
 
-        /* Filter Sub-bar */
+        /* Filter Sub-bar - multi-row responsive flex container */
         .filter-bar {
             background-color: rgba(30, 41, 59, 0.7);
             border-bottom: 1px solid var(--border-color);
-            padding: 0.75rem 2rem;
+            padding: 1rem 2rem;
             display: flex;
+            flex-wrap: wrap;
             gap: 1rem;
-            overflow-x: auto;
             align-items: center;
             justify-content: center;
         }
 
+        /* Perfect circular buttons with distinct borders, shadows, and clear typography */
         .platform-btn {
-            width: 64px;
-            height: 64px;
+            width: 72px;
+            height: 72px;
+            aspect-ratio: 1 / 1;
             border-radius: 50%;
-            border: 2px solid transparent;
+            border: 2px solid rgba(255, 255, 255, 0.25);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -176,21 +178,24 @@
             font-weight: 700;
             cursor: pointer;
             user-select: none;
-            transition: transform 0.1s, filter 0.2s, box-shadow 0.2s;
-            padding: 4px;
+            transition: transform 0.15s ease, filter 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+            padding: 6px;
             word-break: break-word;
-            line-height: 1.1;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.3);
+            line-height: 1.15;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4), inset 0 1px 2px rgba(255, 255, 255, 0.2);
         }
 
         .platform-btn:hover {
-            transform: scale(1.05);
+            transform: scale(1.08);
+            border-color: rgba(255, 255, 255, 0.6);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5), inset 0 1px 3px rgba(255, 255, 255, 0.3);
         }
 
-        /* Excluded State: slightly darker, visually depressed */
+        /* Excluded State: slightly darker, visually depressed with inner shadow */
         .platform-btn.excluded {
-            filter: brightness(0.6) saturate(0.7);
-            box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.6), 0 1px 2px rgba(255, 255, 255, 0.05);
+            filter: brightness(0.55) saturate(0.6);
+            border-color: rgba(255, 255, 255, 0.1);
+            box-shadow: inset 0 4px 6px rgba(0, 0, 0, 0.7), 0 1px 2px rgba(255, 255, 255, 0.05);
             transform: translateY(2px);
         }
 
@@ -237,34 +242,32 @@
     <!-- Main Application Content -->
     <div id="app-content">
         <header>
-            <h1>Media Search (V.2)</h1>
+            <h1>Media Search (V.3)</h1>
             <button class="logout-btn" onclick="handleLogout()">Sign Out</button>
         </header>
 
-        <!-- Alphabetical Streaming Platform Filter Bar -->
+        <!-- Alphabetical Streaming Platform Filter Bar (Multi-row stackable, perfect circles) -->
         <div class="filter-bar" id="platform-filter-bar">
-            <!-- Dynamically rendered or pre-rendered buttons in alphabetical order -->
             <button class="platform-btn" data-service="Crunchyroll" style="background-color: #f47521; color: #ffffff;" title="Crunchyroll">Crunchyroll</button>
             <button class="platform-btn" data-service="Disney" style="background-color: #113ccf; color: #ffffff;" title="Disney">Disney</button>
             <button class="platform-btn" data-service="HBO Max" style="background-color: #5822b4; color: #ffffff;" title="HBO Max">HBO Max</button>
-            <button class="platform-btn" data-service="Hulu" style="background-color: #1ce783; color: #000000;" title="Hulu">Hulu</button>
+            <button class="platform-btn" data-service="Hulu" style="background-color: #1ce783; color: #000000; border-color: rgba(0,0,0,0.3);" title="Hulu">Hulu</button>
             <button class="platform-btn" data-service="Netflix" style="background-color: #e50914; color: #ffffff;" title="Netflix">Netflix</button>
             <button class="platform-btn" data-service="Paramount+" style="background-color: #0064ff; color: #ffffff;" title="Paramount+">Paramount+</button>
-            <button class="platform-btn" data-service="Peacock" style="background-color: #000000; color: #0085ff; border-color: #0085ff;" title="Peacock">Peacock</button>
+            <button class="platform-btn" data-service="Peacock" style="background-color: #050505; color: #0085ff; border-color: #0085ff;" title="Peacock">Peacock</button>
             <button class="platform-btn" data-service="Showtime" style="background-color: #df2227; color: #ffffff;" title="Showtime">Showtime</button>
         </div>
 
         <main>
             <div class="welcome-box">
                 <h2>Welcome, Travis</h2>
-                <p>Authentication successful. Streaming filters active across all sections.</p>
+                <p>Authentication successful. Perfect circle filters active with multi-row stacking.</p>
             </div>
         </main>
     </div>
 
     <script>
         // State management for platform toggles
-        // Persists across internal navigation via sessionStorage, resets on full page refresh.
         const SERVICES = ['Crunchyroll', 'Disney', 'HBO Max', 'Hulu', 'Netflix', 'Paramount+', 'Peacock', 'Showtime'];
 
         window.addEventListener('DOMContentLoaded', () => {
@@ -303,7 +306,7 @@
             document.getElementById('login-error').textContent = '';
             document.getElementById('app-content').style.display = 'none';
             document.getElementById('login-overlay').style.display = 'flex';
-            initFilters(); // Reset filter UI state
+            initFilters();
         }
 
         // Filter Logic
@@ -332,35 +335,22 @@
                     btn.classList.remove('excluded');
                 }
 
-                // Single click toggle
-                btn.onclick = (e) => {
-                    // Check for double click or hold interaction handled via dblclick / mousedown timeout if desired,
-                    // but standard dblclick event handles double clicking.
-                    toggleService(service);
-                };
-
-                // Double click for isolation (solo focus)
+                btn.onclick = () => toggleService(service);
                 btn.ondblclick = (e) => {
                     e.preventDefault();
                     isolateService(service);
                 };
 
-                // Support holding / long-press for mobile or desktop alternative
                 let pressTimer;
                 btn.onmousedown = (e) => {
-                    if (e.detail === 2) return; // ignore double click collision
-                    pressTimer = setTimeout(() => {
-                        isolateService(service);
-                    }, 600); // 600ms hold
+                    if (e.detail === 2) return;
+                    pressTimer = setTimeout(() => isolateService(service), 600);
                 };
                 btn.onmouseup = () => clearTimeout(pressTimer);
                 btn.onmouseleave = () => clearTimeout(pressTimer);
                 
-                // Touch support for holding
                 btn.ontouchstart = () => {
-                    pressTimer = setTimeout(() => {
-                        isolateService(service);
-                    }, 600);
+                    pressTimer = setTimeout(() => isolateService(service), 600);
                 };
                 btn.ontouchend = () => clearTimeout(pressTimer);
             });
@@ -369,10 +359,8 @@
         function toggleService(serviceName) {
             let excluded = getExcludedPlatforms();
             if (excluded.includes(serviceName)) {
-                // Currently excluded -> make active (remove from excluded)
                 excluded = excluded.filter(s => s !== serviceName);
             } else {
-                // Currently active -> make excluded
                 excluded.push(serviceName);
             }
             setExcludedPlatforms(excluded);
@@ -381,7 +369,6 @@
         }
 
         function isolateService(serviceName) {
-            // Isolate: Exclude all other services, keep this one active
             const excluded = SERVICES.filter(s => s !== serviceName);
             setExcludedPlatforms(excluded);
             initFilters();
@@ -389,7 +376,6 @@
         }
 
         function triggerGlobalFilterEvent(excludedList) {
-            // Custom event that future sections and pages can listen to for dynamic filtering
             const event = new CustomEvent('mediaFilterChange', { detail: { excluded: excludedList } });
             window.dispatchEvent(event);
         }
