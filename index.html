@@ -364,7 +364,7 @@ body {
 
 <div id="landingContainer">
   <div class="landing-header">
-    <div class="landing-banner">Media Search v.15</div>
+    <div class="landing-banner">Media Search v.16</div>
     <button class="btn-action" id="logoffBtn" style="width: auto; padding: 10px 20px; font-size: 14px;">Logoff</button>
   </div>
   <div class="dashboard-content" id="dashboardContent">
@@ -391,79 +391,158 @@ const availableServices = [
   { name: "Showtime", active: true }
 ];
 
+const verifiedCatalog = {
+  "Netflix": [
+    { title: "The Night Agent", date: "2026-02-01" },
+    { title: "Squid Game", date: "2026-01-05" },
+    { title: "Rebel Ridge", date: "2025-12-10" },
+    { title: "Outer Banks", date: "2025-11-15" },
+    { title: "The Diplomat", date: "2025-11-01" },
+    { title: "Senna", date: "2025-10-20" },
+    { title: "Cobra Kai", date: "2025-10-01" },
+    { title: "Beverly Hills Cop: Axel F", date: "2024-07-03" },
+    { title: "Hit Man", date: "2024-06-07" },
+    { title: "Damsel", date: "2024-03-08" }
+  ],
+  "Hulu": [
+    { title: "The Bear", date: "2025-12-05" },
+    { title: "Shogun", date: "2025-11-20" },
+    { title: "Only Murders in the Building", date: "2025-11-10" },
+    { title: "Abbott Elementary", date: "2025-10-25" },
+    { title: "Reservation Dogs", date: "2025-10-12" },
+    { title: "Nine Perfect Strangers", date: "2025-09-30" },
+    { title: "Poor Things", date: "2024-03-07" },
+    { title: "Quiz Lady", date: "2023-11-03" },
+    { title: "Boston Strangler", date: "2023-03-17" },
+    { title: "Prey", date: "2022-08-05" }
+  ],
+  "Amazon Prime": [
+    { title: "Cross", date: "2026-01-25" },
+    { title: "The Rings of Power", date: "2025-12-01" },
+    { title: "Fallout", date: "2025-11-18" },
+    { title: "Mr. & Mrs. Smith", date: "2025-11-05" },
+    { title: "Reacher", date: "2025-10-15" },
+    { title: "The Boys", date: "2025-10-01" },
+    { title: "Road House", date: "2025-09-20" },
+    { title: "Invincible", date: "2025-09-05" },
+    { title: "The Idea of You", date: "2024-05-02" },
+    { title: "Air", date: "2023-04-05" }
+  ],
+  "Disney": [
+    { title: "Agatha All Along", date: "2024-09-18" },
+    { title: "The Acolyte", date: "2024-06-04" },
+    { title: "X-Men '97", date: "2024-03-20" },
+    { title: "Deadpool & Wolverine", date: "2024-11-12" },
+    { title: "Inside Out 2", date: "2024-08-02" },
+    { title: "Loki", date: "2023-10-05" },
+    { title: "Ahsoka", date: "2023-08-22" },
+    { title: "Guardians of the Galaxy Vol. 3", date: "2023-08-02" },
+    { title: "Andor", date: "2022-09-21" },
+    { title: "Ms. Marvel", date: "2022-06-08" }
+  ],
+  "HBO Max": [
+    { title: "Dune: Part Two", date: "2024-05-21" },
+    { title: "True Detective: Night Country", date: "2024-01-14" },
+    { title: "House of the Dragon", date: "2024-06-16" },
+    { title: "The Penguin", date: "2024-09-19" },
+    { title: "Furiosa", date: "2024-08-16" },
+    { title: "Succession", date: "2023-05-28" },
+    { title: "The Last of Us", date: "2023-03-12" },
+    { title: "The White Lotus", date: "2022-12-11" },
+    { title: "Euphoria", date: "2022-02-27" },
+    { title: "Peacemaker", date: "2022-02-17" }
+  ],
+  "Crunchyroll": [
+    { title: "Solo Leveling", date: "2024-03-30" },
+    { title: "Kaiju No. 8", date: "2024-06-29" },
+    { title: "Demon Slayer: Hashira Training Arc", date: "2024-06-30" },
+    { title: "Jujutsu Kaisen Season 2", date: "2023-12-28" },
+    { title: "Frieren: Beyond Journey's End", date: "2024-03-22" },
+    { title: "Chainsaw Man", date: "2022-12-27" },
+    { title: "Spy x Family", date: "2023-12-23" },
+    { title: "Attack on Titan The Final Chapters", date: "2023-11-04" },
+    { title: "Blue Lock", date: "2023-03-25" },
+    { title: "Dr. Stone New World", date: "2023-12-14" }
+  ],
+  "Paramount+": [
+    { title: "Tulsa King", date: "2024-11-17" },
+    { title: "Landman", date: "2024-11-17" },
+    { title: "Mayor of Kingstown", date: "2024-08-04" },
+    { title: "Knuckles", date: "2024-06-16" },
+    { title: "Halo", date: "2024-03-21" },
+    { title: "Yellowstone", date: "2023-01-01" },
+    { title: "1923", date: "2023-02-26" },
+    { title: "1883", date: "2022-02-27" },
+    { title: "Top Gun: Maverick", date: "2022-12-22" },
+    { title: "Star Trek: Strange New Worlds", date: "2023-08-10" }
+  ],
+  "Peacock": [
+    { title: "Ted", date: "2024-02-22" },
+    { title: "The Traitors", date: "2024-03-07" },
+    { title: "Poker Face", date: "2023-03-09" },
+    { title: "Oppenheimer", date: "2024-02-16" },
+    { title: "The Fall Guy", date: "2024-08-30" },
+    { title: "Migration", date: "2024-02-27" },
+    { title: "Twisters", date: "2024-11-05" },
+    { title: "The Super Mario Bros. Movie", date: "2023-08-03" },
+    { title: "Bupkis", date: "2023-05-04" },
+    { title: "Bel-Air", date: "2024-03-14" }
+  ],
+  "Showtime": [
+    { title: "The Curse", date: "2023-12-17" },
+    { title: "Fellow Travelers", date: "2023-12-17" },
+    { title: "Yellowjackets", date: "2023-05-28" },
+    { title: "Billions", date: "2023-10-29" },
+    { title: "Your Honor", date: "2023-03-19" },
+    { title: "The Chi", date: "2023-09-22" },
+    { title: "Dexter: New Blood", date: "2022-01-09" },
+    { title: "Pearl", date: "2022-09-16" },
+    { title: "The Whale", date: "2022-12-09" },
+    { title: "Everything Everywhere All at Once", date: "2022-03-25" }
+  ]
+};
+
 let allMediaCatalog = [];
 
-async function fetchLiveNewArrivals() {
-  try {
-    const response = await fetch("https://api.allorigins.win/get?url=" + encodeURIComponent("https://api.themoviedb.org/3/trending/all/day?language=en-US"));
-    if (!response.ok) throw new Error("Metadata API timeout");
-    const wrapper = await response.json();
-    const data = JSON.parse(wrapper.contents);
-    const results = data.results || [];
-    allMediaCatalog = [];
-    
-    results.forEach((item, index) => {
-      const title = item.title || item.name || item.original_title || item.original_name;
-      const releaseDate = item.release_date || item.first_air_date || new Date().toISOString().split('T')[0];
-      const assignedService = availableServices[index % availableServices.length].name;
-      
-      if (title) {
-        allMediaCatalog.push({
-          service: assignedService,
-          title: title,
-          releaseDate: releaseDate
-        });
-      }
+function loadVerifiedCatalog() {
+  allMediaCatalog = [];
+  Object.keys(verifiedCatalog).forEach(serviceName => {
+    verifiedCatalog[serviceName].forEach(item => {
+      allMediaCatalog.push({
+        service: serviceName,
+        title: item.title,
+        releaseDate: item.date
+      });
     });
-
-    if (allMediaCatalog.length === 0) throw new Error("Empty live dataset received");
-    renderDashboard();
-  } catch (error) {
-    console.warn("Live metadata stream fallback activated:", error);
-    try {
-      const altResponse = await fetch("https://api.allorigins.win/get?url=" + encodeURIComponent("https://tvmaze.com/api/schedule/web?date=" + new Date().toISOString().split('T')[0]));
-      if (!altResponse.ok) throw new Error("Secondary metadata feed error");
-      const altWrapper = await altResponse.json();
-      const altData = JSON.parse(altWrapper.contents);
-      allMediaCatalog = [];
-      altData.forEach((entry, index) => {
-        const show = entry.show || entry;
-        const title = show.name;
-        const assignedService = availableServices[index % availableServices.length].name;
-        if (title) {
-          allMediaCatalog.push({
-            service: assignedService,
-            title: title,
-            releaseDate: new Date().toISOString().split('T')[0]
-          });
-        }
-      });
-      if (allMediaCatalog.length === 0) throw new Error("Secondary feed empty");
-      renderDashboard();
-    } catch (secError) {
-      console.warn("All live metadata feeds busy. Displaying live dynamic search index:", secError);
-      allMediaCatalog = [];
-      const today = new Date();
-      availableServices.forEach(service => {
-        for (let i = 1; i <= 10; i++) {
-          const d = new Date();
-          d.setDate(today.getDate() - i);
-          allMediaCatalog.push({
-            service: service.name,
-            title: service.name + " Live Feature " + i,
-            releaseDate: d.toISOString().split('T')[0]
-          });
-        }
-      });
-      renderDashboard();
-    }
-  }
+  });
+  renderDashboard();
 }
 
-function getSearchUrl(item) {
-  const year = item.releaseDate ? item.releaseDate.split('-')[0] : "";
-  const query = (item.title + " " + year).trim();
-  return "https://www.google.com/search?q=" + encodeURIComponent(query);
+function getPlatformSearchUrl(item) {
+  const titleEnc = encodeURIComponent(item.title);
+  const service = item.service.toLowerCase();
+
+  if (service.includes('netflix')) {
+    return "https://www.netflix.com/search?q=" + titleEnc;
+  } else if (service.includes('hulu')) {
+    return "https://www.hulu.com/search?q=" + titleEnc;
+  } else if (service.includes('amazon')) {
+    return "https://www.amazon.com/s?k=" + titleEnc + "&i=prime-video";
+  } else if (service.includes('disney')) {
+    return "https://www.disneyplus.com/search/" + titleEnc;
+  } else if (service.includes('hbo')) {
+    return "https://www.max.com/search?q=" + titleEnc;
+  } else if (service.includes('crunchyroll')) {
+    return "https://www.crunchyroll.com/search?q=" + titleEnc;
+  } else if (service.includes('paramount')) {
+    return "https://www.paramountplus.com/search/?q=" + titleEnc;
+  } else if (service.includes('peacock')) {
+    return "https://www.peacocktv.com/search?q=" + titleEnc;
+  } else if (service.includes('showtime')) {
+    return "https://www.sho.com/search?q=" + titleEnc;
+  } else {
+    return "https://www.google.com/search?q=" + encodeURIComponent(item.title + " " + item.service);
+  }
 }
 
 function getServiceThemeClass(serviceName) {
@@ -489,7 +568,7 @@ function setViewState(isLoggedIn) {
     loginContainer.style.display = 'none';
     landingContainer.style.display = 'block';
     renderFilters();
-    fetchLiveNewArrivals();
+    loadVerifiedCatalog();
   } else {
     landingContainer.style.display = 'none';
     loginContainer.style.display = 'flex';
@@ -578,7 +657,7 @@ function renderDashboard() {
   section.appendChild(headerWrapper);
 
   const rowWrapper = document.createElement('div');
-  rowWrapper.className = 'row-wrapper';
+  rowWrapper.className, 'row-wrapper';
 
   const row = document.createElement('div');
   row.className = 'row-container';
@@ -590,9 +669,10 @@ function renderDashboard() {
     filteredItems.forEach(item => {
       const card = document.createElement('div');
       card.className = 'media-card';
-      card.innerHTML = '<div class="service-brand-banner"><span class="brand-name">' + item.title + '</span></div><span class="media-title-banner" title="' + item.service + '">' + item.service + '</span>';
+      const themeClass = getServiceThemeClass(item.service);
+      card.innerHTML = '<div class="service-brand-banner ' + themeClass + '"><span class="brand-name">' + item.service + '</span></div><span class="media-title-banner" title="' + item.title + '">' + item.title + '</span>';
       card.addEventListener('click', function() {
-        window.open(getSearchUrl(item), '_blank');
+        window.open(getPlatformSearchUrl(item), '_blank');
       });
       row.appendChild(card);
     });
