@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Media Search - V.3</title>
+    <title>Media Search - V.4</title>
     <style>
         :root {
             --bg-color: #0f172a;
@@ -15,14 +15,12 @@
             --error-color: #f43f5e;
             --border-color: #334155;
         }
-
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
             font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
         }
-
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
@@ -30,7 +28,6 @@
             display: flex;
             flex-direction: column;
         }
-
         /* Login Overlay */
         #login-overlay {
             position: fixed;
@@ -44,7 +41,6 @@
             align-items: center;
             z-index: 1000;
         }
-
         .login-card {
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
@@ -54,25 +50,21 @@
             max-width: 400px;
             box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.5);
         }
-
         .login-card h2 {
             margin-bottom: 1.5rem;
             font-size: 1.5rem;
             color: var(--text-color);
             text-align: center;
         }
-
         .form-group {
             margin-bottom: 1.25rem;
         }
-
         .form-group label {
             display: block;
             font-size: 0.875rem;
             margin-bottom: 0.5rem;
             color: var(--text-muted);
         }
-
         .form-group input {
             width: 100%;
             padding: 0.75rem 1rem;
@@ -84,11 +76,9 @@
             outline: none;
             transition: border-color 0.2s;
         }
-
         .form-group input:focus {
             border-color: var(--accent-color);
         }
-
         .login-btn {
             width: 100%;
             padding: 0.75rem;
@@ -102,11 +92,9 @@
             transition: background-color 0.2s;
             margin-top: 0.5rem;
         }
-
         .login-btn:hover {
             background-color: var(--accent-hover);
         }
-
         #login-error {
             color: var(--error-color);
             font-size: 0.875rem;
@@ -114,14 +102,12 @@
             margin-top: 1rem;
             min-height: 1.25rem;
         }
-
-        /* App Content (Hidden until authenticated) */
+        /* App Content */
         #app-content {
             display: none;
             flex: 1;
             flex-direction: column;
         }
-
         header {
             background-color: var(--card-bg);
             border-bottom: 1px solid var(--border-color);
@@ -130,12 +116,10 @@
             justify-content: space-between;
             align-items: center;
         }
-
         header h1 {
             font-size: 1.25rem;
             color: var(--accent-color);
         }
-
         .logout-btn {
             background: none;
             border: 1px solid var(--border-color);
@@ -145,13 +129,11 @@
             cursor: pointer;
             transition: all 0.2s;
         }
-
         .logout-btn:hover {
             border-color: var(--error-color);
             color: var(--error-color);
         }
-
-        /* Filter Sub-bar - multi-row responsive flex container */
+        /* Filter Sub-bar */
         .filter-bar {
             background-color: rgba(30, 41, 59, 0.7);
             border-bottom: 1px solid var(--border-color);
@@ -162,8 +144,6 @@
             align-items: center;
             justify-content: center;
         }
-
-        /* Perfect circular buttons with distinct borders, shadows, and clear typography */
         .platform-btn {
             width: 72px;
             height: 72px;
@@ -184,42 +164,132 @@
             line-height: 1.15;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4), inset 0 1px 2px rgba(255, 255, 255, 0.2);
         }
-
         .platform-btn:hover {
             transform: scale(1.08);
             border-color: rgba(255, 255, 255, 0.6);
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5), inset 0 1px 3px rgba(255, 255, 255, 0.3);
         }
-
-        /* Excluded State: slightly darker, visually depressed with inner shadow */
         .platform-btn.excluded {
             filter: brightness(0.55) saturate(0.6);
             border-color: rgba(255, 255, 255, 0.1);
             box-shadow: inset 0 4px 6px rgba(0, 0, 0, 0.7), 0 1px 2px rgba(255, 255, 255, 0.05);
             transform: translateY(2px);
         }
-
         main {
             flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             padding: 2rem;
-            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
         }
-
-        .welcome-box h2 {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
         }
-
-        .welcome-box p {
-            color: var(--text-muted);
+        /* Horizontal Carousel Section */
+        .carousel-section {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+        }
+        .carousel-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .carousel-container {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            scrollbar-width: none; /* Firefox */
+            padding: 0.5rem 0;
+            width: 100%;
+        }
+        .carousel-container::-webkit-scrollbar {
+            display: none; /* Chrome/Safari */
+        }
+        .scroll-btn {
+            background-color: rgba(15, 23, 42, 0.8);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            z-index: 10;
+            transition: background-color 0.2s;
+        }
+        .scroll-btn:hover {
+            background-color: var(--accent-color);
+            color: #0f172a;
+        }
+        .scroll-btn.left { left: -20px; }
+        .scroll-btn.right { right: -20px; }
+        
+        /* Movie Tile Styling */
+        .movie-tile {
+            min-width: 140px;
+            width: 140px;
+            height: 200px;
+            border-radius: 0.5rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 0.75rem;
+            position: relative;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            flex-shrink: 0;
+            user-select: none;
+            overflow: hidden;
+        }
+        .movie-tile .movie-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            line-height: 1.2;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.9);
+            z-index: 2;
+        }
+        .movie-tile .movie-service {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            opacity: 0.9;
+            margin-top: 0.25rem;
+            z-index: 2;
+        }
+        .loop-divider {
+            width: 2px;
+            background-color: var(--accent-color);
+            min-height: 200px;
+            margin: 0 0.5rem;
+            flex-shrink: 0;
+            position: relative;
+        }
+        .loop-divider::after {
+            content: 'Loop Start';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-90deg);
+            font-size: 0.6rem;
+            background: var(--bg-color);
+            padding: 2px 4px;
+            color: var(--accent-color);
+            border: 1px solid var(--accent-color);
+            border-radius: 3px;
+            white-space: nowrap;
         }
     </style>
 </head>
 <body>
-
     <!-- Login Overlay -->
     <div id="login-overlay">
         <div class="login-card">
@@ -242,11 +312,11 @@
     <!-- Main Application Content -->
     <div id="app-content">
         <header>
-            <h1>Media Search (V.3)</h1>
+            <h1>Media Search - V.4</h1>
             <button class="logout-btn" onclick="handleLogout()">Sign Out</button>
         </header>
 
-        <!-- Alphabetical Streaming Platform Filter Bar (Multi-row stackable, perfect circles) -->
+        <!-- Filter Bar -->
         <div class="filter-bar" id="platform-filter-bar">
             <button class="platform-btn" data-service="Crunchyroll" style="background-color: #f47521; color: #ffffff;" title="Crunchyroll">Crunchyroll</button>
             <button class="platform-btn" data-service="Disney" style="background-color: #113ccf; color: #ffffff;" title="Disney">Disney</button>
@@ -259,16 +329,46 @@
         </div>
 
         <main>
-            <div class="welcome-box">
-                <h2>Welcome, Travis</h2>
-                <p>Authentication successful. Perfect circle filters active with multi-row stacking.</p>
-            </div>
+            <!-- Top New Arrivals - Movies Section -->
+            <section class="carousel-section">
+                <h2 class="section-title">Top New Arrivals - Movies</h2>
+                <div class="carousel-wrapper">
+                    <button class="scroll-btn left" onclick="scrollCarousel('new-movies', -300)">&#10094;</button>
+                    <div class="carousel-container" id="new-movies-carousel">
+                        <!-- Populated dynamically via JS matching live filters -->
+                    </div>
+                    <button class="scroll-btn right" onclick="scrollCarousel('new-movies', 300)">&#10095;</button>
+                </div>
+            </section>
         </main>
     </div>
 
     <script>
-        // State management for platform toggles
         const SERVICES = ['Crunchyroll', 'Disney', 'HBO Max', 'Hulu', 'Netflix', 'Paramount+', 'Peacock', 'Showtime'];
+        
+        const SERVICE_COLORS = {
+            'Crunchyroll': '#f47521',
+            'Disney': '#113ccf',
+            'HBO Max': '#5822b4',
+            'Hulu': '#1ce783',
+            'Netflix': '#e50914',
+            'Paramount+': '#0064ff',
+            'Peacock': '#050505',
+            'Showtime': '#df2227'
+        };
+
+        const MOCK_NEW_MOVIES = [
+            { title: "Cyber Heist 2026", service: "Netflix" },
+            { title: "Galactic Quest", service: "Disney" },
+            { title: "Shadows in the Alley", service: "HBO Max" },
+            { title: "Summer Sprint", service: "Hulu" },
+            { title: "Anime Legends: The Movie", service: "Crunchyroll" },
+            { title: "Mountain Peak Rescue", service: "Paramount+" },
+            { title: "Late Night Laughs", service: "Peacock" },
+            { title: "Championship Knockout", service: "Showtime" },
+            { title: "Neon Skyline", service: "Netflix" },
+            { title: "Magical Kingdom Returns", service: "Disney" }
+        ];
 
         window.addEventListener('DOMContentLoaded', () => {
             const isAuthenticated = sessionStorage.getItem('media_search_auth');
@@ -276,6 +376,7 @@
                 showApp();
             }
             initFilters();
+            renderNewArrivals();
         });
 
         function handleLogin(event) {
@@ -283,7 +384,6 @@
             const user = document.getElementById('username').value.trim();
             const pass = document.getElementById('password').value;
             const errorDiv = document.getElementById('login-error');
-
             if (user === 'tsilva' && pass === '1234') {
                 sessionStorage.setItem('media_search_auth', 'true');
                 errorDiv.textContent = '';
@@ -307,9 +407,9 @@
             document.getElementById('app-content').style.display = 'none';
             document.getElementById('login-overlay').style.display = 'flex';
             initFilters();
+            renderNewArrivals();
         }
 
-        // Filter Logic
         function getExcludedPlatforms() {
             try {
                 const stored = sessionStorage.getItem('media_search_excluded_platforms');
@@ -326,7 +426,6 @@
         function initFilters() {
             const excluded = getExcludedPlatforms();
             const buttons = document.querySelectorAll('.platform-btn');
-
             buttons.forEach(btn => {
                 const service = btn.getAttribute('data-service');
                 if (excluded.includes(service)) {
@@ -334,13 +433,11 @@
                 } else {
                     btn.classList.remove('excluded');
                 }
-
                 btn.onclick = () => toggleService(service);
                 btn.ondblclick = (e) => {
                     e.preventDefault();
                     isolateService(service);
                 };
-
                 let pressTimer;
                 btn.onmousedown = (e) => {
                     if (e.detail === 2) return;
@@ -365,6 +462,7 @@
             }
             setExcludedPlatforms(excluded);
             initFilters();
+            renderNewArrivals();
             triggerGlobalFilterEvent(excluded);
         }
 
@@ -372,12 +470,56 @@
             const excluded = SERVICES.filter(s => s !== serviceName);
             setExcludedPlatforms(excluded);
             initFilters();
+            renderNewArrivals();
             triggerGlobalFilterEvent(excluded);
         }
 
         function triggerGlobalFilterEvent(excludedList) {
             const event = new CustomEvent('mediaFilterChange', { detail: { excluded: excludedList } });
             window.dispatchEvent(event);
+        }
+
+        function renderNewArrivals() {
+            const container = document.getElementById('new-movies-carousel');
+            const excluded = getExcludedPlatforms();
+            
+            const filteredMovies = MOCK_NEW_MOVIES.filter(m => !excluded.includes(m.service));
+            
+            if (filteredMovies.length === 0) {
+                container.innerHTML = '<p style="color: var(--text-muted); padding: 1rem;">All platforms are currently excluded. Enable at least one platform filter above.</p>';
+                return;
+            }
+
+            let html = ''
+            
+            filteredMovies.forEach(movie => {
+                const bgColor = SERVICE_COLORS[movie.service] || '#334155';
+                html += `
+                    <div class="movie-tile" style="background-color: ${bgColor};">
+                        <div class="movie-title">${movie.title}</div>
+                        <div class="movie-service">${movie.service}</div>
+                    </div>
+                `;
+            });
+
+            html += `<div class="loop-divider"></div>`;
+
+            filteredMovies.forEach(movie => {
+                const bgColor = SERVICE_COLORS[movie.service] || '#334155';
+                html += `
+                    <div class="movie-tile" style="background-color: ${bgColor};">
+                        <div class="movie-title">${movie.title}</div>
+                        <div class="movie-service">${movie.service} /div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function scrollCarousel(id, offset) {
+            const container = document.getElementById('new-movies-carousel');
+            container.scrollBy({ left: offset, behavior: 'smooth' });
         }
     </script>
 </body>
