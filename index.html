@@ -364,7 +364,7 @@ body {
 
 <div id="landingContainer">
   <div class="landing-header">
-    <div class="landing-banner">Media Search v.14</div>
+    <div class="landing-banner">Media Search v.15</div>
     <button class="btn-action" id="logoffBtn" style="width: auto; padding: 10px 20px; font-size: 14px;">Logoff</button>
   </div>
   <div class="dashboard-content" id="dashboardContent">
@@ -590,8 +590,7 @@ function renderDashboard() {
     filteredItems.forEach(item => {
       const card = document.createElement('div');
       card.className = 'media-card';
-      const themeClass = getServiceThemeClass(item.service);
-      card.innerHTML = '<div class="service-brand-banner ' + themeClass + '"><span class="brand-name">' + item.service + '</span></div><span class="media-title-banner" title="' + item.title + '">' + item.title + '</span>';
+      card.innerHTML = '<div class="service-brand-banner"><span class="brand-name">' + item.title + '</span></div><span class="media-title-banner" title="' + item.service + '">' + item.service + '</span>';
       card.addEventListener('click', function() {
         window.open(getSearchUrl(item), '_blank');
       });
